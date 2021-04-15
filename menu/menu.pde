@@ -33,8 +33,10 @@ int  windowWidth = 1200;
 int  windowHeight = 600;
 int topOffset = 180;
 
-bool mainMenuDraw = true;
-bool  = true;
+boolean mainMenuDraw = true;
+boolean tutorialMenuDraw = false;
+boolean gameMenuDraw = false;
+
 
 
 String gameName = "Parkour Scroll";
