@@ -1,4 +1,3 @@
-import java.util.*;
 
 //Enum for each main menu button
 enum mainMenuButtonType{
@@ -39,11 +38,9 @@ PFont languageFont;
 /*
 
 */
-// TODO: CHECK IF MENU SETUP CAN BE CALLED FOM
-void setup(){
- size(1200, 600); 
- background(137, 209, 254);
- 
+
+// TODO: CHECK IF MENU SETUP CAN BE CALLED FROM SEPARATE MODULE
+void setupMenu(){ 
  textAlign(CENTER);
  
  gameFont = createFont("Arial Bold", 40, true);
@@ -56,7 +53,7 @@ void setup(){
 /*
 
 */
-void draw(){
+void drawMenu(){
   //Draw main menu buttons
   for(int i = 0; i < mainMenuButtons.length; ++i){
     mainMenuButtons[i].drawMe();
