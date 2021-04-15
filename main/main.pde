@@ -28,3 +28,15 @@ void draw(){
     
   }
 }
+
+void mouseClicked(){
+  if (navigation == NavType.INMAINMENU){
+    menuClick(mouseX, mouseY);
+  }
+  else if (navigation == NavType.INSETTINGS){
+    
+  }
+  else if (navigation == NavType.INGAME){
+    
+  }
+}

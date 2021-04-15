@@ -102,3 +102,12 @@ void drawLanguageOptions(){
   text("LANGUAGE: ", (windowWidth/15) * 11, windowHeight/15);
   popStyle();
 }
+
+void menuClick(int x, int y){
+  for (Button button:mainMenuButtons){
+    //needs a function to know if mouse is on button
+    if (button.isInside(x, y)){
+      //doSomething
+    }
+  }
+}
