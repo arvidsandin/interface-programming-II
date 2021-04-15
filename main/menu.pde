@@ -45,9 +45,7 @@ PFont languageFont;
 
 */
 // TODO: CHECK IF MENU SETUP CAN BE CALLED FROM SEPARATE MODULE
-void setupMenu(){
- background(137, 209, 254);
- 
+void setupMenu(){ 
  rectMode(CENTER);
  textAlign(CENTER);
  
