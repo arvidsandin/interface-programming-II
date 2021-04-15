@@ -33,24 +33,17 @@ int  windowWidth = 1200;
 int  windowHeight = 600;
 int topOffset = 180;
 
-boolean mainMenuDraw = true;
-boolean tutorialMenuDraw = false;
-boolean gameMenuDraw = false;
-
-
-
 String gameName = "Parkour Scroll";
 PFont gameFont;
 PFont languageFont;
 /*
 
 */
-// TODO: CHECK IF MENU SETUP CAN BE CALLED FROM SEPARATE MODULE
+// TODO: CHECK IF MENU SETUP CAN BE CALLED FOM
 void setup(){
  size(1200, 600); 
  background(137, 209, 254);
  
- rectMode(CENTER);
  textAlign(CENTER);
  
  gameFont = createFont("Arial Bold", 40, true);

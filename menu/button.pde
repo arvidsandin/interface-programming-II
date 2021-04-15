@@ -6,7 +6,7 @@ class Button {
   
   String btnText;
   color btnTextColor = color(0, 0, 0);
-  PFont textFont = createFont("Arial Bold", 20, true);
+  PFont textFont = createFont("Arial Bold", 22, true);
   
   float xpos;
   float ypos;
@@ -19,14 +19,14 @@ class Button {
   
   int btnRounding;
   color btnColor;
-  color btnBorder;
+  color btnBorderColor;
   PImage backgroundImage;
 
 
 /*
 
 */
-Button(int ID, String btnText, PFont textFont, color btnTextColor, float xpos, float ypos, float btnWidth, float btnHeight, float  btnWindowWidth, float  btnWindowHeight, int btnRounding, color btnColor, color btnBorder, PImage backgroundImage){
+Button(int ID, String btnText, color btnTextColor, PFont textFont,  float xpos, float ypos, float btnWidth, float btnHeight, float  btnWindowWidth, float  btnWindowHeight, int btnRounding, color btnColor, color btnBorderColor, PImage backgroundImage){
   this.ID = ID;
   
   this.btnText = btnText;
@@ -41,51 +41,14 @@ Button(int ID, String btnText, PFont textFont, color btnTextColor, float xpos, f
  
   this.btnRounding = btnRounding;
   this.btnColor = btnColor;
-  this.btnBorder = btnBorder;
+  this.btnBorderColor = btnBorderColor;
   this.backgroundImage = backgroundImage;
 }
 
 /*
 
 */
-Button(int ID, String btnText, float xpos, float ypos, float btnWidth, float btnHeight, int btnRounding, color btnColor, color btnBorder){
-  this.ID = ID;
-  
-  this.btnText = btnText;
-  
-  this.xpos = xpos;
-  this.ypos = ypos;
-  
-  this.btnWidth = btnWidth;
-  this.btnHeight = btnHeight;
- 
-  this.btnRounding = btnRounding;
-  this.btnColor = btnColor;
-  this.btnBorder = btnBorder;
-}
-
-/*
-
-*/
-Button(int ID, String btnText, float xpos, float ypos, float btnWidth, float btnHeight, int btnRounding, color btnColor){
-  this.ID = ID;
-  
-  this.btnText = btnText;
-  
-  this.xpos = xpos;
-  this.ypos = ypos;
-  
-  this.btnWidth = btnWidth;
-  this.btnHeight = btnHeight;
-  
-  this.btnRounding = btnRounding;
-  this.btnColor = btnColor;
-}
-
-/*
-
-*/
-Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btnBorder){
+Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btnBorderColor){
   this.ID = ID;
   this.btnText = btnText;
   
@@ -96,7 +59,7 @@ Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btn
   this.btnHeight = this.btnWindowHeight / 15;
  
   this.btnColor = btnColor;
-  this.btnBorder = btnBorder;
+  this.btnBorderColor = btnBorderColor;
 }
 
 /*
@@ -109,7 +72,7 @@ void drawMe(){
  int quadOffset = 60;
  
  strokeWeight(2);
- stroke(this.btnBorder);
+ stroke(this.btnBorderColor);
  line(0, yMidPoint, xMidPoint, yMidPoint);
  
 
@@ -138,15 +101,15 @@ void drawMe(){
 
 */
 void drawBtnText(){
- float xMidPoint = this.xpos + this.btnWidth/2;
- float yMidPoint = this.ypos + this.btnHeight/2;
+ float xTxtCenter = this.xpos + this.btnWidth/2;
+ float yTxtCenter = this.ypos + (this.btnHeight/3) *2;
 
  if(btnText != null){
    pushStyle();
     
    textFont(this.textFont);
    fill(this.btnTextColor);
-   text(this.btnText, xMidPoint, yMidPoint +5);
+   text(this.btnText, xTxtCenter, yTxtCenter);
      
    popStyle();
  }
