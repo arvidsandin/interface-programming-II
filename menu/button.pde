@@ -5,12 +5,17 @@ class Button {
   int ID;
   
   String btnText;
-  PFont textFont = createFont("Arial Bold", 16, true);
+  color btnTextColor = color(0, 0, 0);
+  PFont textFont = createFont("Arial Bold", 20, true);
   
   float xpos;
   float ypos;
+  
   float btnWidth;
   float btnHeight;
+  
+  float  btnWindowWidth = 1200;
+  float  btnWindowHeight = 600;
   
   int btnRounding;
   color btnColor;
@@ -21,10 +26,11 @@ class Button {
 /*
 
 */
-Button(int ID, String btnText, PFont textFont, float xpos, float ypos, float btnWidth, float btnHeight, int btnRounding, color btnColor, color btnBorder, PImage backgroundImage){
+Button(int ID, String btnText, PFont textFont, color btnTextColor, float xpos, float ypos, float btnWidth, float btnHeight, float  btnWindowWidth, float  btnWindowHeight, int btnRounding, color btnColor, color btnBorder, PImage backgroundImage){
   this.ID = ID;
   
   this.btnText = btnText;
+  this.btnTextColor = btnTextColor;
   this.textFont = textFont;
   
   this.xpos = xpos;
@@ -86,8 +92,8 @@ Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btn
   this.xpos = xpos;
   this.ypos = ypos;
   
-  this.btnWidth = 300;
-  this.btnHeight = 40;
+  this.btnWidth = this.btnWindowWidth / 4;
+  this.btnHeight = this.btnWindowHeight / 15;
  
   this.btnColor = btnColor;
   this.btnBorder = btnBorder;
@@ -104,11 +110,10 @@ void drawMe(){
  stroke(this.btnBorder);
  line(0, yMidPoint, xMidPoint, yMidPoint);
  
- 
- int quadOffset = 60;
+
  /*Corners in a parallelogram are created clockwise
- (x,y)1------2
-       \      \
+      1------2
+       \ (x,y)\
         4------3 (x + xwidth, y + ywidth)
  */
  float xCorner3 = this.xpos + this.btnWidth;
@@ -122,33 +127,41 @@ void drawMe(){
  
  fill(this.btnColor);
  quad(this.xpos, this.ypos, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
+ 
+ this.drawBtnText();
+}
+
+
+/*
+
+*/
+void drawBtnText(){
+ float xMidPoint = this.xpos + this.btnWidth/2;
+ float yMidPoint = this.ypos + this.btnHeight/2;
+
+ if(btnText != null){
+   pushStyle();
+    
+   textFont(this.textFont);
+   fill(this.btnTextColor);
+   text(this.btnText, xMidPoint, yMidPoint +5); 
+     
+   popStyle();
+ }
 }
 
 /*
 
 */
-void drawBtnText(PFont f, color fontColor){
- float xMidPoint = this.xpos + this.btnWidth/2;
- float yMidPoint = this.ypos + this.btnHeight/2;
-  
-  if(f == null){
-    textFont(this.textFont);
-  }
-  else{
-    textFont(f);
-  }
-  
-  pushStyle();
-  if(fontColor != -1){
-    fill(fontColor);
-    text(this.btnText, xMidPoint, yMidPoint);
-  }
-  else{
-   fill(0);
-   text(this.btnText, xMidPoint, yMidPoint + 5); 
-  }
-  
-  popStyle();
+void changeBtnTextFont(PFont f){
+ this.textFont = f;
+}
+
+/*
+
+*/
+void changeBtnTextColor(color btnColor){
+ this.btnTextColor = btnColor;
 }
  
 /*
