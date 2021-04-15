@@ -106,6 +106,8 @@ void drawMe(){
  float xMidPoint = this.xpos + this.btnWidth/2;
  float yMidPoint = this.ypos + this.btnHeight/2;
  
+ int quadOffset = 60;
+ 
  strokeWeight(2);
  stroke(this.btnBorder);
  line(0, yMidPoint, xMidPoint, yMidPoint);
@@ -144,7 +146,7 @@ void drawBtnText(){
     
    textFont(this.textFont);
    fill(this.btnTextColor);
-   text(this.btnText, xMidPoint, yMidPoint +5); 
+   text(this.btnText, xMidPoint, yMidPoint +5);
      
    popStyle();
  }
