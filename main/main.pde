@@ -4,15 +4,27 @@ void setup(){
  background(137, 209, 254);
  setupMenu(); 
 }
+//Enum for where in the program you are
+enum NavType{
+  INGAME,
+  INSETTINGS,
+  INMAINMENU,
+}
 
-boolean inMainMenu = true;
+NavType navigation = NavType.INMAINMENU;
 
 
 /*
-
+Main loop of what to draw on screen
 */
 void draw(){
-  if (inMainMenu){
+  if (navigation == NavType.INMAINMENU){
     drawMenu();
+  }
+  else if (navigation == NavType.INSETTINGS){
+    
+  }
+  else if (navigation == NavType.INGAME){
+    
   }
 }
