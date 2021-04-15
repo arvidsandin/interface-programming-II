@@ -9,7 +9,9 @@ enum NavType{
 
 NavType navigation = NavType.INMAINMENU;
 
-
+/*
+ * Sets up window and other game object's setups
+ */
 void setup(){
  size(1200, 600); 
  background(137, 209, 254);
@@ -17,11 +19,11 @@ void setup(){
 }
 
 /*
-Main loop of what to draw on screen
-*/
+ * Main loop of what to draw on screen
+ */
 void draw(){
   if (navigation == NavType.INMAINMENU){
-    drawMenu();
+    drawMainMenu();
   }
   else if (navigation == NavType.INSETTINGS){
     

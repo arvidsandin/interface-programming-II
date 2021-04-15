@@ -1,6 +1,6 @@
 /*
-
-*/
+ * A class for creating buttons that have responsive resizing and appearance
+ */
 class Button {
   int ID;
   
@@ -24,8 +24,24 @@ class Button {
 
 
 /*
-
-*/
+ * Constructor to set all attributes of Button class
+ *
+ * @param ID          The button's ID
+ * @param btnText      The button's text
+ * @param btnTextColor    The button text's color
+ * @param textFont      The button text's font
+ * @param xpos      The button's x position, relative to its upper left corner
+ * @param ypos      The button's y position, relative to its upper left corner
+ * @param btnWidth    The button's width
+ * @param btnHeight    The button's height
+ * @param btnWindowWidth    The width of the window containing the button
+ * @param btnWindowHeight    The height of the window containing the button
+ * @param btnRounding      The amount of rounding the button's corners should have
+ * @param btnColor      The button's color
+ * @param btnBorderColor      The button border's color
+ * @param backgroundImage    The background image of the button
+ * @return A new Button object
+ */
 Button(int ID, String btnText, color btnTextColor, PFont textFont,  float xpos, float ypos, float btnWidth, float btnHeight, float  btnWindowWidth, float  btnWindowHeight, int btnRounding, color btnColor, color btnBorderColor, PImage backgroundImage){
   this.ID = ID;
   
@@ -38,6 +54,9 @@ Button(int ID, String btnText, color btnTextColor, PFont textFont,  float xpos, 
   
   this.btnWidth = btnWidth;
   this.btnHeight = btnHeight;
+  
+  this.btnWindowWidth = btnWindowWidth;
+  this.btnWindowHeight = btnWindowHeight;
  
   this.btnRounding = btnRounding;
   this.btnColor = btnColor;
@@ -46,8 +65,16 @@ Button(int ID, String btnText, color btnTextColor, PFont textFont,  float xpos, 
 }
 
 /*
-
-*/
+ * Constructor with minimal set of attributes set for Button class
+ *
+ * @param ID    The button's ID
+ * @param btnText    The button's text
+ * @param xpos    The button's x position, relative to its upper left corner
+ * @param ypos    The button's y position, relative to its upper left corner
+ * @param btnColor    The button's color
+ * @param btnBorderColor    The button border's color
+ * @return A new Button object
+ */
 Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btnBorderColor){
   this.ID = ID;
   this.btnText = btnText;
@@ -63,8 +90,10 @@ Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btn
 }
 
 /*
-
-*/
+ * Draws up the button and the text it contains
+ * 
+ * @return None
+ */
 void drawMe(){
  float xMidPoint = this.xpos + this.btnWidth/2;
  float yMidPoint = this.ypos + this.btnHeight/2;
@@ -98,8 +127,10 @@ void drawMe(){
 
 
 /*
-
-*/
+ * Draws up the button text 
+ * 
+ * @return None
+ */
 void drawBtnText(){
  float xTxtCenter = this.xpos + this.btnWidth/2;
  float yTxtCenter = this.ypos + (this.btnHeight/3) *2;
@@ -116,25 +147,47 @@ void drawBtnText(){
 }
 
 /*
-
-*/
-void changeBtnTextFont(PFont f){
- this.textFont = f;
+ * Sets a new font value to the text of the button object
+ *
+ * @param font   The new font for the button's text
+ * @return None
+ */
+void changeBtnTextFont(PFont font){
+ this.textFont = font;
 }
 
 /*
-
-*/
+ * Sets a new color value to the text of button object
+ *
+ * @param btnColor   The new color for the button's text
+ * @return None
+ */
 void changeBtnTextColor(color btnColor){
  this.btnTextColor = btnColor;
 }
  
 /*
-
-*/
+ * Sets a new color value to the background of the button object
+ *
+ * @param newColor   The new color for the button's background
+ * @return None
+ */
 void changeButtonColor(color newColor){
   this.btnColor = newColor;
 }
+
+/*
+ * Sets the window height and width attributes stored in the button to new values
+ *
+ * @param newWindowWidth    The new height of the window containing the button
+ * @param newWindowHeight    The new width of the window containing the button
+ * @return None
+ */
+void resizeWindowDimensions(int newWindowWidth, int newWindowHeight){
+  this.btnWindowWidth = newWindowWidth;
+  this.btnWindowHeight = newWindowHeight;
+}
+
 
 
 
