@@ -1,4 +1,3 @@
-import java.util.*;
 
 //Enum for each main menu button
 enum mainMenuButtonType{
@@ -46,8 +45,7 @@ PFont languageFont;
 
 */
 // TODO: CHECK IF MENU SETUP CAN BE CALLED FROM SEPARATE MODULE
-void setup(){
- size(1200, 600); 
+void setupMenu(){
  background(137, 209, 254);
  
  rectMode(CENTER);
@@ -63,7 +61,7 @@ void setup(){
 /*
 
 */
-void draw(){
+void drawMenu(){
   //Draw main menu buttons
   for(int i = 0; i < mainMenuButtons.length; ++i){
     mainMenuButtons[i].drawMe();
