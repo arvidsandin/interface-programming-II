@@ -191,11 +191,18 @@ void changeButtonColor(color newColor){
  *
  * @param x  x-value of point
  * @param y  y-value of point
- * @return if a point is inside the biggest rectangle the button fits in
+ * @return is point inside the button
 */
 boolean isInside(int x, int y){
-  return (x >= xpos && x <= xpos+btnWidth && 
-      y >= ypos && y <= ypos+btnHeight);
+  return (
+      //inside inside the biggest rectangle the button fits in
+      x >= xpos && x <= xpos+this.btnWidth+this.quadOffset && 
+      y >= ypos && y <= ypos+btnHeight &&
+      //inside left triangle
+      y <= this.btnHeight/this.quadOffset*x + this.ypos-(this.btnHeight/this.quadOffset*this.xpos) &&
+      //inside right triangle
+      y >= this.btnHeight/this.quadOffset*x + (this.ypos)-(this.btnHeight/this.quadOffset*(this.xpos+this.btnWidth-this.quadOffset))
+      );
 }
 /*
  * Sets the window height and width attributes stored in the button to new values
