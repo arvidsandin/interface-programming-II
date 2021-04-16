@@ -4,10 +4,17 @@ import java.util.*;
 enum NavType{
   INGAME,
   INSETTINGS,
+  INTUTORIAL,
   INMAINMENU,
 }
-
 NavType navigation = NavType.INMAINMENU;
+
+MainMenu mainMenu;
+GameMenu gameMenu;
+
+
+int  windowWidth = 1200;
+int  windowHeight = 600;
 
 /*
  * Sets up window and other game object's setups
@@ -15,7 +22,8 @@ NavType navigation = NavType.INMAINMENU;
 void setup(){
  size(1200, 600); 
  background(137, 209, 254);
- setupMenu(); 
+ mainMenu = new MainMenu(); 
+ gameMenu = new GameMenu();
 }
 
 /*
@@ -23,7 +31,8 @@ void setup(){
  */
 void draw(){
   if (navigation == NavType.INMAINMENU){
-    drawMainMenu();
+    //mainMenu.drawMenu();
+    gameMenu.drawMenu();
   }
   else if (navigation == NavType.INSETTINGS){
     
