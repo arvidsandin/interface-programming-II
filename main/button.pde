@@ -173,7 +173,17 @@ void changeButtonColor(color newColor){
   this.btnColor = newColor;
 }
 
-
+/*
+ * Check if a point is inside button
+ *
+ * @param x  x-value of point
+ * @param y  y-value of point
+ * @return if a point is inside the biggest rectangle the button fits in
+*/
+boolean isInside(int x, int y){
+  return (x >= xpos && x <= xpos+btnWidth && 
+      y >= ypos && y <= ypos+btnHeight);
+}
 
 //btnIsPressed function?
 
