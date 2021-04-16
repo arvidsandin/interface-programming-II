@@ -14,6 +14,8 @@ class Button {
   float btnWidth;
   float btnHeight;
   
+  int quadOffset = 60;
+  
   float  btnWindowWidth = 1200;
   float  btnWindowHeight = 600;
   
@@ -42,7 +44,7 @@ class Button {
  * @param backgroundImage    The background image of the button
  * @return A new Button object
  */
-Button(int ID, String btnText, color btnTextColor, PFont textFont,  float xpos, float ypos, float btnWidth, float btnHeight, float  btnWindowWidth, float  btnWindowHeight, int btnRounding, color btnColor, color btnBorderColor, PImage backgroundImage){
+Button(int ID, String btnText, color btnTextColor, PFont textFont,  float xpos, float ypos, float btnWidth, float btnHeight, float  btnWindowWidth, float  btnWindowHeight, int quadOffset, int btnRounding, color btnColor, color btnBorderColor, PImage backgroundImage){
   this.ID = ID;
   
   this.btnText = btnText;
@@ -54,6 +56,7 @@ Button(int ID, String btnText, color btnTextColor, PFont textFont,  float xpos, 
   
   this.btnWidth = btnWidth;
   this.btnHeight = btnHeight;
+  this.quadOffset = quadOffset;
   
   this.btnWindowWidth = btnWindowWidth;
   this.btnWindowHeight = btnWindowHeight;
@@ -90,6 +93,15 @@ Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btn
 }
 
 /*
+ * gives value of quadOffset
+ * 
+ * @return quadOffset
+ */
+int getQuadOffset(){
+  return this.quadOffset;
+}
+
+/*
  * Draws up the button and the text it contains
  * 
  * @return None
@@ -97,8 +109,6 @@ Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btn
 void drawMe(){
  float xMidPoint = this.xpos + this.btnWidth/2;
  float yMidPoint = this.ypos + this.btnHeight/2;
- 
- int quadOffset = 60;
  
  strokeWeight(2);
  stroke(this.btnBorderColor);
@@ -187,6 +197,7 @@ boolean isInside(int x, int y){
   return (x >= xpos && x <= xpos+btnWidth && 
       y >= ypos && y <= ypos+btnHeight);
 }
+/*
  * Sets the window height and width attributes stored in the button to new values
  *
  * @param newWindowWidth    The new height of the window containing the button

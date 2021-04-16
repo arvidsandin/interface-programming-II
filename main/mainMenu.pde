@@ -97,3 +97,20 @@ void drawLanguageOptions(){
   text("LANGUAGE: ", (windowWidth/15) * 11, windowHeight/15);
   popStyle();
 }
+
+
+/*
+ * Click while in the menu
+ * 
+ * @param x  x-value of the point to click at
+ * @param y  y-value of the point to click at
+ * @return None
+*/
+void mainMenuClick(int x, int y){
+  for (Button button:mainMenuButtons){
+    if (button.isInside(x, y)){
+      //button.doSomething
+      break;
+    }
+  }
+}
