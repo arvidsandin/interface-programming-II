@@ -4,11 +4,16 @@
 class Button {
   int ID;
   
+  boolean withLine = false;
+  float quadOffset = 30;
+  
+  private float animWidth = 2;
+  private float animHeight = 2;
+  private boolean isHovering = false;
+  
   String btnText;
   color btnTextColor = color(0, 0, 0);
   PFont textFont = createFont("Arial Bold", 22, true);
-  
-  boolean withLine = false;
   
   float xpos;
   float ypos;
@@ -126,6 +131,39 @@ class Button {
       this.btnBorderColor = btnBorderColor;
     }
     
+     /*
+     * Determines if mouse click should lead to button event
+     * 
+     * @return boolean value indicating if mouse click was on button
+     */
+    boolean isPressed(){
+      
+      return false;
+    }
+    
+     /*
+     * Animates the button between line width and full button width
+     * 
+     * @return None
+     */
+     void moveMe(){
+     if(this.isHovering){
+       
+       if(this.animWidth < this.btnWidth){
+         this.animWidth += 5;
+       }
+       
+       if(this.animHeight < this.btnHeight){
+         this.animHeight += 5;
+       }
+     }
+     
+     
+       
+       
+     }
+    
+    
     /*
      * Draws up the button and the text it contains
      * 
@@ -188,6 +226,15 @@ class Button {
        popStyle();
      }
     }
+    
+    void causeEvent(){
+      
+    }
+    
+    boolean isInside(){
+      return false;
+    }
+    
     
     /*
      * Sets a new font value to the text of the button object

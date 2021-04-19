@@ -43,6 +43,22 @@ PFont languageFont = createFont("Arial", 17, true);
     MainMenu(){ 
       this.createMenuButtons();
     }
+    /*
+     * Moves all animated objects that are part of the main menu
+     *
+     * @return None
+    */
+    void moveMenu(){
+      for(int i = 0; i < mainMenuButtons.length; ++i){
+        if(mainMenuButtons[i].isPressed()){
+          mainMenuButtons[i].causeEvent();
+        }
+        else if(mainMenuButtons[i].isInside()){
+          mainMenuButtons[i].moveMe();
+        }
+      }
+      
+    }
     
     /*
      * Draws up all objects that are part of the main menu

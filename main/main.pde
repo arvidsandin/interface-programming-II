@@ -3,6 +3,7 @@ import java.util.*;
 //Enum for where in the program you are
 enum NavType{
   INGAME,
+  INGAMEMENU,
   INSETTINGS,
   INTUTORIAL,
   INMAINMENU,
