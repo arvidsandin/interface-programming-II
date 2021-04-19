@@ -30,10 +30,10 @@ Button[] gameMenuButtons = new Button[4];
         
 
     for(int i = 0; i < gameMenuButtons.length; i++){
-      float xposBtn = (windowWidth + (this.btnWidth/2))/widthFrac;
+      float xposBtn = (windowWidth - this.btnWidth)/widthFrac;
       float yposBtn = topOffset + (windowHeight / heightFrac) * i;
       
-      gameMenuButtons[i] = new Button(i, btnText[i], this.textColor, this.textFont, xposBtn, yposBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
+      gameMenuButtons[i] = new Button(i, false, btnText[i], this.textColor, this.textFont, xposBtn, yposBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
     }
   }
   
@@ -45,9 +45,6 @@ Button[] gameMenuButtons = new Button[4];
       for(int i = 0; i < gameMenuButtons.length; i++){
         gameMenuButtons[i].drawMe();
       }
-      
-      //Draw menu text
-      this.drawTextElements();
       
       popStyle();
   }

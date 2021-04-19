@@ -80,7 +80,7 @@ PFont languageFont = createFont("Arial", 17, true);
         float xposBtn = windowWidth / widthFrac;
         float yposBtn = topOffset + (windowHeight / heightFrac) * i;
         
-        mainMenuButtons[i] = new Button(i, btnText[i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
+        mainMenuButtons[i] = new Button(i, true, btnText[i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
       }
     }
     

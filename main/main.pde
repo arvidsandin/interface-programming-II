@@ -31,13 +31,12 @@ void setup(){
  */
 void draw(){
   if (navigation == NavType.INMAINMENU){
-    //mainMenu.drawMenu();
-    gameMenu.drawMenu();
+    mainMenu.drawMenu();
   }
   else if (navigation == NavType.INSETTINGS){
     
   }
   else if (navigation == NavType.INGAME){
-    
+    gameMenu.drawMenu();
   }
 }

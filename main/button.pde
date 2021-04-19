@@ -8,6 +8,8 @@ class Button {
   color btnTextColor = color(0, 0, 0);
   PFont textFont = createFont("Arial Bold", 22, true);
   
+  boolean withLine = false;
+  
   float xpos;
   float ypos;
   
@@ -24,6 +26,7 @@ class Button {
      * Constructor to set all attributes of Button class
      *
      * @param ID          The button's ID
+     * @param withLine          Whether the button should have a line to the edge of the screen's left side
      * @param btnText      The button's text
      * @param btnTextColor    The button text's color
      * @param textFont      The button text's font
@@ -37,8 +40,10 @@ class Button {
      * @param backgroundImage    The background image of the button
      * @return A new Button object
      */
-    Button(int ID, String btnText, color btnTextColor, PFont textFont,  float xpos, float ypos, float btnWidth, float btnHeight, int btnRounding, color btnColor, color btnBorderColor, PImage backgroundImage){
+    Button(int ID, boolean withLine, String btnText, color btnTextColor, PFont textFont,  float xpos, float ypos, float btnWidth, float btnHeight, int btnRounding, color btnColor, color btnBorderColor, PImage backgroundImage){
       this.ID = ID;
+      
+      this.withLine = withLine;
       
       this.btnText = btnText;
       this.btnTextColor = btnTextColor;
@@ -60,6 +65,7 @@ class Button {
      * Constructor with position, dimensions, colors and ID set for Button class. 
      *
      * @param ID    The button's ID
+     * @param withLine          Whether the button should have a line to the edge of the screen's left side
      * @param btnText    The button's text
      * @param btnTextColor    The button text's color
      * @param textFont      The button text's font
@@ -71,8 +77,10 @@ class Button {
      * @param btnBorderColor    The button border's color
      * @return A new Button object
      */
-    Button(int ID, String btnText, color btnTextColor, PFont textFont, float xpos, float ypos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor){
+    Button(int ID, boolean withLine, String btnText, color btnTextColor, PFont textFont, float xpos, float ypos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor){
       this.ID = ID;
+      
+      this.withLine = withLine;
       
       this.btnText = btnText;
       this.btnTextColor = btnTextColor;
@@ -93,6 +101,7 @@ class Button {
      * Constructor with minimal set of attributes set for Button class
      *
      * @param ID    The button's ID
+     * @param withLine          Whether the button should have a line to the edge of the screen's left side
      * @param btnText    The button's text
      * @param xpos    The button's x position, relative to its upper left corner
      * @param ypos    The button's y position, relative to its upper left corner
@@ -100,8 +109,11 @@ class Button {
      * @param btnBorderColor    The button border's color
      * @return A new Button object
      */
-    Button(int ID, String btnText, float xpos, float ypos, color btnColor, color btnBorderColor){
+    Button(int ID, boolean withLine, String btnText, float xpos, float ypos, color btnColor, color btnBorderColor){
       this.ID = ID;
+      
+      this.withLine = withLine;
+      
       this.btnText = btnText;
       
       this.xpos = xpos;
@@ -125,9 +137,14 @@ class Button {
      
      int quadOffset = 60;
      
-     strokeWeight(2);
+     pushStyle();
      stroke(this.btnBorderColor);
-     line(0, yMidPoint, xMidPoint, yMidPoint);
+     
+     
+     if(this.withLine != false){
+       strokeWeight(2);
+       line(0, yMidPoint, xMidPoint, yMidPoint);
+     }
      
     
      /*Corners in a parallelogram are created clockwise
@@ -146,6 +163,7 @@ class Button {
      
      fill(this.btnColor);
      quad(this.xpos, this.ypos, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
+     popStyle();
      
      this.drawBtnText();
     }
