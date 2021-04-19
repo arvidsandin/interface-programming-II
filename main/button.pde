@@ -30,7 +30,7 @@ class Button {
     /*
      * Constructor to set all attributes of Button class
      *
-     * @param ID          The button's ID
+     * @param ID          The button's ID. Not guaranteed to be unique
      * @param withLine          Whether the button should have a line to the edge of the screen's left side
      * @param btnText      The button's text
      * @param btnTextColor    The button text's color
@@ -71,7 +71,7 @@ class Button {
      /*
      * Constructor with position, dimensions, colors and ID set for Button class. 
      *
-     * @param ID    The button's ID
+     * @param ID    The button's ID. Not guaranteed to be unique
      * @param withLine          Whether the button should have a line to the edge of the screen's left side
      * @param btnText    The button's text
      * @param btnTextColor    The button text's color
@@ -119,7 +119,7 @@ float getQuadOffset(){
     /*
      * Constructor with minimal set of attributes set for Button class
      *
-     * @param ID    The button's ID
+     * @param ID    The button's ID. Not guaranteed to be unique
      * @param withLine          Whether the button should have a line to the edge of the screen's left side
      * @param btnText    The button's text
      * @param xpos    The button's x position, relative to its upper left corner
@@ -139,7 +139,7 @@ float getQuadOffset(){
       this.ypos = ypos;
       
       this.btnWidth = width / 4;
-      this.btnHeight = height / 15;
+      this.btnHeight = height / 12;
       
       this.animHeightUp = this.btnHeight/ 2;
       this.animHeightDown = this.animHeightUp;
@@ -149,34 +149,24 @@ float getQuadOffset(){
     }
     
      /*
-     * Determines if mouse click should lead to button event
-     * 
-     * @return boolean value indicating if mouse click was on button
-     */
-    boolean isPressed(){
-      
-      return false;
-    }
-    
-     /*
-     * Animates the button between line width and full button width
+     * Animates the button from line width to full button width
      * 
      * @return None
      */
      void moveMe(){
-       if(this.isInside()){
+      if(this.isInside()){
          
          if(this.animHeightDown < this.btnHeight  && this.animHeightUp > 0){
            this.animHeightDown += 2;
            this.animHeightUp -= 2;
          }
        }
-    else{
-         if(this.animHeightDown > this.btnHeight/2 && this.animHeightUp < this.btnHeight/2){
-           this.animHeightDown -= 2;
-           this.animHeightUp += 2;
+      else{
+           if(this.animHeightDown > this.btnHeight/2 && this.animHeightUp < this.btnHeight/2){
+             this.animHeightDown -= 2;
+             this.animHeightUp += 2;
+           }
          }
-       }
      }
     
     
@@ -189,32 +179,26 @@ float getQuadOffset(){
      pushStyle();
 
      this.drawBtnLine();
-    
      /*Corners in a parallelogram are created clockwise
-    (x,y) 1------2
-           \      \
-            4------3 (x + xwidth, y + ywidth)
+        (x,y) 1------2
+               \      \
+                4------3 (x + xwidth, y + ywidth)
      */
      float yCorner1 = this.ypos + this.animHeightUp;
+     
+     float xCorner2 = this.xpos + this.btnWidth - this.quadOffset;
      float yCorner2 = yCorner1;
      
+     float xCorner3 = xCorner2 + this.quadOffset;
      float yCorner3 = this.ypos + this.animHeightDown;
+     
      float yCorner4 =yCorner3;
-     
-     
-     
-     float xCorner3 = this.xpos + this.btnWidth;
-     float xCorner2 = xCorner3 - this.quadOffset;
      float xCorner4 = this.xpos + this.quadOffset;
-     
-     
-     if(this.isInside()){
-       fill(this.btnColor);
-       quad(this.xpos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
-     }
+
+     fill(this.btnColor);
+     quad(this.xpos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
      
      this.drawBtnText();
-     
      popStyle();
     }
     
@@ -252,8 +236,14 @@ float getQuadOffset(){
      }
     }
     
-    void causeEvent(){
+     /*
+     * Determines if mouse click should lead to button event
+     * 
+     * @return boolean value indicating if mouse click was on button
+     */
+    boolean isClicked(){
       
+      return false;
     }
     
     /*
@@ -307,6 +297,10 @@ float getQuadOffset(){
      */
     void changeButtonColor(color newColor){
       this.btnColor = newColor;
+    }
+    
+    int getID(){
+     return this.ID; 
     }
 
 

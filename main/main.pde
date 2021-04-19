@@ -13,7 +13,6 @@ NavType navigation = NavType.INMAINMENU;
 MainMenu mainMenu;
 GameMenu gameMenu;
 
-
 /*
  * Sets up window and other game object's setups
  */
@@ -42,6 +41,9 @@ void draw(){
   }
 }
 
+/*
+ * Handles mouse click events in the window
+ */
 void mouseClicked(){
   if (navigation == NavType.INMAINMENU){
     mainMenu.mainMenuClick();

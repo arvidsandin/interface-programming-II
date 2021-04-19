@@ -14,6 +14,11 @@ PFont languageFont = createFont("Arial", 17, true);
 
 String language = "ENG";
 
+int START= 0;
+int SETTINGS= 1;
+int TUTORIAL= 2;
+int QUIT= 3;
+
     /*
      * Sets up fonts and menu buttons to be included in the main menu
      *
@@ -45,17 +50,15 @@ String language = "ENG";
     MainMenu(){ 
       this.createMenuButtons();
     }
+    
+    
     /*
      * Moves all animated objects that are part of the main menu
      *
      * @return None
     */
     void moveMenu(){
-      for(int i = 0; i < mainMenuButtons.length; ++i){
-        if(mainMenuButtons[i].isPressed()){
-          mainMenuButtons[i].causeEvent();
-        }
-       
+      for(int i = 0; i < mainMenuButtons.length; ++i){   
        mainMenuButtons[i].moveMe();
       }
       
@@ -74,12 +77,12 @@ String language = "ENG";
       for(int i = 0; i < mainMenuButtons.length; ++i){
         mainMenuButtons[i].drawMe();
       }
-      
       //Draw menu text
       this.drawTextElements();
       
       popStyle();
     }
+    
     
     /*
      * Creates all buttons that are included in the main menu.
@@ -138,9 +141,8 @@ String language = "ENG";
       popStyle();
     }
 
-
   /*
-   * Click while in the menu
+   * Click while in the menu. Event will depend on which button is clicked
    * 
    *
    *
@@ -149,6 +151,18 @@ String language = "ENG";
   void mainMenuClick(){
     for (Button button:mainMenuButtons){
       if (button.isInside()){
+        if(button.ID == this.START){
+          
+        }
+        else if(button.ID == this.SETTINGS){
+          
+        }
+        else if(button.ID == this.TUTORIAL){
+          
+        }
+        else if(button.ID == this.QUIT){
+          exit();
+        }
         //button.doSomething
         break;
       }
