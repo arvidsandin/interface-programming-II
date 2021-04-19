@@ -7,8 +7,8 @@ class Button {
   boolean withLine = false;
   float quadOffset = 60;
   
-  private float animHeightUp = 0;
-  private float animHeightDown = 0;
+  private float animHeightUp;
+  private float animHeightDown;
   
   String btnText;
   color btnTextColor = color(0, 0, 0);
@@ -164,18 +164,22 @@ float getQuadOffset(){
      * @return None
      */
      void moveMe(){
+       println(this.animHeightDown);
+       println(this.animHeightUp);
+       print(this.isInside())/*
        if(this.isInside()){
-         if(this.animHeightDown <= (this.btnHeight/2) && this.animHeightUp >= 0){
+         
+         if(this.animHeightDown < this.btnHeight  && this.animHeightUp > 0){
            this.animHeightDown += 1;
            this.animHeightUp -= 1;
          }
        }
-      else{
+    else{
          if(this.animHeightDown >= 0 && this.animHeightUp >= 0){
            this.animHeightDown = 0;
            this.animHeightUp = this.btnHeight/2;
          }
-       }
+       }*/
      }
     
     
@@ -195,21 +199,22 @@ float getQuadOffset(){
             4------3 (x + xwidth, y + ywidth)
      */
      float yCorner1 = this.ypos + this.animHeightUp;
+     float yCorner2 = yCorner1;
+     
+     float yCorner3 = this.ypos + this.animHeightDown;
+     float yCorner4 =yCorner3;
+     
      
      
      float xCorner3 = this.xpos + this.btnWidth;
-     float yCorner3 = this.ypos + this.animHeightDown;
-     
      float xCorner2 = xCorner3 - this.quadOffset;
-     float yCorner2 = yCorner1;
-     
      float xCorner4 = this.xpos + this.quadOffset;
-     float yCorner4 =yCorner3;
      
-     if (this.isInside()){
+     
+     
        fill(this.btnColor);
        quad(this.xpos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
-     }
+     
      
      this.drawBtnText();
      
