@@ -12,6 +12,8 @@ String title = "Parkour Scroll";
 PFont titleFont = createFont("Arial Bold", 40, true);
 PFont languageFont = createFont("Arial", 17, true);
 
+String language = "ENG";
+
     /*
      * Sets up fonts and menu buttons to be included in the main menu
      *
@@ -53,9 +55,8 @@ PFont languageFont = createFont("Arial", 17, true);
         if(mainMenuButtons[i].isPressed()){
           mainMenuButtons[i].causeEvent();
         }
-        else if(mainMenuButtons[i].isInside()){
-          mainMenuButtons[i].moveMe();
-        }
+       
+       mainMenuButtons[i].moveMe();
       }
       
     }
@@ -93,8 +94,8 @@ PFont languageFont = createFont("Arial", 17, true);
       
       for(int i = 0; i < mainMenuButtons.length; i++){
         
-        float xposBtn = windowWidth / widthFrac;
-        float yposBtn = topOffset + (windowHeight / heightFrac) * i;
+        float xposBtn = width / widthFrac;
+        float yposBtn = topOffset + (height / heightFrac) * i;
         
         mainMenuButtons[i] = new Button(i, true, btnText[i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
       }
@@ -120,7 +121,7 @@ PFont languageFont = createFont("Arial", 17, true);
       pushStyle();
       textFont(this.titleFont);
       fill(255);
-      text(this.title, (windowWidth/5) * 4, (windowHeight/5) * 2.25);
+      text(this.title, (width/5) * 4, (height/5) * 2.25);
       popStyle();
     }
     
@@ -133,25 +134,25 @@ PFont languageFont = createFont("Arial", 17, true);
       pushStyle();
       textFont(this.languageFont);
       fill(255);
-      text("LANGUAGE: ", (windowWidth/15) * 11, windowHeight/15);
+      text("LANGUAGE: ", (width/15) * 11, height/15);
       popStyle();
     }
 
-}
 
-
-/*
- * Click while in the menu
- * 
- * @param x  x-value of the point to click at
- * @param y  y-value of the point to click at
- * @return None
-*/
-void mainMenuClick(int x, int y){
-  for (Button button:mainMenuButtons){
-    if (button.isInside(x, y)){
-      //button.doSomething
-      break;
+  /*
+   * Click while in the menu
+   * 
+   *
+   *
+   * @return None
+  */
+  void mainMenuClick(){
+    for (Button button:mainMenuButtons){
+      if (button.isInside()){
+        //button.doSomething
+        break;
+      }
     }
   }
+  
 }

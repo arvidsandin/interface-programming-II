@@ -3,8 +3,8 @@ public class GameMenu implements Menu{
 color btnColor = color(170,183,249);
 color btnBorderColor = color(110,123,189);
 
-float btnWidth = windowWidth / 4;
-float btnHeight = windowHeight / 15;
+float btnWidth = width / 4;
+float btnHeight = height / 15;
 
 color textColor = color(255);
 PFont textFont = createFont("Arial", 17, true);
@@ -30,8 +30,8 @@ Button[] gameMenuButtons = new Button[4];
         
 
     for(int i = 0; i < gameMenuButtons.length; i++){
-      float xposBtn = (windowWidth - this.btnWidth)/widthFrac;
-      float yposBtn = topOffset + (windowHeight / heightFrac) * i;
+      float xposBtn = (width - this.btnWidth)/widthFrac;
+      float yposBtn = topOffset + (height / heightFrac) * i;
       
       gameMenuButtons[i] = new Button(i, false, btnText[i], this.textColor, this.textFont, xposBtn, yposBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
     }

@@ -14,9 +14,6 @@ MainMenu mainMenu;
 GameMenu gameMenu;
 
 
-int  windowWidth = 1200;
-int  windowHeight = 600;
-
 /*
  * Sets up window and other game object's setups
  */
@@ -31,7 +28,9 @@ void setup(){
  * Main loop of what to draw on screen
  */
 void draw(){
+   background(137, 209, 254);
   if (navigation == NavType.INMAINMENU){
+    mainMenu.moveMenu();
     mainMenu.drawMenu();
   }
   else if (navigation == NavType.INSETTINGS){
@@ -44,7 +43,7 @@ void draw(){
 
 void mouseClicked(){
   if (navigation == NavType.INMAINMENU){
-    mainMenuClick(mouseX, mouseY);
+    mainMenu.mainMenuClick();
   }
   else if (navigation == NavType.INSETTINGS){
     
