@@ -164,22 +164,19 @@ float getQuadOffset(){
      * @return None
      */
      void moveMe(){
-       println(this.animHeightDown);
-       println(this.animHeightUp);
-       print(this.isInside())/*
        if(this.isInside()){
          
          if(this.animHeightDown < this.btnHeight  && this.animHeightUp > 0){
-           this.animHeightDown += 1;
-           this.animHeightUp -= 1;
+           this.animHeightDown += 2;
+           this.animHeightUp -= 2;
          }
        }
     else{
-         if(this.animHeightDown >= 0 && this.animHeightUp >= 0){
-           this.animHeightDown = 0;
-           this.animHeightUp = this.btnHeight/2;
+         if(this.animHeightDown > this.btnHeight/2 && this.animHeightUp < this.btnHeight/2){
+           this.animHeightDown -= 2;
+           this.animHeightUp += 2;
          }
-       }*/
+       }
      }
     
     
@@ -211,10 +208,10 @@ float getQuadOffset(){
      float xCorner4 = this.xpos + this.quadOffset;
      
      
-     
+     if(this.isInside()){
        fill(this.btnColor);
        quad(this.xpos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
-     
+     }
      
      this.drawBtnText();
      
