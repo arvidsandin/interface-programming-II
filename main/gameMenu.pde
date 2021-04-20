@@ -1,4 +1,5 @@
 public class GameMenu implements Menu{
+  color menuBackground = color(137, 209, 254, 0.4);
   
   color btnColor = color(170,183,249);
   color btnBorderColor = color(110,123,189);
@@ -55,6 +56,8 @@ public class GameMenu implements Menu{
     void drawMenu(){
         pushStyle();
         textAlign(CENTER);
+        
+        background(this.menuBackground);
         
         //Draw game menu buttons
         for(int i = 0; i < gameMenuButtons.length; i++){

@@ -83,7 +83,7 @@ int SWE = 5;
         float btnWidth = width /12;
         float btnHeight = height / 12;
         
-        mainMenuButtons[btnText.length + i] = new Button(btnText.length + i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
+        mainMenuButtons[btnText.length + i] = new Button(btnText.length + i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(this.btnColor, 80), this.btnBorderColor, 0, flagImgs[i]);
       }
 
     }

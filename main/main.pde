@@ -19,7 +19,9 @@ String[] languages = new String[]{"EN", "SWE"};
  * Sets up window and other game object's setups
  */
 void setup(){
- size(1200, 600); 
+  
+ //P2D uses OpenGL code to run faster on computer graphics card
+ size(1200, 600, P2D); 
  background(137, 209, 254);
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();
