@@ -1,116 +1,191 @@
 
-//Enum for each main menu button
-enum mainMenuButtonType{
-  START,
-  SETTINGS,
-  TUTORIAL,
-  QUIT,
-}
+class MainMenu implements Menu{
 
+color menuBackground = color(137, 209, 254);
+  
 color btnColor = color(170,183,249);
-color btnBorder = color(110,123,189);
+color btnBorderColor = color(110,123,189);
 
 Button[] mainMenuButtons = new Button[4];
 
-int  windowWidth = 1200;
-int  windowHeight = 600;
-int topOffset = 180;
+int yOffset = 180;
+int xOffset = (width/5) * 4;
 
-String gameName = "Parkour Scroll";
-PFont gameFont;
-PFont languageFont;
+String title = "Parkour Scroll";
+PFont titleFont = createFont("Arial Bold", 40, true);
+PFont languageFont = createFont("Arial", 17, true);
 
-/*
- * Sets up fonts and menu buttons to be included in the main menu
- *
- * @return None
-*/
-// TODO: CHECK IF MENU SETUP CAN BE CALLED FROM SEPARATE MODULE
-void setupMenu(){ 
- textAlign(CENTER);
- 
- gameFont = createFont("Arial Bold", 40, true);
- languageFont = createFont("Arial", 17, true);
- 
- createMainMenuButtons();
- 
-}
+String language = "ENG";
 
-/*
- * Draws up all objects that are part of the main menu
- *
- * @return None
-*/
-void drawMainMenu(){
-  //Draw main menu buttons
-  for(int i = 0; i < mainMenuButtons.length; ++i){
-    mainMenuButtons[i].drawMe();
-  }
-  
-  //Draw menu text
-  drawGameTitle();
-  drawLanguageOptions();
-}
+int START= 0;
+int SETTINGS= 1;
+int TUTORIAL= 2;
+int QUIT= 3;
 
-/*
- * Creates all buttons that are included in the main menu.
- *
- * @return None
-*/
-void createMainMenuButtons(){
-  String[] btnText = new String[]{"START", "SETTINGS", "TUTORIAL", "QUIT"}; //TODO: include multilanguage option structure
-  
-  for(int i = 0; i < 4; i++){
-    int widthFrac = 15;
-    int heightFrac = 8;
+    /*
+     * Sets up fonts and menu buttons to be included in the main menu
+     *
+     * @param menuButtons    The menu buttons to include
+     * @param title    The title text to present on the menu
+     * @param titleFont    The title font to use for the title text
+     * @param languageFont    The font to use for the language options text
+     * @return A new MainMenu object
+    */ 
+    MainMenu(Button[] menuButtons, String title, PFont titleFont, PFont languageFont){ 
+
+      this.title = title;
+      this.titleFont = titleFont;
+      this.languageFont = languageFont;
+      
+      mainMenuButtons = new Button[menuButtons.length];
+      
+      for(int i = 0; i < menuButtons.length; ++i){
+        mainMenuButtons[i] = menuButtons[i];
+      }
+    }
     
-    float xposBtn = windowWidth / widthFrac;
-    float yposBtn = topOffset + (windowHeight / heightFrac) * i;
+    /*
+     * Sets up fonts and menu buttons to be included in the main menu
+     *
+     * @return A new MainMenu object
+    */
+    MainMenu(){ 
+      this.createMenuButtons();
+    }
     
-    mainMenuButtons[i] = new Button(i, btnText[i], xposBtn, yposBtn, btnColor, btnBorder);
-  }
+    /*
+     * Creates all buttons that are included in the main menu.
+     *
+     * @return None
+    */
+    void createMenuButtons(){
+      String[] btnText = new String[]{"START", "SETTINGS", "TUTORIAL", "QUIT"}; //TODO: include multilanguage option structure
+      String[] flagImgs = new String[]{"menu_images/eng_flag.png", "menu_images/swe_flag.png"};
+      
+      
+      mainMenuButtons = new Button[btnText.length + languages.length];
+      
+      for(int i = 0; i < btnText.length; i++){
+        
+        float xposBtn = width / 15;
+        float yposBtn = this.yOffset + (height / 8) * i;
+        
+        mainMenuButtons[i] = new Button(i, true, btnText[i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
+      }
+      
+     for(int i = 0; i < languages.length; ++i){
+       
+        float xposBtn = xOffset + (width / 10) * i;
+        float yposBtn = height/30;
+        
+        float btnWidth = width /12;
+        float btnHeight = height / 12;
+        
+        mainMenuButtons[btnText.length + i] = new Button(i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
+      }
 
-}
+    }
+    
+    
+    /*
+     * Moves all animated objects that are part of the main menu
+     *
+     * @return None
+    */
+    void moveMenu(){
+      for(int i = 0; i < mainMenuButtons.length; ++i){  
+        if(mainMenuButtons[i] != null){
+           mainMenuButtons[i].moveMe();
+        }
+      }
+      
+    }
+    
+    /*
+     * Draws up all objects that are part of the main menu, including menu background.
+     *
+     * @return None
+    */
+    void drawMenu(){
+      pushStyle();
+      background(this.menuBackground);
+      
+      textAlign(CENTER);
+      
+      //Draw main menu buttons
+      for(int i = 0; i < mainMenuButtons.length; ++i){
+        if(mainMenuButtons[i] != null){
+          mainMenuButtons[i].drawMe();
+        }
+      }
+      //Draw menu text
+      this.drawTextElements();
+      
+      popStyle();
+    }
+    
+     /*
+     * Draws up text elements in the main menu
+     * 
+     * @return None
+    */
+    void drawTextElements(){
+      
+      this.drawGameTitle();
+      this.drawLanguageOptions();
+    }
+    
+    /*
+     * Draws up game title text 
+     * 
+     * @return None
+    */
+    void drawGameTitle(){
+      pushStyle();
+      textFont(this.titleFont);
+      fill(255);
+      text(this.title, (width/5) * 4, (height/5) * 2.25);
+      popStyle();
+    }
+    
+    /*
+     * Draws up language options text
+     * 
+     * @return None
+    */
+    void drawLanguageOptions(){
+      pushStyle();
+      textFont(this.languageFont);
+      fill(255);
+      text("LANGUAGE: ", (width/15) * 11, height/15);
+      popStyle();
+    }
 
-/*
- * Draws up game title text 
- * 
- * @return None
-*/
-void drawGameTitle(){
-  pushStyle();
-  textFont(gameFont);
-  fill(255);
-  text(gameName, (windowWidth/5) * 4, (windowHeight/5) * 2.25);
-  popStyle();
-}
-
-/*
- * Draws up language options text
- * 
- * @return None
-*/
-void drawLanguageOptions(){
-  pushStyle();
-  textFont(languageFont);
-  fill(255);
-  text("LANGUAGE: ", (windowWidth/15) * 11, windowHeight/15);
-  popStyle();
-}
-
-
-/*
- * Click while in the menu
- * 
- * @param x  x-value of the point to click at
- * @param y  y-value of the point to click at
- * @return None
-*/
-void mainMenuClick(int x, int y){
-  for (Button button:mainMenuButtons){
-    if (button.isInside(x, y)){
-      //button.doSomething
-      break;
+  /*
+   * Click while in the menu. Event will depend on which button is clicked
+   * 
+   *
+   *
+   * @return None
+  */
+  void mainMenuClick(){
+    for (Button button:mainMenuButtons){
+      if (button.isInside()){
+        if(button.ID == this.START){
+          println("GO TO GAME");
+        }
+        else if(button.ID == this.SETTINGS){
+          println("GO TO SETTINGS");
+        }
+        else if(button.ID == this.TUTORIAL){
+          println("GO TO TUTORIAL");
+        }
+        else if(button.ID == this.QUIT){
+          exit();
+        }
+        break;
+      }
     }
   }
+  
 }
