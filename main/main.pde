@@ -14,6 +14,7 @@ MainMenu mainMenu;
 GameMenu gameMenu;
 
 String[] languages = new String[]{"EN", "SWE"};
+String language =
 
 /*
  * Sets up window and other game object's setups
@@ -25,6 +26,8 @@ void setup(){
  background(137, 209, 254);
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();
+ 
+ surface.setResizable(true);
 }
 
 /*
