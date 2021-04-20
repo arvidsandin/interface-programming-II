@@ -8,7 +8,7 @@ enum NavType{
   INTUTORIAL,
   INMAINMENU,
 }
-NavType navigation = NavType.INGAMEMENU;
+NavType navigation = NavType.INMAINMENU;
 
 MainMenu mainMenu;
 GameMenu gameMenu;
