@@ -13,7 +13,7 @@ class Button {
   
   String btnText;
   color btnTextColor = color(0, 0, 0);
-  PFont textFont = createFont("Arial Bold", 22, true);
+  PFont textFont = createFont("data/fonts/good times rg.ttf", 24, true);
   
   float xpos;
   float ypos;
@@ -199,7 +199,7 @@ class Button {
       this.xpos = xpos;
       this.ypos = ypos;
       
-      this.btnWidth = width / 4;
+      this.btnWidth = width / 3;
       this.btnHeight = height / 12;
       
       this.animHeightUp = this.btnHeight/ 2;
@@ -295,7 +295,7 @@ class Button {
      */
     void drawBtnText(){
      float xTxtCenter = this.xpos + this.btnWidth/2;
-     float yTxtCenter = this.ypos + (this.btnHeight/3) *2;
+     float yTxtCenter = this.ypos + (this.btnHeight/3) *1.95;
     
      if(btnText != null){
         
@@ -345,7 +345,17 @@ class Button {
           y >= this.btnHeight/this.quadOffset*x + (this.ypos)-(this.btnHeight/this.quadOffset*(this.xpos+this.btnWidth-this.quadOffset))
           );
     }
-        
+    
+    
+    /*
+     * Sets another string to the text of the button object
+     *
+     * @param text   The new text for the button
+     * @return None
+     */
+    void changeBtnText(String text){
+     this.btnText = text;
+    }
     
     /*
      * Sets a new font value to the text of the button object

@@ -13,8 +13,6 @@ NavType navigation = NavType.INMAINMENU;
 MainMenu mainMenu;
 GameMenu gameMenu;
 
-String[] languages = new String[]{"EN", "SWE"};
-String language =
 
 /*
  * Sets up window and other game object's setups

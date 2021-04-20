@@ -8,11 +8,11 @@ public class GameMenu implements Menu{
   float btnHeight = height / 15;
   
   color textColor = color(255);
-  PFont textFont = createFont("Arial", 17, true);
+  PFont textFont = createFont("data/fonts/good times rg.ttf", 17, true);
   
   int topOffset = 180;
   
-  Button[] gameMenuButtons = new Button[4];
+  Button[] gameMenuButtons;
   
   
       /*
@@ -31,13 +31,12 @@ public class GameMenu implements Menu{
      * @return None
     */  
     void createMenuButtons(){
-      
       String[] btnText = new String[]{"CONTINUE", "SETTINGS", "CHOOSE LEVEL", "MAIN MENU"};
+      
+      gameMenuButtons = new Button[btnText.length];
       
       float widthFrac = 2;
       float heightFrac = 12;
-      
-      color textColor = color(255);
   
       for(int i = 0; i < gameMenuButtons.length; i++){
         float xposBtn = (width - this.btnWidth)/widthFrac;
