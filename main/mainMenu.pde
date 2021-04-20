@@ -1,12 +1,15 @@
 
 class MainMenu implements Menu{
 
+color menuBackground = color(137, 209, 254);
+  
 color btnColor = color(170,183,249);
 color btnBorderColor = color(110,123,189);
 
 Button[] mainMenuButtons = new Button[4];
 
-int topOffset = 180;
+int yOffset = 180;
+int xOffset = (width/5) * 4;
 
 String title = "Parkour Scroll";
 PFont titleFont = createFont("Arial Bold", 40, true);
@@ -30,7 +33,7 @@ int QUIT= 3;
     */ 
     MainMenu(Button[] menuButtons, String title, PFont titleFont, PFont languageFont){ 
 
-      this.topOffset = topOffset;
+      this.yOffset = yOffset;
       this.title = title;
       this.titleFont = titleFont;
       this.languageFont = languageFont;
@@ -51,39 +54,6 @@ int QUIT= 3;
       this.createMenuButtons();
     }
     
-    
-    /*
-     * Moves all animated objects that are part of the main menu
-     *
-     * @return None
-    */
-    void moveMenu(){
-      for(int i = 0; i < mainMenuButtons.length; ++i){   
-       mainMenuButtons[i].moveMe();
-      }
-      
-    }
-    
-    /*
-     * Draws up all objects that are part of the main menu
-     *
-     * @return None
-    */
-    void drawMenu(){
-      pushStyle();
-      textAlign(CENTER);
-      
-      //Draw main menu buttons
-      for(int i = 0; i < mainMenuButtons.length; ++i){
-        mainMenuButtons[i].drawMe();
-      }
-      //Draw menu text
-      this.drawTextElements();
-      
-      popStyle();
-    }
-    
-    
     /*
      * Creates all buttons that are included in the main menu.
      *
@@ -91,17 +61,68 @@ int QUIT= 3;
     */
     void createMenuButtons(){
       String[] btnText = new String[]{"START", "SETTINGS", "TUTORIAL", "QUIT"}; //TODO: include multilanguage option structure
+      String[] flagImgs = new String[]{"menu_images/eng_flag.png", "menu_images/swe_flag.png"};
       
-      int widthFrac = 15;
-      int heightFrac = 8;
       
-      for(int i = 0; i < mainMenuButtons.length; i++){
+      mainMenuButtons = new Button[btnText.length + languages.length];
+      
+      for(int i = 0; i < btnText.length; i++){
         
-        float xposBtn = width / widthFrac;
-        float yposBtn = topOffset + (height / heightFrac) * i;
+        float xposBtn = width / 15;
+        float yposBtn = this.yOffset + (height / 8) * i;
         
         mainMenuButtons[i] = new Button(i, true, btnText[i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
       }
+      
+     for(int i = 0; i < languages.length; ++i){
+       
+        float xposBtn = xOffset + (width / 10) * i;
+        float yposBtn = height/30;
+        
+        float btnWidth = width /12;
+        float btnHeight = height / 12;
+        
+        mainMenuButtons[btnText.length + i] = new Button(i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
+      }
+
+    }
+    
+    
+    /*
+     * Moves all animated objects that are part of the main menu
+     *
+     * @return None
+    */
+    void moveMenu(){
+      for(int i = 0; i < mainMenuButtons.length; ++i){  
+        if(mainMenuButtons[i] != null){
+           mainMenuButtons[i].moveMe();
+        }
+      }
+      
+    }
+    
+    /*
+     * Draws up all objects that are part of the main menu, including menu background.
+     *
+     * @return None
+    */
+    void drawMenu(){
+      pushStyle();
+      background(this.menuBackground);
+      
+      textAlign(CENTER);
+      
+      //Draw main menu buttons
+      for(int i = 0; i < mainMenuButtons.length; ++i){
+        if(mainMenuButtons[i] != null){
+          mainMenuButtons[i].drawMe();
+        }
+      }
+      //Draw menu text
+      this.drawTextElements();
+      
+      popStyle();
     }
     
      /*
@@ -152,18 +173,17 @@ int QUIT= 3;
     for (Button button:mainMenuButtons){
       if (button.isInside()){
         if(button.ID == this.START){
-          
+          println("GO TO GAME");
         }
         else if(button.ID == this.SETTINGS){
-          
+          println("GO TO SETTINGS");
         }
         else if(button.ID == this.TUTORIAL){
-          
+          println("GO TO TUTORIAL");
         }
         else if(button.ID == this.QUIT){
           exit();
         }
-        //button.doSomething
         break;
       }
     }

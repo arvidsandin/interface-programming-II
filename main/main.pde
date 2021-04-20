@@ -13,6 +13,8 @@ NavType navigation = NavType.INMAINMENU;
 MainMenu mainMenu;
 GameMenu gameMenu;
 
+String[] languages = new String[]{"EN", "SWE"};
+
 /*
  * Sets up window and other game object's setups
  */
@@ -27,7 +29,6 @@ void setup(){
  * Main loop of what to draw on screen
  */
 void draw(){
-  background(137, 209, 254);
   
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();

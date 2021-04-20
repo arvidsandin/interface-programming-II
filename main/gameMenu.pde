@@ -14,8 +14,6 @@ public class GameMenu implements Menu{
   Button[] gameMenuButtons = new Button[4];
   
   
-
-
       /*
        * Sets up default fonts and menu buttons to be included in the game menu
        *
