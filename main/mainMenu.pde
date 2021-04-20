@@ -21,6 +21,8 @@ int START= 0;
 int SETTINGS= 1;
 int TUTORIAL= 2;
 int QUIT= 3;
+int ENG = 4;
+int SWE = 5;
 
     /*
      * Sets up fonts and menu buttons to be included in the main menu
@@ -81,7 +83,7 @@ int QUIT= 3;
         float btnWidth = width /12;
         float btnHeight = height / 12;
         
-        mainMenuButtons[btnText.length + i] = new Button(i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
+        mainMenuButtons[btnText.length + i] = new Button(btnText.length + i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
       }
 
     }
@@ -182,6 +184,12 @@ int QUIT= 3;
         }
         else if(button.ID == this.QUIT){
           exit();
+        }
+        else if(button.ID == this.ENG){
+          println("ENGLISH TEXT REQUESTED");
+        }
+        else if(button.ID == this.SWE){
+          println("SWEDISH TEXT REQUESTED");
         }
         break;
       }

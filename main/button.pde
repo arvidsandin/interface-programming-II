@@ -91,10 +91,11 @@ class Button {
      *
      * @return A new Button object
      */
-    Button(int ID, boolean withLine, String btnText, color btnTextColor, PFont textFont, float xpos, float ypos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor){
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, color btnTextColor, PFont textFont, float xpos, float ypos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor){
       this.ID = ID;
       
       this.withLine = withLine;
+      this.animateBtn = animateBtn;
       
       this.btnText = btnText;
       this.btnTextColor = btnTextColor;
@@ -124,6 +125,7 @@ class Button {
      *
      * @param ID    The button's ID. Not guaranteed to be unique
      * @param withLine          Whether the button should have a line to the edge of the screen's left side
+     * @param animateBtn    States whether the button should have animated height
      * @param btnText    The button's text
      * @param xpos    The button's x position, relative to its upper left corner
      * @param ypos    The button's y position, relative to its upper left corner
@@ -312,7 +314,13 @@ class Button {
       int x = mouseX;
       int y = mouseY;
       
-      return (
+      //Check if button is a rectangle
+      if(this.quadOffset == 0){
+        
+       return (x >= xpos && x <= xpos+this.btnWidth  && y >= ypos && y <= ypos+this.btnHeight);
+      }
+
+     return (
           //inside inside the biggest rectangle the button fits in
           x >= xpos && x <= xpos+this.btnWidth+this.quadOffset && 
           y >= ypos && y <= ypos+btnHeight &&

@@ -37,13 +37,12 @@ public class GameMenu implements Menu{
       float heightFrac = 12;
       
       color textColor = color(255);
-          
   
       for(int i = 0; i < gameMenuButtons.length; i++){
         float xposBtn = (width - this.btnWidth)/widthFrac;
         float yposBtn = topOffset + (height / heightFrac) * i;
         
-        gameMenuButtons[i] = new Button(i, false, btnText[i], this.textColor, this.textFont, xposBtn, yposBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
+        gameMenuButtons[i] = new Button(i, false, false, btnText[i], this.textColor, this.textFont, xposBtn, yposBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
       }
     }
     

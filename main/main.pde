@@ -8,7 +8,7 @@ enum NavType{
   INTUTORIAL,
   INMAINMENU,
 }
-NavType navigation = NavType.INMAINMENU;
+NavType navigation = NavType.INGAMEMENU;
 
 MainMenu mainMenu;
 GameMenu gameMenu;
@@ -21,7 +21,7 @@ String[] languages = new String[]{"EN", "SWE"};
 void setup(){
  size(1200, 600); 
  background(137, 209, 254);
- mainMenu = new MainMenu(); 
+ mainMenu = new MainMenu();
  gameMenu = new GameMenu();
 }
 
@@ -38,6 +38,9 @@ void draw(){
     
   }
   else if (navigation == NavType.INGAME){
+    
+  }
+  else if (navigation == NavType.INGAMEMENU){
     gameMenu.drawMenu();
   }
 }
