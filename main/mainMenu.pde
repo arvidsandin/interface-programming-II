@@ -33,7 +33,6 @@ int QUIT= 3;
     */ 
     MainMenu(Button[] menuButtons, String title, PFont titleFont, PFont languageFont){ 
 
-      this.yOffset = yOffset;
       this.title = title;
       this.titleFont = titleFont;
       this.languageFont = languageFont;
