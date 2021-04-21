@@ -10,6 +10,7 @@ enum NavType{
 }
 NavType navigation = NavType.INMAINMENU;
 
+Game game;
 MainMenu mainMenu;
 GameMenu gameMenu;
 
@@ -28,6 +29,8 @@ void setup(){
  //P2D uses OpenGL code to run faster on computer graphics card
  size(1200, 600, P2D); 
  background(137, 209, 254);
+
+ game = new Game(new Map());
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();
 }
@@ -36,16 +39,16 @@ void setup(){
  * Main loop of what to draw on screen
  */
 void draw(){
-  
+
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();
     mainMenu.drawMenu();
   }
   else if (navigation == NavType.INSETTINGS){
-    
+
   }
   else if (navigation == NavType.INGAME){
-    
+    game.drawGame();
   }
   else if (navigation == NavType.INGAMEMENU){
     gameMenu.moveMenu();
@@ -61,10 +64,44 @@ void mouseClicked(){
     mainMenu.mainMenuClick();
   }
   else if (navigation == NavType.INSETTINGS){
-    
+
   }
   else if (navigation == NavType.INGAME){
-    
+
+  }
+}
+
+void keyPressed(){
+  if (navigation == NavType.INGAME){
+    if (key == 'w'){
+      game.up();
+    }
+    else if (key == 'a'){
+      game.left();
+    }
+    else if (key == 's'){
+      game.down();
+    }
+    else if (key == 'd'){
+      game.right();
+    }
+  }
+}
+
+void keyReleased(){
+  if (navigation == NavType.INGAME){
+    if (key == 'w'){
+      game.releaseUp();
+    }
+    else if (key == 'a'){
+      game.releaseLeft();
+    }
+    else if (key == 's'){
+      game.releaseDown();
+    }
+    else if (key == 'd'){
+      game.releaseRight();
+    }
   }
   else if (navigation == NavType.INGAMEMENU){
    gameMenu.gameMenuClick();
