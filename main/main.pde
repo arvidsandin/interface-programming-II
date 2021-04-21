@@ -14,6 +14,12 @@ MainMenu mainMenu;
 GameMenu gameMenu;
 
 
+
+String[] languages = new String[]{"ENG", "SWE"};
+int ENG = 0;
+int SWE = 1;
+int currentLanguage = ENG;
+
 /*
  * Sets up window and other game object's setups
  */
