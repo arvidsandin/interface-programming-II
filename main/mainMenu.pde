@@ -172,7 +172,7 @@ int QUIT= 3;
     for (Button button:mainMenuButtons){
       if (button.isInside()){
         if(button.ID == this.START){
-          println("GO TO GAME");
+          navigation = NavType.INGAME;
         }
         else if(button.ID == this.SETTINGS){
           println("GO TO SETTINGS");
