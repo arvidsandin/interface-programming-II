@@ -242,6 +242,7 @@ class Button {
      */
     void drawMe(){
      pushStyle();
+     strokeWeight(2);
 
      this.drawBtnLine();
      /*Corners in a parallelogram are created clockwise
@@ -283,7 +284,6 @@ class Button {
      stroke(this.btnBorderColor);
      
      if(this.withLine != false){
-       strokeWeight(2);
        line(0, yStrokeLen, xStrokeLen, yStrokeLen);
      }
     }

@@ -30,8 +30,6 @@ void setup(){
  background(137, 209, 254);
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();
- 
- surface.setResizable(true);
 }
 
 /*
@@ -50,6 +48,7 @@ void draw(){
     
   }
   else if (navigation == NavType.INGAMEMENU){
+    gameMenu.moveMenu();
     gameMenu.drawMenu();
   }
 }
@@ -66,5 +65,8 @@ void mouseClicked(){
   }
   else if (navigation == NavType.INGAME){
     
+  }
+  else if (navigation == NavType.INGAMEMENU){
+   gameMenu.gameMenuClick();
   }
 }
