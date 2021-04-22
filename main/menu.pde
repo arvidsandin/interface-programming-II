@@ -4,7 +4,7 @@
  */
 interface Menu{
   
-   //Enum for each main menu button
+  //Enum for each main menu button
   enum mainMenuButtonType{
     START,
     SETTINGS,
