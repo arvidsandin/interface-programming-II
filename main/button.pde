@@ -229,8 +229,8 @@ class Button {
        }
       else{
            if(this.animHeightDown < this.btnHeight/2 && this.animHeightUp < this.btnHeight/2){
-             this.animHeightDown += 4;
-             this.animHeightUp += 4;
+             this.animHeightDown += 2;
+             this.animHeightUp += 2;
            }
          }
      }
