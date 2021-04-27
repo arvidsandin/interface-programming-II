@@ -22,7 +22,7 @@ String[] languages = new String[]{"EN", "SWE"};
 void setup(){
  size(1200, 600);
  background(137, 209, 254);
- game = new Game(new Map());
+ game = new Game(new Map(0.1, 0.01/*TODO:change gravity and friciton constants*/));
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();
 }

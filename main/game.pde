@@ -21,7 +21,7 @@ class Game{
    */
     void drawGame(){
       map.drawMe();
-      player.updatePosition();
+      player.updatePosition(this.map);
       player.drawMe();
     }
   
@@ -41,12 +41,12 @@ class Game{
   void releaseUp(){
   }
   void releaseLeft(){
-    player.stop();
+    player.stopLeft();
   }
   void releaseDown(){
   }
   void releaseRight(){
-    player.stop();
+    player.stopRight();
   }
   
 }
