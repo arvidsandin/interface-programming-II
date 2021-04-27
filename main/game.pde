@@ -13,10 +13,10 @@ class Game{
   Game(Map m){
     map = m;
   }
-  
+
   /*
    * Draws up the game and everything inside it
-   * 
+   *
    * @return None
    */
     void drawGame(){
@@ -24,9 +24,11 @@ class Game{
       player.updatePosition(this.map);
       player.drawMe();
     }
-  
-  void up(){
+
+  void space(){
     player.jump();
+  }
+  void up(){
   }
   void left(){
     player.goLeft();
@@ -36,8 +38,8 @@ class Game{
   void right(){
     player.goRight();
   }
-  
-  
+
+
   void releaseUp(){
   }
   void releaseLeft(){
@@ -48,5 +50,7 @@ class Game{
   void releaseRight(){
     player.stopRight();
   }
-  
+  void releaseSpace(){
+  }
+
 }

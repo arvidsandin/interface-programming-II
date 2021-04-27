@@ -15,17 +15,17 @@ class Map {
     this.gravity = g;
     this.friction = f;
   }
-  
+
   /*
    * Draws up the map
-   * 
+   *
    * @return None
    */
     void drawMe(){
       background(137, 209, 254);
     }
-  
-  
-  
-  
+
+
+
+
 }

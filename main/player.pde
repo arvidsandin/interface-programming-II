@@ -19,20 +19,20 @@ class Player {
    */
   Player(){
   }
-  
+
   /*
    * Draws up the player
-   * 
+   *
    * @return None
    */
   void drawMe(){
     fill(255, 60, 60);
     rect(this.xpos, this.ypos, this.playerWidth, this.playerHeight);
   }
-  
+
   /*
    * updates the player's position based on current speed
-   * 
+   *
    * @return None
    */
   void updatePosition(Map m){
@@ -69,40 +69,40 @@ class Player {
     xpos = xpos + xSpeed;
     ypos = ypos + ySpeed;
   }
-  
+
   /*
    * makes the player jump
-   * 
+   *
    * @return None
    */
   void jump(){
+    //TODO: Check if player is on ground
     ySpeed = -5;
   }
-  
+
   /*
    * makes the player go left
-   * 
+   *
    * @return None
    */
   void goLeft(){
     movesLeft = true;
   }
-  
+
   /*
-   * 
    * makes the player go right
+   *
    * @return None
    */
   void goRight(){
     movesRight = true;
   }
-  
+
   /*
-   * 
    * makes the player stop moving left
+   *
    * @return None
    */
-  void stop(){
   void stopLeft(){
     movesLeft = false;
   }

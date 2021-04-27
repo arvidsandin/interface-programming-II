@@ -61,34 +61,40 @@ void mouseClicked(){
 
 void keyPressed(){
   if (navigation == NavType.INGAME){
-    if (key == 'w'){
+    if (key == 'w' || keyCode == UP){
       game.up();
     }
-    else if (key == 'a'){
+    else if (key == 'a' || keyCode == LEFT){
       game.left();
     }
-    else if (key == 's'){
+    else if (key == 's' || keyCode == DOWN){
       game.down();
     }
-    else if (key == 'd'){
+    else if (key == 'd' || keyCode == RIGHT){
       game.right();
+    }
+    else if (key == ' '){
+      game.space();
     }
   }
 }
 
 void keyReleased(){
   if (navigation == NavType.INGAME){
-    if (key == 'w'){
+    if (key == 'w' || keyCode == UP){
       game.releaseUp();
     }
-    else if (key == 'a'){
+    else if (key == 'a' || keyCode == LEFT){
       game.releaseLeft();
     }
-    else if (key == 's'){
+    else if (key == 's' || keyCode == DOWN){
       game.releaseDown();
     }
-    else if (key == 'd'){
+    else if (key == 'd' || keyCode == RIGHT){
       game.releaseRight();
+    }
+    else if (key == ' '){
+      game.releaseSpace();
     }
   }
 }

@@ -2,7 +2,7 @@
 class MainMenu implements Menu{
 
 color menuBackground = color(137, 209, 254);
-  
+
 color btnColor = color(170,183,249);
 color btnBorderColor = color(110,123,189);
 
@@ -30,29 +30,29 @@ int QUIT= 3;
      * @param titleFont    The title font to use for the title text
      * @param languageFont    The font to use for the language options text
      * @return A new MainMenu object
-    */ 
-    MainMenu(Button[] menuButtons, String title, PFont titleFont, PFont languageFont){ 
+    */
+    MainMenu(Button[] menuButtons, String title, PFont titleFont, PFont languageFont){
 
       this.title = title;
       this.titleFont = titleFont;
       this.languageFont = languageFont;
-      
+
       mainMenuButtons = new Button[menuButtons.length];
-      
+
       for(int i = 0; i < menuButtons.length; ++i){
         mainMenuButtons[i] = menuButtons[i];
       }
     }
-    
+
     /*
      * Sets up fonts and menu buttons to be included in the main menu
      *
      * @return A new MainMenu object
     */
-    MainMenu(){ 
+    MainMenu(){
       this.createMenuButtons();
     }
-    
+
     /*
      * Creates all buttons that are included in the main menu.
      *
@@ -61,46 +61,46 @@ int QUIT= 3;
     void createMenuButtons(){
       String[] btnText = new String[]{"START", "SETTINGS", "TUTORIAL", "QUIT"}; //TODO: include multilanguage option structure
       String[] flagImgs = new String[]{"menu_images/eng_flag.png", "menu_images/swe_flag.png"};
-      
-      
+
+
       mainMenuButtons = new Button[btnText.length + languages.length];
-      
+
       for(int i = 0; i < btnText.length; i++){
-        
+
         float xposBtn = width / 15;
         float yposBtn = this.yOffset + (height / 8) * i;
-        
+
         mainMenuButtons[i] = new Button(i, true, btnText[i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
       }
-      
+
      for(int i = 0; i < languages.length; ++i){
-       
+
         float xposBtn = xOffset + (width / 10) * i;
         float yposBtn = height/30;
-        
+
         float btnWidth = width /12;
         float btnHeight = height / 12;
-        
+
         mainMenuButtons[btnText.length + i] = new Button(i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
       }
 
     }
-    
-    
+
+
     /*
      * Moves all animated objects that are part of the main menu
      *
      * @return None
     */
     void moveMenu(){
-      for(int i = 0; i < mainMenuButtons.length; ++i){  
+      for(int i = 0; i < mainMenuButtons.length; ++i){
         if(mainMenuButtons[i] != null){
            mainMenuButtons[i].moveMe();
         }
       }
-      
+
     }
-    
+
     /*
      * Draws up all objects that are part of the main menu, including menu background.
      *
@@ -109,9 +109,9 @@ int QUIT= 3;
     void drawMenu(){
       pushStyle();
       background(this.menuBackground);
-      
+
       textAlign(CENTER);
-      
+
       //Draw main menu buttons
       for(int i = 0; i < mainMenuButtons.length; ++i){
         if(mainMenuButtons[i] != null){
@@ -120,24 +120,24 @@ int QUIT= 3;
       }
       //Draw menu text
       this.drawTextElements();
-      
+
       popStyle();
     }
-    
+
      /*
      * Draws up text elements in the main menu
-     * 
+     *
      * @return None
     */
     void drawTextElements(){
-      
+
       this.drawGameTitle();
       this.drawLanguageOptions();
     }
-    
+
     /*
-     * Draws up game title text 
-     * 
+     * Draws up game title text
+     *
      * @return None
     */
     void drawGameTitle(){
@@ -147,10 +147,10 @@ int QUIT= 3;
       text(this.title, (width/5) * 4, (height/5) * 2.25);
       popStyle();
     }
-    
+
     /*
      * Draws up language options text
-     * 
+     *
      * @return None
     */
     void drawLanguageOptions(){
@@ -163,7 +163,7 @@ int QUIT= 3;
 
   /*
    * Click while in the menu. Event will depend on which button is clicked
-   * 
+   *
    *
    *
    * @return None
@@ -187,5 +187,5 @@ int QUIT= 3;
       }
     }
   }
-  
+
 }
