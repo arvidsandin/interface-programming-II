@@ -14,7 +14,7 @@ Game game;
 MainMenu mainMenu;
 GameMenu gameMenu;
 
-
+GameObject object;
 
 String[] languages = new String[]{"ENG", "SWE"};
 int ENG = 0;

@@ -1,3 +1,7 @@
+/*
+ * A class for handling the 2D game menu; buttons and their respective actions 
+ */
+
 public class GameMenu implements Menu{
   color menuBackground = color(137, 209, 254, 0.4);
   

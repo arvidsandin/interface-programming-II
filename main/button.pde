@@ -1,5 +1,5 @@
 /*
- * A class for creating buttons that have responsive resizing and appearance
+ * A class for creating 2D buttons that have responsive resizing and appearance
  */
 class Button {
   int ID;
@@ -21,8 +21,6 @@ class Button {
   float btnWidth;
   float btnHeight;
 
-  int btnRounding = 0;
-
   color btnColor;
   color btnBorderColor;
   PImage backgroundImage = null;
@@ -41,15 +39,14 @@ class Button {
      * @param ypos      The button's y position, relative to its upper left corner
      * @param btnWidth    The button's width
      * @param btnHeight    The button's height
-     * @param btnRounding      The amount of rounding the button's corners should have
      * @param btnColor      The button's color
      * @param btnBorderColor      The button border's color
      * @param quadOffset      Amount of right-sided slant on the button
-     * @param backgroundImage    Path to the background image of the button
+     * @param backgroundImage    Path to the background image of the button, relative to the sketch
      *
      * @return A new Button object
      */
-    Button(int ID, boolean withLine, boolean animateBtn, String btnText, color btnTextColor, PFont textFont,  float xpos, float ypos, float btnWidth, float btnHeight, int btnRounding, color btnColor, float quadOffset, color btnBorderColor, String backgroundImage){
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, color btnTextColor, PFont textFont,  float xpos, float ypos, float btnWidth, float btnHeight, color btnColor, float quadOffset, color btnBorderColor, String backgroundImage){
       this.ID = ID;
       this.quadOffset = quadOffset;
       
@@ -69,7 +66,6 @@ class Button {
       this.animHeightUp = this.btnHeight/ 2;
       this.animHeightDown = this.animHeightUp;
      
-      this.btnRounding = btnRounding;
       this.btnColor = btnColor;
       this.btnBorderColor = btnBorderColor;
       if(backgroundImage != null){
@@ -91,7 +87,7 @@ class Button {
      * @param btnColor    The button's color
      * @param btnBorderColor    The button border's color
      * @param quadOffset      Amount of right-sided slant on the button
-     * @param backgroundImage    Path to the background image of the button
+     * @param backgroundImage    Path to the background image of the button, relative to the sketch
      *
      * @return A new Button object
      */
@@ -229,8 +225,8 @@ class Button {
        }
       else{
            if(this.animHeightDown < this.btnHeight/2 && this.animHeightUp < this.btnHeight/2){
-             this.animHeightDown += 4;
-             this.animHeightUp += 4;
+             this.animHeightDown += 2;
+             this.animHeightUp += 2;
            }
          }
      }
@@ -313,7 +309,6 @@ class Button {
     void drawBackgroundImage(){
       
       if(this.backgroundImage != null){
-        
       image(this.backgroundImage, this.xpos, this.ypos, this.btnWidth, this.btnHeight);
       }
     }

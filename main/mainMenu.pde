@@ -1,4 +1,6 @@
-
+/*
+ * A class for handling the 2D main menu; buttons and their respective actions 
+ */
 class MainMenu implements Menu{
 
 color menuBackground = color(137, 209, 254);

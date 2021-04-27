@@ -1,6 +1,6 @@
 
 /*
- * A class for creating buttons that have responsive resizing and appearance
+ * An interface for menus and their necessary functions they must implement
  */
 interface Menu{
   
