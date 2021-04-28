@@ -14,7 +14,7 @@ Game game;
 MainMenu mainMenu;
 GameMenu gameMenu;
 
-
+GameObject object;
 
 String[] languages = new String[]{"ENG", "SWE"};
 int ENG = 0;
@@ -111,4 +111,18 @@ void keyReleased(){
   else if (navigation == NavType.INGAMEMENU){
    gameMenu.gameMenuClick();
   }
+}
+
+/*
+ * Resizes all menu interfaces to the current sketch width and height
+ *
+ * @return None
+ */
+void resizeMenus(){
+  /*
+   gameMenu.resize();
+   mainMenu.resize();
+   tutorialMenu.resize();
+   settingsmenu.resize();
+  */
 }
