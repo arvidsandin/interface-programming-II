@@ -107,3 +107,17 @@ void keyReleased(){
    gameMenu.gameMenuClick();
   }
 }
+
+/*
+ * Resizes all menu interfaces to the current sketch width and height
+ *
+ * @return None
+ */
+void resizeMenus(){
+  /*
+   gameMenu.resize();
+   mainMenu.resize();
+   tutorialMenu.resize();
+   settingsmenu.resize();
+  */
+}

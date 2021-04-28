@@ -1,5 +1,5 @@
 /*
- * A class for creating 2D buttons that have responsive resizing and appearance
+ * A class for creating 2D buttons that are capable of responsive resizing and appearance
  */
 class Button {
   int ID;
@@ -241,6 +241,20 @@ class Button {
      strokeWeight(2);
 
      this.drawBtnLine();
+     
+     this.drawBtnShape();
+     
+     this.drawBtnText();
+     this.drawBackgroundImage();
+     popStyle();
+    }
+    
+    /*
+     * Draws up the button shape in the form of a parallelogram 
+     * 
+     * @return None
+     */
+    void drawBtnShape(){
      /*Corners in a parallelogram are created clockwise
         (x,y) 1------2
                \      \
@@ -262,11 +276,9 @@ class Button {
 
      fill(this.btnColor);
      quad(this.xpos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
-     
-     this.drawBtnText();
-     this.drawBackgroundImage();
-     popStyle();
+      
     }
+    
     
     /*
      * Draws up the button line to a button 
