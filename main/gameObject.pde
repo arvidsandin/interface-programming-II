@@ -173,9 +173,9 @@ class GameObject{
    * @param yDir  The direction in which the object should move on the y-axis. -1 for up, 1 for down, 0 for neither
    * return None
    */
-   void moveMe(int xDir, int yDir){
-    this.xPos += this.xMove * xDir;
-    this.yPos += this.yMove * yDir;
+   void moveMe(float xMove, float yMove){
+    this.xPos += xMove;
+    this.yPos += yMove;
    }
 
 }

@@ -58,8 +58,9 @@ class Player {
       xSpeed = -maxHorizontalSpeed;
     }
 
-    ySpeed -= m.friction*ySpeed;
-    xSpeed -= m.friction*xSpeed;
+    if (!movesLeft && !movesRight) {
+      xSpeed -= m.friction*xSpeed;
+    }
 
     //Stop if acceleration is too low;
     if (xSpeed < playerAcceleration/2 && xSpeed > -playerAcceleration/2){
@@ -79,13 +80,24 @@ class Player {
     }
 
     //movements
-    if (xPos + xSpeed > width*m.playerBoundry) {
-      m.offset -= xSpeed;
+    if (xPos + xSpeed > width*m.playerBoundryX || xSpeed == 0) {
+      m.updateXOffset(-xSpeed);
+    }
+    else if (xPos + xSpeed < width-width*m.playerBoundryX) {
+      m.updateXOffset(-xSpeed);
     }
     else{
       xPos = xPos + xSpeed;
     }
-    yPos = yPos + ySpeed;
+    if (yPos + ySpeed < height-height*m.playerBoundryY || ySpeed == 0) {
+      m.updateYOffset(-ySpeed);
+    }
+    else if (yPos + ySpeed > height*m.playerBoundryY) {
+      m.updateYOffset(-ySpeed);
+    }
+    else{
+      yPos = yPos + ySpeed;
+    }
   }
 
   /*
@@ -94,8 +106,9 @@ class Player {
    * @return None
    */
   void jump(){
-    //TODO: Check if player is on ground
-    ySpeed = -5;
+    if (ySpeed == 0) {
+      ySpeed = -10;
+    }
   }
 
   /*
