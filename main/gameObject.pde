@@ -94,6 +94,7 @@ class GameObject{
    */
   int collisionDetection(Player p){
     if(this.objType.equalsIgnoreCase("circle")){
+      //TODO: make circles collidable
       return 0;
     }
     else if(this.objType.equalsIgnoreCase("rectangle")){

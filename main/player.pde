@@ -104,6 +104,10 @@ class Player {
     return ySpeed != 0;
   }
 
+  boolean isJumping(){
+    return ySpeed < 0;
+  }
+
   /*
    * makes the player jump
    *
