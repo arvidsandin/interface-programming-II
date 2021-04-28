@@ -12,15 +12,22 @@ int yOffset = 180;
 int xOffset = (width/5) * 4;
 
 String title = "Parkour Scroll";
-PFont titleFont = createFont("Arial Bold", 40, true);
-PFont languageFont = createFont("Arial", 17, true);
+PFont titleFont = createFont("data/fonts/good times rg.ttf", 40, true);
 
-String language = "ENG";
+PFont languageFont = createFont("data/fonts/good times rg.ttf", 17, true);
+
+String[] flagImgs = new String[]{"data/menu_images/eng_flag.png", "data/menu_images/swe_flag.png"};
+
+//TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
+String[][] btnTextLanguages = new String[][]{{"START", "SETTINGS", "TUTORIAL", "QUIT"}, {"STARTA", "INSTÄLLNINGAR", "HJÄLPINSTRUKTIONER", "AVSLUTA"}};
+String[] menuText = new String[]{"Language: ","Språk: "};
 
 int START= 0;
 int SETTINGS= 1;
 int TUTORIAL= 2;
 int QUIT= 3;
+int ENGBTN = 4;
+int SWEBTN = 5;
 
     /*
      * Sets up fonts and menu buttons to be included in the main menu
@@ -59,18 +66,15 @@ int QUIT= 3;
      * @return None
     */
     void createMenuButtons(){
-      String[] btnText = new String[]{"START", "SETTINGS", "TUTORIAL", "QUIT"}; //TODO: include multilanguage option structure
-      String[] flagImgs = new String[]{"menu_images/eng_flag.png", "menu_images/swe_flag.png"};
-
-
-      mainMenuButtons = new Button[btnText.length + languages.length];
-
-      for(int i = 0; i < btnText.length; i++){
-
+      
+      mainMenuButtons = new Button[this.btnTextLanguages[currentLanguage].length + languages.length];
+      
+      for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
+        
         float xposBtn = width / 15;
         float yposBtn = this.yOffset + (height / 8) * i;
-
-        mainMenuButtons[i] = new Button(i, true, btnText[i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
+        
+        mainMenuButtons[i] = new Button(i, true, this.btnTextLanguages[currentLanguage][i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
       }
 
      for(int i = 0; i < languages.length; ++i){
@@ -80,8 +84,8 @@ int QUIT= 3;
 
         float btnWidth = width /12;
         float btnHeight = height / 12;
-
-        mainMenuButtons[btnText.length + i] = new Button(i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
+        
+        mainMenuButtons[this.btnTextLanguages[currentLanguage].length + i] = new Button(this.btnTextLanguages[currentLanguage].length + i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
       }
 
     }
@@ -144,7 +148,7 @@ int QUIT= 3;
       pushStyle();
       textFont(this.titleFont);
       fill(255);
-      text(this.title, (width/5) * 4, (height/5) * 2.25);
+      text(this.title, (width/4) * 3, (height/5) * 2.25);
       popStyle();
     }
 
@@ -157,8 +161,19 @@ int QUIT= 3;
       pushStyle();
       textFont(this.languageFont);
       fill(255);
-      text("LANGUAGE: ", (width/15) * 11, height/15);
+      text(this.menuText[currentLanguage], (width/15) * 11, height/15);
       popStyle();
+    }
+
+    /*
+     * Changes the menu button's text to the current language 
+     * 
+     * @return None
+    */
+    void updateBtnLanguage(){
+      for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
+             mainMenuButtons[i].changeBtnText(btnTextLanguages[currentLanguage][i]); 
+      }
     }
 
   /*
@@ -182,6 +197,16 @@ int QUIT= 3;
         }
         else if(button.ID == this.QUIT){
           exit();
+        }
+        else if(button.ID == this.ENGBTN){
+          currentLanguage = ENG;
+          
+          updateBtnLanguage();
+        }
+        else if(button.ID == this.SWEBTN){
+          currentLanguage = SWE;
+          
+          updateBtnLanguage();
         }
         break;
       }
