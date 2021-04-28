@@ -100,6 +100,10 @@ class Player {
     }
   }
 
+  boolean inAir(){
+    return ySpeed != 0;
+  }
+
   /*
    * makes the player jump
    *
@@ -107,7 +111,7 @@ class Player {
    */
   void jump(){
     if (ySpeed == 0) {
-      ySpeed = -10;
+      ySpeed = -5;
     }
   }
 
