@@ -83,6 +83,40 @@ class GameObject{
     this.yMove = yMove;
   }
 
+  /*
+   * Check if the object will collide with player
+   *
+   * @param p the Player to check for collision with
+   * @return
+            0 => no collision
+            1 => collision in x-axis
+            2 => collision in y-axis
+   */
+  int collisionDetection(Player p){
+    if(this.objType.equalsIgnoreCase("circle")){
+      return 0;
+    }
+    else if(this.objType.equalsIgnoreCase("rectangle")){
+      if (p.xPos - p.playerWidth/2 + p.xSpeed <= this.xPos + objWidth/2 &&
+          p.xPos + p.playerWidth/2 + p.xSpeed >= this.xPos - objWidth/2 &&
+          p.yPos - p.playerHeight/2 < this.yPos + objHeight/2 &&
+          p.yPos + p.playerHeight/2 > this.yPos - objHeight/2) {
+        return 1;
+      }
+      else if (
+          p.yPos - p.playerHeight/2 + p.ySpeed <= this.yPos + objHeight/2 &&
+          p.yPos + p.playerHeight/2 + p.ySpeed >= this.yPos - objHeight/2 &&
+          p.xPos - p.playerWidth/2 < this.xPos + objWidth/2 &&
+          p.xPos + p.playerWidth/2 > this.xPos - objWidth/2) {
+        return 2;
+      }
+      else if (true) {
+        return 0;
+      }
+    }
+    return 0;
+  }
+
 
   /*************************************************
    *  VIEW

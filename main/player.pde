@@ -67,6 +67,16 @@ class Player {
     }
 
     //TODO: check for collision
+    for (GameObject object:m.objects) {
+      if (object.collisionDetection(this) == 1) {
+        xSpeed = 0;
+        break;
+      }
+      else if (object.collisionDetection(this) == 2) {
+        ySpeed = 0;
+        break;
+      }
+    }
 
     //movements
     if (xPos + xSpeed > width*m.playerBoundry) {
