@@ -66,7 +66,12 @@ class Player {
     //TODO: check for collision
 
     //movements
-    xpos = xpos + xSpeed;
+    if (xpos + xSpeed > width*m.playerBoundry) {
+      m.offset -= xSpeed;
+    }
+    else{
+      xpos = xpos + xSpeed;
+    }
     ypos = ypos + ySpeed;
   }
 

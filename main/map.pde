@@ -4,6 +4,9 @@
 class Map {
   float gravity;
   float friction;
+  float offset = 0;
+  //how far to the right the player can go before the world moves instead of player as a fraction of width
+  float playerBoundry = 0.7;
   /*
    * Constructor to set all attributes of Map class
    *
