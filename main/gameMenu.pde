@@ -31,12 +31,12 @@ public class GameMenu implements Menu{
       
       this.createMenuButtons();
     }
-  
+
     /*
      * Creates all buttons that are included in the main menu.
      *
      * @return None
-    */  
+    */
     void createMenuButtons(){
       gameMenuButtons = new Button[btnTextLanguages[currentLanguage].length];
       
@@ -71,11 +71,11 @@ public class GameMenu implements Menu{
 
      /*
      * Draws up text elements in the game menu
-     * 
+     *
      * @return None
     */
     void drawTextElements(){
-      
+
     }
     
     /*
