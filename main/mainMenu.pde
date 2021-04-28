@@ -1,5 +1,5 @@
 /*
- * A class for handling the 2D main menu; buttons and their respective actions 
+ * A class for handling the 2D main menu; buttons and their respective actions
  */
 class MainMenu implements Menu{
 
@@ -68,26 +68,26 @@ int SWEBTN = 5;
      * @return None
     */
     void createMenuButtons(){
-      
+
       mainMenuButtons = new Button[this.btnTextLanguages[currentLanguage].length + languages.length];
-      
+
       for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
-        
-        float xposBtn = width / 15;
-        float yposBtn = this.yOffset + (height / 8) * i;
-        
-        mainMenuButtons[i] = new Button(i, true, this.btnTextLanguages[currentLanguage][i], xposBtn, yposBtn, this.btnColor, this.btnBorderColor);
+
+        float xPosBtn = width / 15;
+        float yPosBtn = this.yOffset + (height / 8) * i;
+
+        mainMenuButtons[i] = new Button(i, true, this.btnTextLanguages[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
       }
 
      for(int i = 0; i < languages.length; ++i){
 
-        float xposBtn = xOffset + (width / 10) * i;
-        float yposBtn = height/30;
+        float xPosBtn = xOffset + (width / 10) * i;
+        float yPosBtn = height/30;
 
         float btnWidth = width /12;
         float btnHeight = height / 12;
-        
-        mainMenuButtons[this.btnTextLanguages[currentLanguage].length + i] = new Button(this.btnTextLanguages[currentLanguage].length + i, false, false, null, xposBtn, yposBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
+
+        mainMenuButtons[this.btnTextLanguages[currentLanguage].length + i] = new Button(this.btnTextLanguages[currentLanguage].length + i, false, false, null, xPosBtn, yPosBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
       }
 
     }
@@ -168,13 +168,13 @@ int SWEBTN = 5;
     }
 
     /*
-     * Changes the menu button's text to the current language 
-     * 
+     * Changes the menu button's text to the current language
+     *
      * @return None
     */
     void updateBtnLanguage(){
       for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
-             mainMenuButtons[i].changeBtnText(btnTextLanguages[currentLanguage][i]); 
+             mainMenuButtons[i].changeBtnText(btnTextLanguages[currentLanguage][i]);
       }
     }
 
@@ -202,12 +202,12 @@ int SWEBTN = 5;
         }
         else if(button.ID == this.ENGBTN){
           currentLanguage = ENG;
-          
+
           updateBtnLanguage();
         }
         else if(button.ID == this.SWEBTN){
           currentLanguage = SWE;
-          
+
           updateBtnLanguage();
         }
         break;

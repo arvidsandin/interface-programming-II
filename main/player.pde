@@ -2,8 +2,8 @@
  * A class for the playable character
  */
 class Player {
-  float xpos = width/2;
-  float ypos = height/2;
+  float xPos = width/2;
+  float yPos = height/2;
   float playerHeight = 50;
   float playerWidth = 30;
   float playerAcceleration = 0.2;
@@ -27,7 +27,10 @@ class Player {
    */
   void drawMe(){
     fill(255, 60, 60);
-    rect(this.xpos, this.ypos, this.playerWidth, this.playerHeight);
+    pushStyle();
+    rectMode(CENTER);
+    rect(this.xPos, this.yPos, this.playerWidth, this.playerHeight);
+    popStyle();
   }
 
   /*
@@ -66,13 +69,13 @@ class Player {
     //TODO: check for collision
 
     //movements
-    if (xpos + xSpeed > width*m.playerBoundry) {
+    if (xPos + xSpeed > width*m.playerBoundry) {
       m.offset -= xSpeed;
     }
     else{
-      xpos = xpos + xSpeed;
+      xPos = xPos + xSpeed;
     }
-    ypos = ypos + ySpeed;
+    yPos = yPos + ySpeed;
   }
 
   /*

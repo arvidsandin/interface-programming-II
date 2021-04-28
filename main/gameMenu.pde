@@ -1,38 +1,38 @@
 /*
- * A class for handling the 2D game menu; buttons and their respective actions 
+ * A class for handling the 2D game menu; buttons and their respective actions
  */
 
 public class GameMenu implements Menu{
   color menuBackground = color(137, 209, 254, 0.4);
-  
+
   color btnColor = color(170,183,249);
   color btnBorderColor = color(110,123,189);
-  
+
   float btnWidth = width / 3;
   float btnHeight = height / 12;
-  
+
   color textColor = color(255);
   PFont textFont = createFont("data/fonts/good times rg.ttf", 24, true);
-  
+
   int topOffset = 180;
-  
+
   Button[] gameMenuButtons;
-  
+
   String[][] btnTextLanguages = new String[][]{{"CONTINUE", "SETTINGS", "CHOOSE LEVEL", "MAIN MENU"}, {"FORTSÄTT", "INSTÄLLNINGAR", "VÄLJ NIVÅ", "HUVUDMENY"}};
   int menuLanguage = ENG;
-  
+
   int CONTINUE = 0;
   int SETTINGS = 1;
   int CHOOSELEVEL= 2;
   int MAINMENU = 3;
-  
+
       /*
        * Sets up default fonts and menu buttons to be included in the game menu
        *
        * @return A new GameMenu object
       */
     GameMenu(){
-      
+
       this.createMenuButtons();
     }
 
@@ -43,24 +43,24 @@ public class GameMenu implements Menu{
     */
     void createMenuButtons(){
       gameMenuButtons = new Button[btnTextLanguages[currentLanguage].length];
-      
+
       float widthFrac = 2;
       float heightFrac = 8;
-  
+
       for(int i = 0; i < gameMenuButtons.length; i++){
-        float xposBtn = (width - this.btnWidth)/widthFrac;
-        float yposBtn = topOffset + (height / heightFrac) * i;
-        
-        this.gameMenuButtons[i] = new Button(i, false, false, this.btnTextLanguages[currentLanguage][i], this.textColor, this.textFont, xposBtn, yposBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
+        float xPosBtn = (width - this.btnWidth)/widthFrac;
+        float yPosBtn = topOffset + (height / heightFrac) * i;
+
+        this.gameMenuButtons[i] = new Button(i, false, false, this.btnTextLanguages[currentLanguage][i], this.textColor, this.textFont, xPosBtn, yPosBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
       }
     }
-    
+
     void drawMenu(){
       pushStyle();
       background(this.menuBackground);
-      
+
       textAlign(CENTER);
-      
+
       //Draw game menu buttons
       for(int i = 0; i < this.gameMenuButtons.length; ++i){
         if(this.gameMenuButtons[i] != null){
@@ -69,7 +69,7 @@ public class GameMenu implements Menu{
       }
       //Draw menu text
       this.drawTextElements();
-      
+
       popStyle();
     }
 
@@ -81,7 +81,7 @@ public class GameMenu implements Menu{
     void drawTextElements(){
 
     }
-    
+
     /*
      * Moves all animated objects that are part of the game menu
      *
@@ -91,18 +91,18 @@ public class GameMenu implements Menu{
       if (currentLanguage != this.menuLanguage){
         this.updateBtnLanguage();
       }
-      
-      for(int i = 0; i < this.gameMenuButtons.length; ++i){  
+
+      for(int i = 0; i < this.gameMenuButtons.length; ++i){
         if(this.gameMenuButtons[i] != null){
            this.gameMenuButtons[i].moveMe();
         }
       }
-      
+
     }
-    
+
     /*
-     * Changes the menu button's text to the current language 
-     * 
+     * Changes the menu button's text to the current language
+     *
      * @return None
     */
     void updateBtnLanguage(){
@@ -110,10 +110,10 @@ public class GameMenu implements Menu{
              this.gameMenuButtons[i].changeBtnText(this.btnTextLanguages[currentLanguage][i]);
       }
     }
-    
+
   /*
    * Click occurs while in the menu. Event will depend on which button is clicked
-   * 
+   *
    *
    *
    * @return None
@@ -138,5 +138,5 @@ public class GameMenu implements Menu{
       }
     }
   }
-    
+
 }

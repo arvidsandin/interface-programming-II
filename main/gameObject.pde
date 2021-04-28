@@ -4,29 +4,29 @@
 class GameObject{
   float xPos;
   float yPos;
-  
+
   String objType;
-  
+
   color fillColor;
-  
+
   // By how much to move the object in animations
   float xMove;
   float yMove;
-  
+
   // If object is a rectangle
   float objWidth;
   float objHeight;
-  
+
   // If object is a circle
   float radius;
-  
+
   PImage texture = null;
-  
+
   /*************************************************
    *  MODEL
    *************************************************
    */
-   
+
  /*
   * Creates a GameObject with a given shape, color, and background texture
   *
@@ -40,22 +40,22 @@ class GameObject{
   * @param fillColor  The object's color
   * @param texture   Image path to the texture to set for the object, relative to the sketch
   * @return A new GameObject instance
-  */   
-  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, float xMove, float yMove, color fillColor, String texture){ 
+  */
+  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, float xMove, float yMove, color fillColor, String texture){
     this.xPos = xPos;
     this.yPos = yPos;
     this.objType = objType;
-    
+
     this.objWidth = objWidth;
     this.objHeight = objHeight;
-    
+
     this.xMove = xMove;
     this.yMove = yMove;
-    
+
     this.fillColor = fillColor;
     this.texture = loadImage(texture);
   }
-  
+
  /*
   * Creates a GameObject with a given shape and color, without texture
   *
@@ -68,22 +68,22 @@ class GameObject{
   * @param yMove  The amount to offset the y-position for animations
   * @param fillColor  The object's color
   * @return A new GameObject instance
-  */   
-  GameObject(String objType, float xPos, float yPos, float objWidth, float xMove, float yMove, float objHeight, color fillColor){ 
+  */
+  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, float xMove, float yMove, color fillColor){
     this.xPos = xPos;
     this.yPos = yPos;
     this.objType = objType;
-    
+
     this.fillColor = fillColor;
-    
+
     this.objWidth = objWidth;
     this.objHeight = objHeight;
-    
+
     this.xMove = xMove;
     this.yMove = yMove;
   }
-  
-  
+
+
   /*************************************************
    *  VIEW
    *************************************************
@@ -99,27 +99,39 @@ class GameObject{
      rectMode(CENTER);
      ellipseMode(CENTER);
      fill(this.fillColor);
-     
+
      if(this.objType.equalsIgnoreCase("circle")){
        ellipse(this.xPos, this.yPos, this.objWidth, this.objHeight);
      }
      else{
       rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
      }
-     
+
      if(this.texture != null){
         image(this.texture, this.xPos, this.yPos, this.objWidth, this.objHeight);
       }
-    
+
     popStyle();
    }
 
+   boolean isVisible(){
+     if(this.objType.equalsIgnoreCase("circle")){
+       return (
+       xPos + radius > 0 && xPos - radius < width &&
+       yPos + radius > 0 && yPos - radius < height);
+     }
+     else{
+       return (
+       xPos + objWidth/2 > 0 && xPos - objWidth/2 < width &&
+       yPos + objHeight/2 > 0 && yPos - objHeight/2 < height);
+     }
+   }
 
   /*************************************************
    *  CONTROL
    *************************************************
    */
-   
+
    /*
    * Move the object by changing its position. Call to allow for animation
    *
