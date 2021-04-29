@@ -2,8 +2,8 @@
  * A class for the playable character
  */
 class Player {
-  float xpos = width/2;
-  float ypos = height/2;
+  float xPos = width/2;
+  float yPos = height/2;
   float playerHeight = 50;
   float playerWidth = 30;
   float playerAcceleration = 0.2;
@@ -27,7 +27,10 @@ class Player {
    */
   void drawMe(){
     fill(255, 60, 60);
-    rect(this.xpos, this.ypos, this.playerWidth, this.playerHeight);
+    pushStyle();
+    rectMode(CENTER);
+    rect(this.xPos, this.yPos, this.playerWidth, this.playerHeight);
+    popStyle();
   }
 
   /*
@@ -55,8 +58,9 @@ class Player {
       xSpeed = -maxHorizontalSpeed;
     }
 
-    ySpeed -= m.friction*ySpeed;
-    xSpeed -= m.friction*xSpeed;
+    if (!movesLeft && !movesRight) {
+      xSpeed -= m.friction*xSpeed;
+    }
 
     //Stop if acceleration is too low;
     if (xSpeed < playerAcceleration/2 && xSpeed > -playerAcceleration/2){
@@ -64,10 +68,44 @@ class Player {
     }
 
     //TODO: check for collision
+    for (GameObject object:m.objects) {
+      if (object.collisionDetection(this) == 1) {
+        xSpeed = 0;
+        break;
+      }
+      else if (object.collisionDetection(this) == 2) {
+        ySpeed = 0;
+        break;
+      }
+    }
 
     //movements
-    xpos = xpos + xSpeed;
-    ypos = ypos + ySpeed;
+    if (xPos + xSpeed > width*m.playerBoundryX || xSpeed == 0) {
+      m.updateXOffset(-xSpeed);
+    }
+    else if (xPos + xSpeed < width-width*m.playerBoundryX) {
+      m.updateXOffset(-xSpeed);
+    }
+    else{
+      xPos = xPos + xSpeed;
+    }
+    if (yPos + ySpeed < height-height*m.playerBoundryY || ySpeed == 0) {
+      m.updateYOffset(-ySpeed);
+    }
+    else if (yPos + ySpeed > height*m.playerBoundryY) {
+      m.updateYOffset(-ySpeed);
+    }
+    else{
+      yPos = yPos + ySpeed;
+    }
+  }
+
+  boolean inAir(){
+    return ySpeed != 0;
+  }
+
+  boolean isJumping(){
+    return ySpeed < 0;
   }
 
   /*
@@ -76,8 +114,9 @@ class Player {
    * @return None
    */
   void jump(){
-    //TODO: Check if player is on ground
-    ySpeed = -5;
+    if (ySpeed == 0) {
+      ySpeed = -5;
+    }
   }
 
   /*
