@@ -3,21 +3,21 @@
  */
 class Button {
   int ID;
-  
+
   boolean withLine = false;
   boolean animateBtn = true;
   float quadOffset = 60;
-  
+
   private float animHeightUp;
   private float animHeightDown;
-  
+
   String btnText;
   color btnTextColor = color(0, 0, 0);
   PFont textFont = createFont("data/fonts/good times rg.ttf", 24, true);
   
   float xpos;
   float ypos;
-  
+
   float btnWidth;
   float btnHeight;
 
@@ -52,20 +52,20 @@ class Button {
       
       this.withLine = withLine;
       this.animateBtn = animateBtn;
-      
+
       this.btnText = btnText;
       this.btnTextColor = btnTextColor;
       this.textFont = textFont;
-      
+
       this.xpos = xpos;
       this.ypos = ypos;
-      
+
       this.btnWidth = btnWidth;
       this.btnHeight = btnHeight;
-      
+
       this.animHeightUp = this.btnHeight/ 2;
       this.animHeightDown = this.animHeightUp;
-     
+
       this.btnColor = btnColor;
       this.btnBorderColor = btnBorderColor;
       if(backgroundImage != null){
@@ -93,7 +93,7 @@ class Button {
      */
     Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xpos, float ypos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor, float quadOffset, String backgroundImage){
       this.ID = ID;
-      
+
       this.withLine = withLine;
       this.animateBtn = animateBtn;
       
@@ -101,10 +101,10 @@ class Button {
       
       this.xpos = xpos;
       this.ypos = ypos;
-      
+
       this.btnWidth = btnWidth;
       this.btnHeight = btnHeight;
-      
+
       if(animateBtn){
         this.animHeightUp = this.btnHeight/ 2;
         this.animHeightDown = this.animHeightUp;
@@ -144,7 +144,7 @@ class Button {
      */
     Button(int ID, boolean withLine, boolean animateBtn, String btnText, color btnTextColor, PFont textFont, float xpos, float ypos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor){
       this.ID = ID;
-      
+
       this.withLine = withLine;
       this.animateBtn = animateBtn;
       
@@ -187,11 +187,11 @@ class Button {
      */
     Button(int ID, boolean withLine, String btnText, float xpos, float ypos, color btnColor, color btnBorderColor){
       this.ID = ID;
-      
+
       this.withLine = withLine;
       
       this.btnText = btnText;
-      
+
       this.xpos = xpos;
       this.ypos = ypos;
       
@@ -204,20 +204,20 @@ class Button {
       this.btnColor = btnColor;
       this.btnBorderColor = btnBorderColor;
     }
-    
-    
+
+
      /*
      * Animates the button from line width to full button width
-     * 
+     *
      * @return None
      */
      void moveMe(){
        if(!this.animateBtn){
-        return; 
+        return;
        }
-       
+
       if(this.isInside()){
-         
+
          if(this.animHeightDown > 0  && this.animHeightUp > 0){
            this.animHeightDown -= 4;
            this.animHeightUp -= 4;
@@ -230,10 +230,10 @@ class Button {
            }
          }
      }
-    
+
     /*
      * Draws up the button and the text it contains
-     * 
+     *
      * @return None
      */
     void drawMe(){
@@ -259,46 +259,44 @@ class Button {
         (x,y) 1------2
                \      \
                 4------3 (x + xwidth, y + ywidth)
-                
-       To determine animation direction, the animation variables must decrease in value 
-       to let both upper half go "higher up" and lower half go "lower down"  
+
+       To determine animation direction, the animation variables must decrease in value
+       to let both upper half go "higher up" and lower half go "lower down"
      */
      float yCorner1 = this.ypos + this.animHeightUp;
-     
+
      float xCorner2 = this.xpos + this.btnWidth - this.quadOffset;
      float yCorner2 = yCorner1;
-     
+
      float xCorner3 = xCorner2 + this.quadOffset;
      float yCorner3 = this.ypos + this.btnHeight - this.animHeightDown;
-     
+
      float yCorner4 =yCorner3;
      float xCorner4 = this.xpos + this.quadOffset;
 
      fill(this.btnColor);
      quad(this.xpos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
-      
     }
-    
-    
+
     /*
-     * Draws up the button line to a button 
-     * 
+     * Draws up the button line to a button
+     *
      * @return None
      */
     void drawBtnLine(){
      float xStrokeLen = this.xpos + this.btnWidth - this.quadOffset/2 -1;
      float yStrokeLen = this.ypos + this.btnHeight/2;
-      
+
      stroke(this.btnBorderColor);
-     
+
      if(this.withLine != false){
        line(0, yStrokeLen, xStrokeLen, yStrokeLen);
      }
     }
-    
+
     /*
-     * Draws up the button text 
-     * 
+     * Draws up the button text
+     *
      * @return None
      */
     void drawBtnText(){
@@ -306,7 +304,7 @@ class Button {
      float yTxtCenter = this.ypos + (this.btnHeight/3) *1.95;
     
      if(btnText != null){
-        
+
        textFont(this.textFont);
        fill(this.btnTextColor);
        text(this.btnText, xTxtCenter, yTxtCenter);
@@ -324,7 +322,7 @@ class Button {
       image(this.backgroundImage, this.xpos, this.ypos, this.btnWidth, this.btnHeight);
       }
     }
-    
+
     /*
      * Check if a point is inside button
      *
@@ -344,7 +342,7 @@ class Button {
 
      return (
           //inside inside the biggest rectangle the button fits in
-          x >= xpos && x <= xpos+this.btnWidth+this.quadOffset && 
+          x >= xpos && x <= xpos+this.btnWidth+this.quadOffset &&
           y >= ypos && y <= ypos+btnHeight &&
           //inside left triangle
           y <= this.btnHeight/this.quadOffset*x + this.ypos-(this.btnHeight/this.quadOffset*this.xpos) &&
@@ -373,7 +371,7 @@ class Button {
     void changeBtnTextFont(PFont font){
      this.textFont = font;
     }
-    
+
     /*
      * Sets a new color value to the text of button object
      *
@@ -383,7 +381,7 @@ class Button {
     void changeBtnTextColor(color btnColor){
      this.btnTextColor = btnColor;
     }
-     
+
     /*
      * Sets a new color value to the background of the button object
      *
@@ -393,22 +391,17 @@ class Button {
     void changeButtonColor(color newColor){
       this.btnColor = newColor;
     }
-    
+
     int getID(){
-     return this.ID; 
+     return this.ID;
     }
-    
+
     /*
      * gives value of quadOffset
-     * 
+     *
      * @return quadOffset
      */
     float getQuadOffset(){
       return this.quadOffset;
     }
-
-
-
-//btnIsPressed function?
-
 }

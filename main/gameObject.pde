@@ -121,7 +121,7 @@ class GameObject{
    */
    
    /*
-   * Move the object by changing its position. Call to allow for animation
+   * Changes the object's position according to the direction it is moving in.
    *
    * @param xDir  The direction in which the object should move on the x-axis. -1 for left, 1 for right, 0 for neither
    * @param yDir  The direction in which the object should move on the y-axis. -1 for up, 1 for down, 0 for neither
