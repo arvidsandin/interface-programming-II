@@ -21,7 +21,7 @@ class Game{
    */
     void drawGame(){
       map.drawMe();
-      player.updatePosition(this.map);
+      player.timeStep(this.map);
       player.drawMe();
     }
 

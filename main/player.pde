@@ -9,9 +9,19 @@ class Player {
   float playerAcceleration = 0.2;
   float xSpeed = 0;
   float ySpeed = 0;
+  float maxYSpeed = 25;
   float maxHorizontalSpeed = 5;
   boolean movesLeft = false;
   boolean movesRight = false;
+  
+  boolean inStaticAnimation = false;
+  int startOfClimb;
+  
+  /***************************************************************************************************************************************************
+   *  MODEL
+   ***************************************************************************************************************************************************
+   */
+
   /*
    * Constructor to set all attributes of Player class
    *
@@ -19,6 +29,133 @@ class Player {
    */
   Player(){
   }
+  
+  boolean inAir(){
+    return this.ySpeed != 0;
+  }
+
+  boolean isJumping(){
+    return this.ySpeed < 0;
+  }
+  
+  /*
+   * updates the player's position based on current speed
+   *
+   * @return None
+   */
+  void timeStep(Map m){
+    //Accelerations
+    increasePlayerSpeed(m);
+
+    addFriction(m);
+
+    handleCollision(m);
+ 
+    //movements
+    updateMapPosition(m);
+    
+    println(checkForFallDeath(m));
+  }
+  
+  
+  void increasePlayerSpeed(Map m){
+    this.ySpeed += m.gravity;
+    if(movesLeft){
+      this.xSpeed -= this.playerAcceleration;
+    }
+    if (movesRight){
+      this.xSpeed += this.playerAcceleration;
+    }
+
+    //stop at max speed
+    if (this.xSpeed > this.maxHorizontalSpeed)
+    {
+      this.xSpeed = this.maxHorizontalSpeed;
+    }
+    if (this.xSpeed < -this.maxHorizontalSpeed)
+    {
+      this.xSpeed = -this.maxHorizontalSpeed;
+    } 
+  }
+  
+  void addFriction(Map m){
+    if (!this.movesLeft && !this.movesRight) {
+      this.xSpeed -= m.friction*xSpeed;
+    }
+
+    //Stop if speed is too low;
+    if (this.xSpeed < playerAcceleration/2 && this.xSpeed > -playerAcceleration/2){
+      this.xSpeed = 0;
+    } 
+  }
+  
+  
+  void handleCollision(Map m){
+   for (GameObject object:m.objects) {
+      if (object.collisionDetection(this) == 1) {
+        this.xSpeed = 0;
+        climb(object);
+      }
+      else if (object.collisionDetection(this) == 2) {
+        this.ySpeed = 0;
+      }
+    }
+  }
+  
+  void climb(GameObject object){
+   if(this.isJumping()){
+           this.ySpeed = -3;
+    } 
+  }
+  
+  void updateMapPosition(Map m){
+   if (this.xPos + this.xSpeed > width*m.playerBoundryX || this.xSpeed == 0) {
+      m.updateXOffset(-xSpeed);
+    }
+    else if (xPos + xSpeed < width-width*m.playerBoundryX) {
+      m.updateXOffset(-xSpeed);
+    }
+    else{
+      this.xPos = this.xPos + this.xSpeed;
+    }
+    
+    if (yPos + ySpeed < height-height*m.playerBoundryY || this.ySpeed == 0) {
+      m.updateYOffset(-this.ySpeed);
+    }
+    else if (yPos + ySpeed > height*m.playerBoundryY) {
+      m.updateYOffset(-this.ySpeed);
+    }
+    else{
+      this.yPos = this.yPos + this.ySpeed;
+    } 
+  }
+  
+  
+  boolean checkForFallDeath(Map m){
+   if(this.ySpeed >= 1){
+      for(GameObject object:m.objects){
+        float[] objDimensions = object.getDimensions();
+        float[] objPos = object.getPosition();
+        
+        if(!((this.xPos + this.playerWidth/2 <= objPos[0] - objDimensions[0]/2 - 50 || this.xPos - this.playerWidth/2 >= objPos[0] + objDimensions[0]/2 + 50) && 
+            this.yPos - this.playerHeight/2 >= objPos[1] + objDimensions[1]/2 )){
+               return false;
+        }
+      }
+      return true;
+   }
+   return false;
+  }
+  /*(p.xPos - p.playerWidth/2 + p.xSpeed <= this.xPos + objWidth/2 &&
+          p.xPos + p.playerWidth/2 + p.xSpeed >= this.xPos - objWidth/2 &&
+          p.yPos - p.playerHeight/2 < this.yPos + objHeight/2 &&
+          p.yPos + p.playerHeight/2 > this.yPos - objHeight/2)*/
+  
+  
+  /***************************************************************************************************************************************************
+   *  VIEW
+   ***************************************************************************************************************************************************
+   */
 
   /*
    * Draws up the player
@@ -32,90 +169,21 @@ class Player {
     rect(this.xPos, this.yPos, this.playerWidth, this.playerHeight);
     popStyle();
   }
-
-  /*
-   * updates the player's position based on current speed
-   *
-   * @return None
+  
+  
+  /***************************************************************************************************************************************************
+   *  CONTROL
+   ***************************************************************************************************************************************************
    */
-  void updatePosition(Map m){
-    //Accelerations
-    ySpeed += m.gravity;
-    if(movesLeft){
-      xSpeed -= playerAcceleration;
-    }
-    if (movesRight){
-      xSpeed += playerAcceleration;
-    }
-
-    //stop at max speed
-    if (xSpeed > maxHorizontalSpeed)
-    {
-      xSpeed = maxHorizontalSpeed;
-    }
-    if (xSpeed < -maxHorizontalSpeed)
-    {
-      xSpeed = -maxHorizontalSpeed;
-    }
-
-    if (!movesLeft && !movesRight) {
-      xSpeed -= m.friction*xSpeed;
-    }
-
-    //Stop if acceleration is too low;
-    if (xSpeed < playerAcceleration/2 && xSpeed > -playerAcceleration/2){
-      xSpeed = 0;
-    }
-
-    //TODO: check for collision
-    for (GameObject object:m.objects) {
-      if (object.collisionDetection(this) == 1) {
-        xSpeed = 0;
-        break;
-      }
-      else if (object.collisionDetection(this) == 2) {
-        ySpeed = 0;
-        break;
-      }
-    }
-
-    //movements
-    if (xPos + xSpeed > width*m.playerBoundryX || xSpeed == 0) {
-      m.updateXOffset(-xSpeed);
-    }
-    else if (xPos + xSpeed < width-width*m.playerBoundryX) {
-      m.updateXOffset(-xSpeed);
-    }
-    else{
-      xPos = xPos + xSpeed;
-    }
-    if (yPos + ySpeed < height-height*m.playerBoundryY || ySpeed == 0) {
-      m.updateYOffset(-ySpeed);
-    }
-    else if (yPos + ySpeed > height*m.playerBoundryY) {
-      m.updateYOffset(-ySpeed);
-    }
-    else{
-      yPos = yPos + ySpeed;
-    }
-  }
-
-  boolean inAir(){
-    return ySpeed != 0;
-  }
-
-  boolean isJumping(){
-    return ySpeed < 0;
-  }
-
+   
   /*
    * makes the player jump
    *
    * @return None
    */
   void jump(){
-    if (ySpeed == 0) {
-      ySpeed = -5;
+    if (this.ySpeed == 0) {
+      this.ySpeed = -5;
     }
   }
 
@@ -125,7 +193,7 @@ class Player {
    * @return None
    */
   void goLeft(){
-    movesLeft = true;
+    this.movesLeft = true;
   }
 
   /*
@@ -134,7 +202,7 @@ class Player {
    * @return None
    */
   void goRight(){
-    movesRight = true;
+    this.movesRight = true;
   }
 
   /*
@@ -143,7 +211,7 @@ class Player {
    * @return None
    */
   void stopLeft(){
-    movesLeft = false;
+    this.movesLeft = false;
   }
 
   /*
@@ -152,6 +220,7 @@ class Player {
    * @return None
    */
   void stopRight(){
-    movesRight = false;
+    this.movesRight = false;
   }
+  
 }

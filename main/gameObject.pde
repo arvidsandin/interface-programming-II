@@ -117,7 +117,14 @@ class GameObject{
     }
     return 0;
   }
-
+  
+  float[] getDimensions(){
+    return new float[]{this.objWidth, this.objHeight};
+  }
+  
+  float[] getPosition(){
+    return new float[]{this.xPos, this.yPos};
+  }
 
   /*************************************************
    *  VIEW

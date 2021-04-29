@@ -275,17 +275,11 @@ class Button {
      float xCorner4 = this.xPos + this.quadOffset;
 
      fill(this.btnColor);
-<<<<<<< HEAD
-     quad(this.xpos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
-    }
-
-=======
      quad(this.xPos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
 
     }
 
 
->>>>>>> origin/move-world-not-player
     /*
      * Draws up the button line to a button
      *
