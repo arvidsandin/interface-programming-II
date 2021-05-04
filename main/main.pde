@@ -13,6 +13,7 @@ NavType navigation = NavType.INMAINMENU;
 Game game;
 MainMenu mainMenu;
 GameMenu gameMenu;
+ParallaxBg parallaxBg;
 
 
 
@@ -32,6 +33,7 @@ void setup(){
  game = new Game(new Map(0.1, 0.01/*TODO:change gravity and friciton constants*/));
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();
+ parallaxBg = new ParallaxBg();
 }
 
 /*
