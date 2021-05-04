@@ -13,29 +13,25 @@ class ParallaxBg{
   
   PImage img5;
   int fffx=0, fffx2 = 1200;
-  
-  /*
-   * for usage on users Mac 
-   */ 
-  String user = "/Users/tedymduma/Documents/Master2020/Gränssnittprog2/interface-programming-II/main";
-  
+   
+
   /*
    * Constructor with images for ParallaxBg class.
    */ 
   ParallaxBg(){
-   img1  =  loadImage( user+"/data/parallax_images/1.png");
+   img1  =  loadImage( "data/parallax_images/1.png");
    img1.resize(1203,600); 
    
-   img2  =  loadImage( user+"/data/parallax_images/2.png");
+   img2  =  loadImage( "data/parallax_images/2.png");
    img2.resize(1203,600); 
    
-   img3  =  loadImage( user+ "/data/parallax_images/3.png");
+   img3  =  loadImage( "data/parallax_images/3.png");
    img3.resize(1203,600);
    
-   img4  =  loadImage( user+"/data/parallax_images/4.png");
+   img4  =  loadImage( "data/parallax_images/4.png");
    img4.resize(1203,600); 
    
-   img5  =  loadImage( user+"/data/parallax_images/5.png");
+   img5  =  loadImage( "data/parallax_images/5.png");
    img5.resize(1203,600); 
    
   }
