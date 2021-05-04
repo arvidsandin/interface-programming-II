@@ -13,12 +13,16 @@ class GameObject{
   float xMove;
   float yMove;
 
-  // If object is a rectangle
+  // If object is an ellipse, these are its radi
   float objWidth;
   float objHeight;
-
-  // If object is a circle
-  float radius;
+  
+  ///////////////// TODO: Implement support for triangular objects
+  // If object is a triangle
+  float x2Pos;
+  float y2Pos;
+  float x3Pos;
+  float y3Pos;
 
   PImage texture = null;
 
@@ -30,11 +34,11 @@ class GameObject{
  /*
   * Creates a GameObject with a given shape, color, and background texture
   *
-  * @param objType  A string signifying which type of object to draw; either "rectangle" or "circle"
+  * @param objType  A string signifying which type of object to draw; either "rectangle" or "ellipse"
   * @param xPos  The object's x-position, given from its center
   * @param yPos  The object's y-position, given from its center
-  * @param objWidth  The object's width
-  * @param objHeight  The object's height
+  * @param objWidth  The object's width. If the object is an ellipse, this sets the first radius
+  * @param objHeight  The object's height. If the object is an ellipse, this sets the second radius
   * @param xMove  The amount to offset the x-position for animations
   * @param yMove  The amount to offset the y-position for animations
   * @param fillColor  The object's color
@@ -59,11 +63,11 @@ class GameObject{
  /*
   * Creates a GameObject with a given shape and color, without texture
   *
-  * @param objType  A string signifying which type of object to draw; either "rectangle" or "circle"
+  * @param objType  A string signifying which type of object to draw; either "rectangle" or "ellipse"
   * @param xPos  The object's x-position, given from its center
   * @param yPos  The object's y-position, given from its center
-  * @param objWidth  The object's width
-  * @param objHeight  The object's height
+  * @param objWidth  The object's width. If the object is an ellipse, this sets the first radius
+  * @param objHeight  The object's height. If the object is an ellipse, this sets the second radius
   * @param xMove  The amount to offset the x-position for animations
   * @param yMove  The amount to offset the y-position for animations
   * @param fillColor  The object's color
@@ -142,11 +146,11 @@ class GameObject{
      ellipseMode(CENTER);
      fill(this.fillColor);
 
-     if(this.objType.equalsIgnoreCase("circle")){
+     if(this.objType.equalsIgnoreCase("ellipse")){
        ellipse(this.xPos, this.yPos, this.objWidth, this.objHeight);
      }
      else{
-      rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
+        rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
      }
 
      if(this.texture != null){
@@ -157,12 +161,13 @@ class GameObject{
    }
 
    boolean isVisible(){
-     if(this.objType.equalsIgnoreCase("circle")){
+     if(this.objType.equalsIgnoreCase("ellipse") || this.objType.equalsIgnoreCase("rectangle")){
        return (
-       xPos + radius > 0 && xPos - radius < width &&
-       yPos + radius > 0 && yPos - radius < height);
+       xPos + this.objWidth > 0 && xPos - this.objWidth < width &&
+       yPos + this.objHeight > 0 && yPos - this.objHeight < height);
      }
      else{
+       // TODO: ADAPT FOR TRIANGULAR OBJECTS INSTEAD
        return (
        xPos + objWidth/2 > 0 && xPos - objWidth/2 < width &&
        yPos + objHeight/2 > 0 && yPos - objHeight/2 < height);

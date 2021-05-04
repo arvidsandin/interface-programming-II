@@ -2,6 +2,7 @@
  * A class for the playable character
  */
 class Player {
+  boolean isAlive = true;
   float xPos = width/2;
   float yPos = height/2;
   float playerHeight = 50;
@@ -9,14 +10,16 @@ class Player {
   float playerAcceleration = 0.2;
   float xSpeed = 0;
   float ySpeed = 0;
-  float maxYSpeed = 25;
+  float lethalSpeed = this.playerHeight/10;
   float maxHorizontalSpeed = 5;
   boolean movesLeft = false;
   boolean movesRight = false;
-  
+
   boolean inStaticAnimation = false;
-  int startOfClimb;
-  
+  float startOfClimb;
+  boolean isFalling = false;
+  float startOfFall;
+
   /***************************************************************************************************************************************************
    *  MODEL
    ***************************************************************************************************************************************************
@@ -27,43 +30,51 @@ class Player {
    *
    * @return A new Player object
    */
-  Player(){
+  Player() {
   }
-  
-  boolean inAir(){
+
+  boolean inAir() {
     return this.ySpeed != 0;
   }
 
-  boolean isJumping(){
+  boolean isJumping() {
     return this.ySpeed < 0;
   }
-  
+
+  boolean isFalling() {
+    return this.ySpeed > 0;
+  }
+
   /*
    * updates the player's position based on current speed
    *
    * @return None
    */
-  void timeStep(Map m){
+  void timeStep(Map m) {
     //Accelerations
-    increasePlayerSpeed(m);
+    this.increasePlayerSpeed(m);
 
-    addFriction(m);
+    this.addFriction(m);
 
-    handleCollision(m);
- 
+    this.handleCollision(m);
+
     //movements
-    updateMapPosition(m);
-    
-    println(checkForFallDeath(m));
+    this.updateMapPosition(m);
+
+    println(this.checkForFallDeath(m));
+    if (this.checkForFallDeath(m)) {
+      this.isAlive = false;
+    }
+
+    //println(isAlive);
   }
-  
-  
-  void increasePlayerSpeed(Map m){
+
+  void increasePlayerSpeed(Map m) {
     this.ySpeed += m.gravity;
-    if(movesLeft){
+    if (movesLeft) {
       this.xSpeed -= this.playerAcceleration;
     }
-    if (movesRight){
+    if (movesRight) {
       this.xSpeed += this.playerAcceleration;
     }
 
@@ -75,79 +86,88 @@ class Player {
     if (this.xSpeed < -this.maxHorizontalSpeed)
     {
       this.xSpeed = -this.maxHorizontalSpeed;
-    } 
+    }
   }
-  
-  void addFriction(Map m){
+
+  void addFriction(Map m) {
     if (!this.movesLeft && !this.movesRight) {
       this.xSpeed -= m.friction*xSpeed;
     }
 
     //Stop if speed is too low;
-    if (this.xSpeed < playerAcceleration/2 && this.xSpeed > -playerAcceleration/2){
+    if (this.xSpeed < playerAcceleration/2 && this.xSpeed > -playerAcceleration/2) {
       this.xSpeed = 0;
-    } 
+    }
   }
-  
-  
-  void handleCollision(Map m){
-   for (GameObject object:m.objects) {
+
+
+  void handleCollision(Map m) {
+    for (GameObject object : m.objects) {
       if (object.collisionDetection(this) == 1) {
         this.xSpeed = 0;
         climb(object);
-      }
-      else if (object.collisionDetection(this) == 2) {
+      } else if (object.collisionDetection(this) == 2) {
+        if (checkForCollisionDeath()) {
+          this.isAlive = false;
+        }
         this.ySpeed = 0;
       }
     }
   }
-  
-  void climb(GameObject object){
-   if(this.isJumping()){
-           this.ySpeed = -3;
-    } 
+
+  void climb(GameObject object) {
+    if (this.isJumping()) {
+      this.ySpeed = -3;
+    }
   }
-  
-  void updateMapPosition(Map m){
-   if (this.xPos + this.xSpeed > width*m.playerBoundryX || this.xSpeed == 0) {
+
+  void updateMapPosition(Map m) {
+    if (this.xPos + this.xSpeed > width*m.playerBoundryX || this.xSpeed == 0) {
       m.updateXOffset(-xSpeed);
-    }
-    else if (xPos + xSpeed < width-width*m.playerBoundryX) {
+    } else if (xPos + xSpeed < width-width*m.playerBoundryX) {
       m.updateXOffset(-xSpeed);
-    }
-    else{
+    } else {
       this.xPos = this.xPos + this.xSpeed;
     }
-    
+
     if (yPos + ySpeed < height-height*m.playerBoundryY || this.ySpeed == 0) {
       m.updateYOffset(-this.ySpeed);
-    }
-    else if (yPos + ySpeed > height*m.playerBoundryY) {
+    } else if (yPos + ySpeed > height*m.playerBoundryY) {
       m.updateYOffset(-this.ySpeed);
-    }
-    else{
+    } else {
       this.yPos = this.yPos + this.ySpeed;
-    } 
+    }
   }
-  
-  
-  boolean checkForFallDeath(Map m){
-   if(this.ySpeed >= 1){
-      for(GameObject object:m.objects){
+
+
+  boolean checkForFallDeath(Map m) {
+    if (this.ySpeed >= this.lethalSpeed) {
+      for (GameObject object : m.objects) {
         float[] objDimensions = object.getDimensions();
         float[] objPos = object.getPosition();
-        
-        if(!((this.xPos + this.playerWidth/2 <= objPos[0] - objDimensions[0]/2 - 50 || this.xPos - this.playerWidth/2 >= objPos[0] + objDimensions[0]/2 + 50) || 
-            this.yPos - this.playerHeight/2 >= objPos[1] + objDimensions[1]/2)){
-               return false;
+
+        if ((this.xPos + this.playerWidth/2 >= objPos[0] - objDimensions[0]/2 - 50 && this.xPos - this.playerWidth/2 <= objPos[0] + objDimensions[0]/2 + 50) && 
+          this.yPos - this.playerHeight/2 <= objPos[1] + objDimensions[1]/2) {
+          return false;
         }
       }
       return true;
-   }
-   return false;
+    }
+    return false;
   }
-  
-  
+
+  boolean checkForCollisionDeath() {
+    if (this.ySpeed >= this.lethalSpeed) {
+      return true;
+    }
+    return false;
+  }
+
+  boolean isAlive() {
+    return this.isAlive;
+  }
+
+
   /***************************************************************************************************************************************************
    *  VIEW
    ***************************************************************************************************************************************************
@@ -158,26 +178,26 @@ class Player {
    *
    * @return None
    */
-  void drawMe(){
+  void drawMe() {
     fill(255, 60, 60);
     pushStyle();
     rectMode(CENTER);
     rect(this.xPos, this.yPos, this.playerWidth, this.playerHeight);
     popStyle();
   }
-  
-  
+
+
   /***************************************************************************************************************************************************
    *  CONTROL
    ***************************************************************************************************************************************************
    */
-   
+
   /*
    * makes the player jump
    *
    * @return None
    */
-  void jump(){
+  void jump() {
     if (this.ySpeed == 0) {
       this.ySpeed = -5;
     }
@@ -188,7 +208,7 @@ class Player {
    *
    * @return None
    */
-  void goLeft(){
+  void goLeft() {
     this.movesLeft = true;
   }
 
@@ -197,7 +217,7 @@ class Player {
    *
    * @return None
    */
-  void goRight(){
+  void goRight() {
     this.movesRight = true;
   }
 
@@ -206,7 +226,7 @@ class Player {
    *
    * @return None
    */
-  void stopLeft(){
+  void stopLeft() {
     this.movesLeft = false;
   }
 
@@ -215,8 +235,7 @@ class Player {
    *
    * @return None
    */
-  void stopRight(){
+  void stopRight() {
     this.movesRight = false;
   }
-  
 }
