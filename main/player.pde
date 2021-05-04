@@ -14,7 +14,7 @@ class Player {
   float maxHorizontalSpeed = 5;
   boolean movesLeft = false;
   boolean movesRight = false;
-  
+
   float climbDistance = 0;
   boolean hasClimbed = false;
 
@@ -143,6 +143,13 @@ class Player {
         }
         this.ySpeed = 0;
       }
+      else if (object.collisionDetection(this) == 3) {
+        if (checkForCollisionDeath()) {
+          this.isAlive = false;
+        }
+        this.ySpeed = 0;
+        this.xSpeed = 0;
+      }
     }
     if (this.isFalling()){
       this.hasClimbed = false;
@@ -154,7 +161,7 @@ class Player {
     if (this.isJumping()) {
       float objY = object.getPosition()[1];
       float objHeight = object.getDimensions()[1];
-      
+
       // To climb edge
       if(objY - objHeight/2 > this.yPos - this.playerHeight/2){
         this.ySpeed = -3;
@@ -200,7 +207,7 @@ class Player {
         float[] objDimensions = object.getDimensions();
         float[] objPos = object.getPosition();
 
-        if ((this.xPos + this.playerWidth/2 >= objPos[0] - objDimensions[0]/2 - 50 && this.xPos - this.playerWidth/2 <= objPos[0] + objDimensions[0]/2 + 50) && 
+        if ((this.xPos + this.playerWidth/2 >= objPos[0] - objDimensions[0]/2 - 50 && this.xPos - this.playerWidth/2 <= objPos[0] + objDimensions[0]/2 + 50) &&
           this.yPos - this.playerHeight/2 <= objPos[1] + objDimensions[1]/2) {
           return false;
         }
@@ -221,9 +228,9 @@ class Player {
   boolean isAlive() {
     return this.isAlive;
   }
-  
+
   void climbAnimation(){
-    
+
   }
 
 
@@ -258,7 +265,7 @@ class Player {
    */
   void jump() {
     if (this.ySpeed == 0) {
-      this.ySpeed = -5;
+      this.ySpeed = -6;
     }
   }
 
