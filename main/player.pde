@@ -137,8 +137,8 @@ class Player {
         float[] objDimensions = object.getDimensions();
         float[] objPos = object.getPosition();
         
-        if(!((this.xPos + this.playerWidth/2 <= objPos[0] - objDimensions[0]/2 - 50 || this.xPos - this.playerWidth/2 >= objPos[0] + objDimensions[0]/2 + 50) && 
-            this.yPos - this.playerHeight/2 >= objPos[1] + objDimensions[1]/2 )){
+        if(!((this.xPos + this.playerWidth/2 <= objPos[0] - objDimensions[0]/2 - 50 || this.xPos - this.playerWidth/2 >= objPos[0] + objDimensions[0]/2 + 50) || 
+            this.yPos - this.playerHeight/2 >= objPos[1] + objDimensions[1]/2)){
                return false;
         }
       }
@@ -146,10 +146,6 @@ class Player {
    }
    return false;
   }
-  /*(p.xPos - p.playerWidth/2 + p.xSpeed <= this.xPos + objWidth/2 &&
-          p.xPos + p.playerWidth/2 + p.xSpeed >= this.xPos - objWidth/2 &&
-          p.yPos - p.playerHeight/2 < this.yPos + objHeight/2 &&
-          p.yPos + p.playerHeight/2 > this.yPos - objHeight/2)*/
   
   
   /***************************************************************************************************************************************************
