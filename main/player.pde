@@ -14,12 +14,14 @@ class Player {
   float maxHorizontalSpeed = 5;
   boolean movesLeft = false;
   boolean movesRight = false;
+  
+  float climbDistance = 0;
+  boolean hasClimbed = false;
 
   boolean inStaticAnimation = false;
-  float startOfClimb;
-  boolean isFalling = false;
-  float startOfFall;
 
+
+   // TODO: Implement ability to slide in player and game controls
   /***************************************************************************************************************************************************
    *  MODEL
    ***************************************************************************************************************************************************
@@ -61,16 +63,13 @@ class Player {
     //movements
     this.updateMapPosition(m);
 
-    println(this.checkForFallDeath(m));
     if (this.checkForFallDeath(m)) {
       this.isAlive = false;
     }
-
-    //println(isAlive);
   }
 
   void increasePlayerSpeed(Map m) {
-    this.ySpeed += m.gravity;
+    this.ySpeed += m.gravity; 
     if (movesLeft) {
       this.xSpeed -= this.playerAcceleration;
     }
@@ -104,8 +103,8 @@ class Player {
   void handleCollision(Map m) {
     for (GameObject object : m.objects) {
       if (object.collisionDetection(this) == 1) {
-        this.xSpeed = 0;
         climb(object);
+        this.xSpeed = 0;
       } else if (object.collisionDetection(this) == 2) {
         if (checkForCollisionDeath()) {
           this.isAlive = false;
@@ -113,11 +112,29 @@ class Player {
         this.ySpeed = 0;
       }
     }
+    if (this.isFalling()){
+      this.hasClimbed = false;
+      this.climbDistance = 0;
+    }
   }
 
   void climb(GameObject object) {
     if (this.isJumping()) {
-      this.ySpeed = -3;
+      float objY = object.getPosition()[1];
+      float objHeight = object.getDimensions()[1];
+      
+      // To climb edge
+      if(objY - objHeight/2 > this.yPos - this.playerHeight/2){
+        this.ySpeed = -3;
+        if(objY - objHeight/2 < this.yPos + this.playerHeight/2 + 1){
+          this.ySpeed = -1;
+        }
+      }
+      else if(abs(this.climbDistance) <= this.playerHeight){
+        // To climb wall
+        this.ySpeed = -4;
+        this.climbDistance += this.ySpeed;
+      }
     }
   }
 
@@ -199,7 +216,7 @@ class Player {
    */
   void jump() {
     if (this.ySpeed == 0) {
-      this.ySpeed = -5;
+      this.ySpeed = -4;
     }
   }
 

@@ -321,7 +321,7 @@ class Button {
     void drawBackgroundImage(){
 
       if(this.backgroundImage != null){
-      image(this.backgroundImage, this.xPos, this.yPos, this.btnWidth, this.btnHeight);
+        image(this.backgroundImage, this.xPos, this.yPos, this.btnWidth, this.btnHeight);
       }
     }
 
