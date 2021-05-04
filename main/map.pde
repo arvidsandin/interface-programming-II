@@ -46,6 +46,7 @@ class Map {
           object.drawMe();
         }
       }
+      parallaxBg.drawParallax();
     }
 
 
