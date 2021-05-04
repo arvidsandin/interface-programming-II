@@ -26,9 +26,9 @@ class GameObject{
 
   PImage texture = null;
 
-  /*************************************************
+  /***************************************************************************************************************************************************
    *  MODEL
-   *************************************************
+   ***************************************************************************************************************************************************
    */
 
  /*
@@ -102,17 +102,17 @@ class GameObject{
       return 0;
     }
     else if(this.objType.equalsIgnoreCase("rectangle")){
-      if (p.xPos - p.playerWidth/2 + p.xSpeed <= this.xPos + objWidth/2 &&
-          p.xPos + p.playerWidth/2 + p.xSpeed >= this.xPos - objWidth/2 &&
-          p.yPos - p.playerHeight/2 < this.yPos + objHeight/2 &&
-          p.yPos + p.playerHeight/2 > this.yPos - objHeight/2) {
+      if (p.getXPos() - p.getWidth()/2 + p.getXSpeed() <= this.xPos + objWidth/2 &&
+          p.getXPos() + p.getWidth()/2 + p.getXSpeed() >= this.xPos - objWidth/2 &&
+          p.getYPos() - p.getHeight()/2 < this.yPos + objHeight/2 &&
+          p.getYPos() + p.getHeight()/2 > this.yPos - objHeight/2) {
         return 1;
       }
       else if (
-          p.yPos - p.playerHeight/2 + p.ySpeed <= this.yPos + objHeight/2 &&
-          p.yPos + p.playerHeight/2 + p.ySpeed >= this.yPos - objHeight/2 &&
-          p.xPos - p.playerWidth/2 < this.xPos + objWidth/2 &&
-          p.xPos + p.playerWidth/2 > this.xPos - objWidth/2) {
+          p.getYPos() - p.getHeight()/2 + p.getYSpeed() <= this.yPos + objHeight/2 &&
+          p.getYPos() + p.getHeight()/2 + p.getYSpeed() >= this.yPos - objHeight/2 &&
+          p.getXPos() - p.getWidth()/2 < this.xPos + objWidth/2 &&
+          p.getXPos() + p.getWidth()/2 > this.xPos - objWidth/2) {
         return 2;
       }
       else if (true) {
@@ -130,9 +130,9 @@ class GameObject{
     return new float[]{this.xPos, this.yPos};
   }
 
-  /*************************************************
+  /***************************************************************************************************************************************************
    *  VIEW
-   *************************************************
+   ***************************************************************************************************************************************************
    */
 
   /*
@@ -142,6 +142,7 @@ class GameObject{
    */
    void drawMe(){
      pushStyle();
+     noStroke();
      rectMode(CENTER);
      ellipseMode(CENTER);
      fill(this.fillColor);
@@ -174,9 +175,9 @@ class GameObject{
      }
    }
 
-  /*************************************************
+  /***************************************************************************************************************************************************
    *  CONTROL
-   *************************************************
+   ***************************************************************************************************************************************************
    */
 
    /*

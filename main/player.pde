@@ -10,7 +10,7 @@ class Player {
   float playerAcceleration = 0.2;
   float xSpeed = 0;
   float ySpeed = 0;
-  float lethalSpeed = this.playerHeight/10;
+  float lethalSpeed = this.playerHeight/5;
   float maxHorizontalSpeed = 5;
   boolean movesLeft = false;
   boolean movesRight = false;
@@ -34,6 +34,16 @@ class Player {
    */
   Player() {
   }
+  
+  /*
+   * Constructor to set position attributes of Player class
+   *
+   * @return A new Player object
+   */
+  Player(float xPos, float yPos) {
+    this.xPos = xPos;
+    this.yPos = yPos;
+  }
 
   boolean inAir() {
     return this.ySpeed != 0;
@@ -45,6 +55,26 @@ class Player {
 
   boolean isFalling() {
     return this.ySpeed > 0;
+  }
+  
+  
+  float getWidth(){
+    return this.playerWidth;
+  }
+  float getHeight(){
+    return this.playerHeight;
+  }
+  float getXPos(){
+    return this.xPos;
+  }
+  float getYPos(){
+   return this.yPos; 
+  }
+  float getXSpeed(){
+    return this.xSpeed;
+  }
+  float getYSpeed(){
+    return this.ySpeed;
   }
 
   /*
@@ -88,6 +118,8 @@ class Player {
     }
   }
 
+
+
   void addFriction(Map m) {
     if (!this.movesLeft && !this.movesRight) {
       this.xSpeed -= m.friction*xSpeed;
@@ -127,11 +159,12 @@ class Player {
       if(objY - objHeight/2 > this.yPos - this.playerHeight/2){
         this.ySpeed = -3;
         if(objY - objHeight/2 > this.yPos + this.playerHeight/2 -4){
+          // When close to edge
           this.ySpeed = -2;
           this.climbAnimation();
         }
       }
-      else if(abs(this.climbDistance) <= this.playerHeight *2){
+      else if(abs(this.climbDistance) <= this.playerHeight * 2.5){
         // To climb wall
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
@@ -177,6 +210,7 @@ class Player {
     return false;
   }
 
+
   boolean checkForCollisionDeath() {
     if (this.ySpeed >= this.lethalSpeed) {
       return true;
@@ -187,7 +221,6 @@ class Player {
   boolean isAlive() {
     return this.isAlive;
   }
-  
   
   void climbAnimation(){
     
@@ -225,7 +258,7 @@ class Player {
    */
   void jump() {
     if (this.ySpeed == 0) {
-      this.ySpeed = -4;
+      this.ySpeed = -5;
     }
   }
 

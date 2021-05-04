@@ -13,7 +13,7 @@ class Button {
 
   String btnText;
   color btnTextColor = color(0, 0, 0);
-  PFont textFont = createFont("data/fonts/good times rg.ttf", 24, true);
+  PFont textFont = createFont("data/fonts/good times rg.ttf", floor(height/25), true);
 
   float xPos;
   float yPos;

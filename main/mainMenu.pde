@@ -10,13 +10,13 @@ color btnBorderColor = color(110,123,189);
 
 Button[] mainMenuButtons = new Button[4];
 
-int yOffset = 180;
+int yOffset = floor(height/3.33);
 int xOffset = (width/5) * 4;
 
 String title = "Parkour Scroll";
-PFont titleFont = createFont("data/fonts/good times rg.ttf", 40, true);
+PFont titleFont = createFont("data/fonts/good times rg.ttf", floor(height/15), true);
 
-PFont languageFont = createFont("data/fonts/good times rg.ttf", 17, true);
+PFont languageFont = createFont("data/fonts/good times rg.ttf", ceil(height/35), true);
 
 String[] flagImgs = new String[]{"data/menu_images/eng_flag.png", "data/menu_images/swe_flag.png"};
 
@@ -30,6 +30,11 @@ int TUTORIAL= 2;
 int QUIT= 3;
 int ENGBTN = 4;
 int SWEBTN = 5;
+
+  /***************************************************************************************************************************************************
+   *  MODEL
+   ***************************************************************************************************************************************************
+   */
 
     /*
      * Sets up fonts and menu buttons to be included in the main menu
@@ -105,7 +110,61 @@ int SWEBTN = 5;
         }
       }
 
+ 
+  }
+  
+    /*
+     * Changes the menu button's text to the current language
+     *
+     * @return None
+    */
+    void updateBtnLanguage(){
+      for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
+             mainMenuButtons[i].changeBtnText(btnTextLanguages[currentLanguage][i]);
+      }
     }
+  
+  /*
+   * Click while in the menu. Event will depend on which button is clicked
+   *
+   *
+   *
+   * @return None
+  */
+  void mainMenuClick(){
+    for (Button button:mainMenuButtons){
+      if (button.isInside()){
+        if(button.ID == this.START){
+          navigation = NavType.INGAME;
+        }
+        else if(button.ID == this.SETTINGS){
+          println("GO TO SETTINGS");
+        }
+        else if(button.ID == this.TUTORIAL){
+          println("GO TO TUTORIAL");
+        }
+        else if(button.ID == this.QUIT){
+          exit();
+        }
+        else if(button.ID == this.ENGBTN){
+          currentLanguage = ENG;
+
+          updateBtnLanguage();
+        }
+        else if(button.ID == this.SWEBTN){
+          currentLanguage = SWE;
+
+          updateBtnLanguage();
+        }
+        break;
+      }
+    }
+  }
+
+  /***************************************************************************************************************************************************
+   *  VIEW
+   ***************************************************************************************************************************************************
+   */
 
     /*
      * Draws up all objects that are part of the main menu, including menu background.
@@ -165,54 +224,5 @@ int SWEBTN = 5;
       fill(255);
       text(this.menuText[currentLanguage], (width/15) * 11, height/15);
       popStyle();
-    }
-
-    /*
-     * Changes the menu button's text to the current language
-     *
-     * @return None
-    */
-    void updateBtnLanguage(){
-      for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
-             mainMenuButtons[i].changeBtnText(btnTextLanguages[currentLanguage][i]);
-      }
-    }
-
-  /*
-   * Click while in the menu. Event will depend on which button is clicked
-   *
-   *
-   *
-   * @return None
-  */
-  void mainMenuClick(){
-    for (Button button:mainMenuButtons){
-      if (button.isInside()){
-        if(button.ID == this.START){
-          navigation = NavType.INGAME;
-        }
-        else if(button.ID == this.SETTINGS){
-          println("GO TO SETTINGS");
-        }
-        else if(button.ID == this.TUTORIAL){
-          println("GO TO TUTORIAL");
-        }
-        else if(button.ID == this.QUIT){
-          exit();
-        }
-        else if(button.ID == this.ENGBTN){
-          currentLanguage = ENG;
-
-          updateBtnLanguage();
-        }
-        else if(button.ID == this.SWEBTN){
-          currentLanguage = SWE;
-
-          updateBtnLanguage();
-        }
-        break;
-      }
-    }
-  }
-
+   }
 }

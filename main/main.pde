@@ -47,6 +47,7 @@ void draw(){
 
   }
   else if (navigation == NavType.INGAME){
+    game.timeStep();
     game.drawGame();
   }
   else if (navigation == NavType.INGAMEMENU){
