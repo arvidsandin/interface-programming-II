@@ -18,7 +18,7 @@ class Player {
   float climbDistance = 0;
   boolean hasClimbed = false;
 
-  boolean inStaticAnimation = false;
+  boolean inAnimation = false;
 
 
    // TODO: Implement ability to slide in player and game controls
@@ -69,7 +69,7 @@ class Player {
   }
 
   void increasePlayerSpeed(Map m) {
-    this.ySpeed += m.gravity; 
+    this.ySpeed += m.gravity;
     if (movesLeft) {
       this.xSpeed -= this.playerAcceleration;
     }
@@ -126,14 +126,18 @@ class Player {
       // To climb edge
       if(objY - objHeight/2 > this.yPos - this.playerHeight/2){
         this.ySpeed = -3;
-        if(objY - objHeight/2 < this.yPos + this.playerHeight/2 + 1){
-          this.ySpeed = -1;
+        if(objY - objHeight/2 > this.yPos + this.playerHeight/2 -4){
+          this.ySpeed = -2;
+          this.climbAnimation();
         }
       }
-      else if(abs(this.climbDistance) <= this.playerHeight){
+      else if(abs(this.climbDistance) <= this.playerHeight *2){
         // To climb wall
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
+      }
+      else{
+        this.ySpeed = 0;
       }
     }
   }
@@ -182,6 +186,11 @@ class Player {
 
   boolean isAlive() {
     return this.isAlive;
+  }
+  
+  
+  void climbAnimation(){
+    
   }
 
 
