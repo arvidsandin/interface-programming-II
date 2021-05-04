@@ -161,9 +161,9 @@ class GameObject{
       }
     }
     else if(this.objType.equalsIgnoreCase("triangle")){
-      float d1 = sign(p.xPos + p.xSpeed, p.yPos + p.playerHeight/2 + p.ySpeed, this.xPos, this.yPos, this.x2Pos, this.y2Pos);
-      float d2 = sign(p.xPos + p.xSpeed, p.yPos + p.playerHeight/2 + p.ySpeed, this.x2Pos, this.y2Pos, this.x3Pos, this.y3Pos);
-      float d3 = sign(p.xPos + p.xSpeed, p.yPos + p.playerHeight/2 + p.ySpeed, this.x3Pos, this.y3Pos, this.xPos, this.yPos);
+      float d1 = sign(p.getXPos() + p.getXSpeed(), p.getYPos() + p.getHeight()/2 + p.getYSpeed(), this.xPos, this.yPos, this.x2Pos, this.y2Pos);
+      float d2 = sign(p.getXPos() + p.getXSpeed(), p.getYPos() + p.getHeight()/2 + p.getYSpeed(), this.x2Pos, this.y2Pos, this.x3Pos, this.y3Pos);
+      float d3 = sign(p.getXPos() + p.getXSpeed(), p.getYPos() + p.getHeight()/2 + p.getYSpeed(), this.x3Pos, this.y3Pos, this.xPos, this.yPos);
 
       boolean has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
       boolean has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);

@@ -22,29 +22,36 @@ class Game{
   /*
    * Updates up the game and everything inside it by one step
    *
-   * @return None
+   * @return boolean indicating whether game over has been reached or not
    */
-  void timeStep(){
+  boolean timeStep(){
     player.timeStep(this.map);
     
     if(!player.isAlive()){
       this.gameOver();
       this.resetGame();
+      return true;
     }
+    return false;
   }
   
   /*
-   * Exits the game and resets it. Passes control back to main menu.
+   * Exits the game and passes control back to main menu.
    *
-   * @return None
+   * @return None 
    */
   void gameOver(){
     navigation = NavType.INMAINMENU;
   }
   
+  /*
+   * Resets the game.
+   *
+   * @return None
+   */
   void resetGame(){
     this.player = new Player(600, 300);
-    this.map = new Map(0.15, 0.1/*TODO:change gravity and friciton constants*/, getLevel1());
+    this.map = new Map(0.15, 0.1/*TODO:change gravity and friction constants*/, getLevel1());
   }
 
   /***************************************************************************************************************************************************
