@@ -22,7 +22,9 @@ class Map {
    * @return None
    */
     void drawMe(){
-      background(137, 209, 254);
+      
+      parallaxBg.drawParallax();
+      
     }
 
 
