@@ -268,9 +268,6 @@ class Player {
     if (this.ySpeed == 0) {
       this.ySpeed = -6;
     }
-    else if(this.hasClimbed){
-      this.ySpeed = -10;
-    }
   }
 
   /*
@@ -280,9 +277,6 @@ class Player {
    */
   void goLeft() {
     this.movesLeft = true;
-    if(this.hasClimbed){
-      this.xSpeed -= 5;
-    }
   }
 
   /*
@@ -292,9 +286,6 @@ class Player {
    */
   void goRight() {
     this.movesRight = true;
-    if(this.hasClimbed){
-      this.xSpeed += 5;
-    }
   }
 
   /*
