@@ -27,7 +27,9 @@ int currentLanguage = ENG;
 void setup(){
 
  //P2D uses OpenGL code to run faster on computer graphics card
- size(1200, 600, P2D);
+ size(500, 300, P2D);
+ scale((float)width/1200, (float)height/600);
+ 
  background(137, 209, 254);
  game = new Game(new Map(0.15, 0.1/*TODO:change gravity and friciton constants*/, getLevel1()));
  mainMenu = new MainMenu();
@@ -38,7 +40,7 @@ void setup(){
  * Main loop of what to draw on screen
  */
 void draw(){
-
+  
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();
     mainMenu.drawMenu();
@@ -47,9 +49,12 @@ void draw(){
 
   }
   else if (navigation == NavType.INGAME){
+    push();
+    scale((float)width/1200, (float)height/600);
     boolean gameOver = game.timeStep();
     if(!gameOver){
       game.drawGame();
+      pop();
     }
   }
   else if (navigation == NavType.INGAMEMENU){
@@ -71,6 +76,28 @@ void mouseClicked(){
   else if (navigation == NavType.INGAME){
 
   }
+}
+
+float rescaleByWidth(float value){
+  return value * (width/1200);
+}
+
+float rescaleByHeight(float value){
+  return value * (height/600);
+}
+
+/*
+ * Resizes all menu interfaces to the current sketch width and height
+ *
+ * @return None
+ */
+void rescaleMenus(){
+  /*
+   gameMenu.resize();
+   mainMenu.resize();
+   tutorialMenu.resize();
+   settingsmenu.resize();
+  */
 }
 
 void keyPressed(){
@@ -114,18 +141,4 @@ void keyReleased(){
   else if (navigation == NavType.INGAMEMENU){
    gameMenu.gameMenuClick();
   }
-}
-
-/*
- * Resizes all menu interfaces to the current sketch width and height
- *
- * @return None
- */
-void resizeMenus(){
-  /*
-   gameMenu.resize();
-   mainMenu.resize();
-   tutorialMenu.resize();
-   settingsmenu.resize();
-  */
 }

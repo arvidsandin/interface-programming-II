@@ -3,8 +3,8 @@
  */
 class Player {
   boolean isAlive = true;
-  float xPos = width/2;
-  float yPos = height/2;
+  float xPos = 600;
+  float yPos = 300;
   float playerHeight = 50;
   float playerWidth = 30;
   float playerAcceleration = 0.2;
@@ -208,8 +208,8 @@ class Player {
         float[] objDimensions = object.getDimensions();
         float[] objPos = object.getPosition();
 
-        if ((this.xPos + this.playerWidth/2 >= objPos[0] - objDimensions[0]/2 - 50 && this.xPos - this.playerWidth/2 <= objPos[0] + objDimensions[0]/2 + 50) ||
-          this.yPos - this.playerHeight/2 <= objPos[1] + objDimensions[1]/2 + 200) {
+        if ((this.xPos + this.playerWidth/2 >= objPos[0] - objDimensions[0]/2 - 50 && this.xPos - this.playerWidth/2 <= objPos[0] + objDimensions[0]/2 + 50) &&
+          this.yPos - this.playerHeight/2 <= objPos[1] + objDimensions[1]/2) {
           return false;
         }
       }
@@ -249,7 +249,11 @@ class Player {
     fill(255, 60, 60);
     pushStyle();
     rectMode(CENTER);
+    
+    println(((float)height)/600);
+    
     rect(this.xPos, this.yPos, this.playerWidth, this.playerHeight);
+    
     popStyle();
   }
 
