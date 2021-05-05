@@ -7,7 +7,7 @@ class Player {
   float yPos = 300;
   float playerHeight = 50;
   float playerWidth = 30;
-  float playerAcceleration = 0.2;
+  float playerAcceleration = 0.5;
   float xSpeed = 0;
   float ySpeed = 0;
   float lethalSpeed = 30;
@@ -169,7 +169,6 @@ class Player {
         if(objY - objHeight/2 > this.yPos + this.playerHeight/2 -4){
           // When close to edge
           this.ySpeed = -2;
-          this.climbAnimation();
         }
       }
       else if(abs(this.climbDistance) <= this.playerHeight * 2.5){
@@ -249,8 +248,6 @@ class Player {
     fill(255, 60, 60);
     pushStyle();
     rectMode(CENTER);
-    
-    println(((float)height)/600);
     
     rect(this.xPos, this.yPos, this.playerWidth, this.playerHeight);
     

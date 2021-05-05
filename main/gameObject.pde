@@ -191,18 +191,21 @@ class GameObject{
    *
    * return boolean indicating whether the object is visible
    */
-   boolean isVisible(){
+   boolean isVisible(){     
+     float rescaledX = rescaleByWidth(xPos);
+     float rescaledY = rescaleByWidth(yPos);
      
      if(this.objType.equalsIgnoreCase("ellipse") || this.objType.equalsIgnoreCase("rectangle")){
        return (
-       xPos + this.objWidth > 0 && rescaleByWidth(xPos) - rescaleByWidth(this.objWidth) < width &&
-       yPos + this.objHeight > 0 && rescaleByHeight(yPos) - rescaleByHeight(this.objHeight) < height);
+       xPos + this.objWidth > 0 && rescaledX - rescaleByWidth(this.objWidth) < width &&
+       yPos + this.objHeight > 0 && rescaledY - rescaleByHeight(this.objHeight) < height);
      }
      else if (this.objType.equalsIgnoreCase("triangle")){
+       
        return (
-       (xPos > 0 && xPos < width && yPos > 0 && yPos < height) ||
-       (x2Pos > 0 && x2Pos < width && y2Pos > 0 && y2Pos < height) ||
-       (x3Pos > 0 && x3Pos < width && y3Pos > 0 && y3Pos < height));
+       (xPos > 0 && rescaledX < width && yPos > 0 && rescaledY < height) ||
+       (x2Pos > 0 && rescaleByWidth(x2Pos) < width && y2Pos > 0 && rescaleByWidth(y2Pos) < height) ||
+       (x3Pos > 0 && rescaleByWidth(x3Pos) < width && y3Pos > 0 && rescaleByWidth(y3Pos) < height));
      }
      else{
        return true;

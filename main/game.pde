@@ -51,7 +51,7 @@ class Game{
    */
   void resetGame(){
     this.player = new Player(600, 300);
-    this.map = new Map(0.15, 0.1/*TODO:change gravity and friction constants*/, getLevel1());
+    this.map = new Map(0.15, 0.15/*TODO:change gravity and friction constants*/, getLevel1());
   }
 
   /***************************************************************************************************************************************************
