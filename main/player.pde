@@ -182,10 +182,11 @@ class Player {
     }
   }
 
+  // TODO: Update handling of rescaled positions/width/height
   void updateMapPosition(Map m) {
     if (this.xPos + this.xSpeed > width*m.playerBoundryX || this.xSpeed == 0) {
       m.updateXOffset(-xSpeed);
-    } else if (xPos + xSpeed < width-width*m.playerBoundryX) {
+    } else if (this.xPos + this.xSpeed < width-width*m.playerBoundryX) {
       m.updateXOffset(-xSpeed);
     } else {
       this.xPos = this.xPos + this.xSpeed;

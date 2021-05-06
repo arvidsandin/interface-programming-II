@@ -32,6 +32,13 @@ class Map {
   void updateYOffset(float y){
     yOffset = y;
   }
+  
+  void moveMe(){
+   for (GameObject object : objects) {
+     object.moveMe(xOffset, yOffset);
+   }
+  }
+  
 
   /*
    * Draws up the map
@@ -41,7 +48,6 @@ class Map {
     void drawMe(){
       background(137, 209, 254);
       for (GameObject object : objects) {
-        object.moveMe(xOffset, yOffset);
         if (object.isVisible()){
           object.drawMe();
         }

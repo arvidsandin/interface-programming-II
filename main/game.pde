@@ -25,6 +25,7 @@ class Game{
    * @return boolean indicating whether game over has been reached or not
    */
   boolean timeStep(){
+    map.moveMe();
     player.timeStep(this.map);
     
     if(!player.isAlive()){
@@ -69,6 +70,12 @@ class Game{
       player.drawMe();
     }
 
+
+  /***************************************************************************************************************************************************
+   *  CONTROL
+   ***************************************************************************************************************************************************
+   */
+   
   /*
    * Make Player object 
    *
