@@ -66,8 +66,18 @@ class Game{
    * @return None
    */
     void drawGame(){
+      push();
+      if(width <= 600){
+        scale((float)width/1000, (float)height/400);
+      }
+      else{
+        scale((float)width/1200, (float)height/600);
+      }
+      
       map.drawMe();
       player.drawMe();
+      
+      pop();
     }
 
    

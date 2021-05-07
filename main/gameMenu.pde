@@ -85,7 +85,7 @@ public class GameMenu implements Menu{
     */
     void updateBtnLanguage(){
       for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
-             this.gameMenuButtons[i].changeBtnText(this.btnTextLanguages[currentLanguage][i]);
+             this.gameMenuButtons[i].setBtnText(this.btnTextLanguages[currentLanguage][i]);
       }
     }
 

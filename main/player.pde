@@ -201,6 +201,7 @@ class Player {
 
     if (rescaleByHeight(yPos + ySpeed) < height-height*m.playerBoundryY || this.ySpeed == 0) {
       m.updateYOffset(-this.ySpeed);
+
     } else if (rescaleByHeight(yPos + ySpeed) > height*m.playerBoundryY) {
       m.updateYOffset(-this.ySpeed);
     } else {

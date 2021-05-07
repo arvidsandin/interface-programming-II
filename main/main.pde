@@ -27,7 +27,7 @@ int currentLanguage = ENG;
 void setup(){
 
  //P2D uses OpenGL code to run faster on computer graphics card
- size(1920, 1080, P2D);
+ size(500, 200, P2D);
  background(137, 209, 254);
  
  game = new Game(new Map(0.15, 0.15/*TODO:change gravity and friciton constants*/, getLevel1()));
@@ -48,13 +48,11 @@ void draw(){
 
   }
   else if (navigation == NavType.INGAME){
-    push();
-    scale((float)width/1200, (float)height/600);
+    
     boolean gameOver = game.timeStep();
     if(!gameOver){
       game.drawGame();
     }
-    pop();
   }
   else if (navigation == NavType.INGAMEMENU){
     gameMenu.moveMenu();
@@ -83,7 +81,7 @@ void mouseClicked(){
  * @return The rescaled value
  */
 float rescaleByWidth(float value){
-  return value * width/1200;
+  return value * width/1200.0;
 }
 /*
  * Rescales a value by the current height of the window
@@ -91,7 +89,7 @@ float rescaleByWidth(float value){
  * @return The rescaled value
  */
 float rescaleByHeight(float value){
-  return value * height/600;
+  return value * height/600.0;
 }
 
 /*
