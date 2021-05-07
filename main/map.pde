@@ -1,5 +1,5 @@
 /*
- * A class for the map
+ * A class for the game map.
  */
 class Map {
   float gravity;
@@ -7,10 +7,11 @@ class Map {
   float xOffset = 0;
   float yOffset = 0;
   //how far to the sides the player can go before the world moves instead of player, as a fraction of width
-  float playerBoundryX = 0.7;
+  float playerBoundryX = 0.6;
   //how far up or down the player can go before the world moves instead of player, as a fraction of height
-  float playerBoundryY = 0.7;
+  float playerBoundryY = 0.6;
   GameObject[] objects;
+  
   /*
    * Constructor to set all attributes of Map class
    *
@@ -25,6 +26,7 @@ class Map {
     this.objects = o;
   }
 
+
   void updateXOffset(float x){
     xOffset = x;
   }
@@ -32,6 +34,7 @@ class Map {
   void updateYOffset(float y){
     yOffset = y;
   }
+
   
   void moveMe(){
    for (GameObject object : objects) {
@@ -39,19 +42,24 @@ class Map {
    }
   }
   
-
+  /***************************************************************************************************************************************************
+   *  VIEW
+   ***************************************************************************************************************************************************
+   */
   /*
    * Draws up the map
    *
    * @return None
    */
     void drawMe(){
+      push();
       background(137, 209, 254);
       for (GameObject object : objects) {
         if (object.isVisible()){
           object.drawMe();
         }
       }
+      pop();
     }
 
 

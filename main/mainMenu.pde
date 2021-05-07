@@ -7,6 +7,7 @@ color menuBackground = color(137, 209, 254);
 
 color btnColor = color(170,183,249);
 color btnBorderColor = color(110,123,189);
+color flagBorderColor = color(0, 0, 0, 0);
 
 Button[] mainMenuButtons = new Button[4];
 
@@ -76,25 +77,22 @@ int SWEBTN = 5;
 
       mainMenuButtons = new Button[this.btnTextLanguages[currentLanguage].length + languages.length];
 
+      float xPosBtn = width / 15;
       for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
-
-        float xPosBtn = width / 15;
         float yPosBtn = this.yOffset + (height / 8) * i;
 
         mainMenuButtons[i] = new Button(i, true, this.btnTextLanguages[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
       }
 
+      float yPosBtn = height/30;
+      float btnWidth = width /12;
+      float btnHeight = height / 12;
      for(int i = 0; i < languages.length; ++i){
 
-        float xPosBtn = xOffset + (width / 10) * i;
-        float yPosBtn = height/30;
+        xPosBtn = xOffset + (width / 10) * i;
 
-        float btnWidth = width /12;
-        float btnHeight = height / 12;
-
-        mainMenuButtons[this.btnTextLanguages[currentLanguage].length + i] = new Button(this.btnTextLanguages[currentLanguage].length + i, false, false, null, xPosBtn, yPosBtn, btnWidth, btnHeight, color(0, 0, 0, 0), this.btnBorderColor, 0, flagImgs[i]);
+        mainMenuButtons[this.btnTextLanguages[currentLanguage].length + i] = new Button(this.btnTextLanguages[currentLanguage].length + i, false, false, null, xPosBtn, yPosBtn, btnWidth, btnHeight, this.btnBorderColor, this.btnBorderColor, 0, flagImgs[i]);
       }
-
     }
 
 
@@ -109,8 +107,6 @@ int SWEBTN = 5;
            mainMenuButtons[i].moveMe();
         }
       }
-
- 
   }
   
     /*

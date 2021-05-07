@@ -126,6 +126,14 @@ class GameObject{
    {
      return (p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y);
    }
+   
+ float[] getDimensions(){
+    return new float[]{this.objWidth, this.objHeight};
+  }
+
+  float[] getPosition(){
+    return new float[]{this.xPos, this.yPos};
+  }
 
   /*
    * Check if the object will collide with player
@@ -178,14 +186,6 @@ class GameObject{
     return 0;
   }
 
-  float[] getDimensions(){
-    return new float[]{this.objWidth, this.objHeight};
-  }
-
-  float[] getPosition(){
-    return new float[]{this.xPos, this.yPos};
-  }
-  
   /*
    * States whether the game object is visible through the current dimensions of the game window
    *
@@ -210,6 +210,23 @@ class GameObject{
      else{
        return true;
      }
+   }
+   
+  /*
+   * Changes the object's position according to given offset values.
+   *
+   * @param xMove  The direction in which the object should move on the x-axis.
+   * @param yMove  The direction in which the object should move on the y-axis.
+   * return None
+   */
+   void moveMe(float xMove, float yMove){
+    this.xPos += xMove;
+    this.yPos += yMove;
+    //Only applicable to triangles
+    this.x2Pos += xMove;
+    this.y2Pos += yMove;
+    this.x3Pos += xMove;
+    this.y3Pos += yMove;
    }
 
   /***************************************************************************************************************************************************
@@ -245,28 +262,6 @@ class GameObject{
       }
       
     popStyle();
-   }
-
-  /***************************************************************************************************************************************************
-   *  CONTROL
-   ***************************************************************************************************************************************************
-   */
-
-   /*
-   * Changes the object's position according to the direction it is moving in.
-   *
-   * @param xMove  The direction in which the object should move on the x-axis.
-   * @param yMove  The direction in which the object should move on the y-axis.
-   * return None
-   */
-   void moveMe(float xMove, float yMove){
-    this.xPos += xMove;
-    this.yPos += yMove;
-    //Only applicable to triangles
-    this.x2Pos += xMove;
-    this.y2Pos += yMove;
-    this.x3Pos += xMove;
-    this.y3Pos += yMove;
    }
 
 }

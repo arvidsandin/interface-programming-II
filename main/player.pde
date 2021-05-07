@@ -16,7 +16,7 @@ class Player {
   boolean movesRight = false;
 
   float climbDistance = 0;
-  boolean hasClimbed = false;
+  boolean isClimbing = false;
 
   boolean inAnimation = false;
 
@@ -90,7 +90,7 @@ class Player {
 
     this.handleCollision(m);
 
-    //movements
+    //Camera movements
     this.updateMapPosition(m);
 
     if (this.checkForFallDeath(m)) {
@@ -112,7 +112,7 @@ class Player {
     {
       this.xSpeed = this.maxHorizontalSpeed;
     }
-    if (this.xSpeed < -this.maxHorizontalSpeed)
+    else if (this.xSpeed < -this.maxHorizontalSpeed)
     {
       this.xSpeed = -this.maxHorizontalSpeed;
     }
@@ -137,7 +137,8 @@ class Player {
       if (object.collisionDetection(this) == 1) {
         climb(object);
         this.xSpeed = 0;
-      } else if (object.collisionDetection(this) == 2) {
+      }
+      else if (object.collisionDetection(this) == 2) {
         if (checkForCollisionDeath()) {
           this.isAlive = false;
         }
@@ -152,14 +153,15 @@ class Player {
       }
     }
     if (this.isFalling()){
-      this.hasClimbed = false;
+      this.isClimbing = false;
       this.climbDistance = 0;
     }
   }
 
+
   void climb(GameObject object) {
     if (this.isJumping()) {
-      this.hasClimbed = true;
+      this.isClimbing = true;
       float objY = object.getPosition()[1];
       float objHeight = object.getDimensions()[1];
 
@@ -172,7 +174,7 @@ class Player {
         }
       }
       else if(abs(this.climbDistance) <= this.playerHeight * 2.5){
-        // To climb wall
+      // To climb wall
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
       }
@@ -181,20 +183,25 @@ class Player {
       }
     }
   }
+  
+  /*
+   * Updates map offset each frame
+   *
+   */
 
   // TODO: Update handling of rescaled positions/width/height
   void updateMapPosition(Map m) {
-    if (this.xPos + this.xSpeed > width*m.playerBoundryX || this.xSpeed == 0) {
+    if (rescaleByWidth(this.xPos + this.xSpeed) > width*m.playerBoundryX || this.xSpeed == 0) {
       m.updateXOffset(-xSpeed);
-    } else if (this.xPos + this.xSpeed < width-width*m.playerBoundryX) {
+    } else if (rescaleByWidth(this.xPos + this.xSpeed) < width-width*m.playerBoundryX) {
       m.updateXOffset(-xSpeed);
     } else {
       this.xPos = this.xPos + this.xSpeed;
     }
 
-    if (yPos + ySpeed < height-height*m.playerBoundryY || this.ySpeed == 0) {
+    if (rescaleByHeight(yPos + ySpeed) < height-height*m.playerBoundryY || this.ySpeed == 0) {
       m.updateYOffset(-this.ySpeed);
-    } else if (yPos + ySpeed > height*m.playerBoundryY) {
+    } else if (rescaleByHeight(yPos + ySpeed) > height*m.playerBoundryY) {
       m.updateYOffset(-this.ySpeed);
     } else {
       this.yPos = this.yPos + this.ySpeed;

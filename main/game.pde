@@ -20,7 +20,7 @@ class Game{
    */
   
   /*
-   * Updates up the game and everything inside it by one step
+   * Updates the game and everything inside it by one frame
    *
    * @return boolean indicating whether game over has been reached or not
    */
@@ -46,7 +46,7 @@ class Game{
   }
   
   /*
-   * Resets the game.
+   * Resets the game level.
    *
    * @return None
    */
@@ -70,11 +70,6 @@ class Game{
       player.drawMe();
     }
 
-
-  /***************************************************************************************************************************************************
-   *  CONTROL
-   ***************************************************************************************************************************************************
-   */
    
   /*
    * Make Player object 
