@@ -126,10 +126,18 @@ class GameObject{
     return (p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y);
   }
 
+  /*
+   *
+   * @return The dimensions of the object
+   */
   float[] getDimensions(){
     return new float[]{this.objWidth, this.objHeight};
   }
 
+  /*
+   *
+   * @return The positions of the object
+   */
   float[] getPosition(){
     return new float[]{this.xPos, this.yPos};
   }

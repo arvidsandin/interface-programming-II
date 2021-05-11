@@ -45,34 +45,75 @@ class Player {
     this.yPos = yPos;
   }
 
+  /*
+   *
+   * @return if Player is in air
+   */
   boolean inAir() {
     return this.ySpeed != 0;
   }
 
+  /*
+   *
+   * @return if Player is jumping
+   */
   boolean isJumping() {
     return this.ySpeed < 0;
   }
 
+  /*
+   *
+   * @return if Player is falling
+   */
   boolean isFalling() {
     return this.ySpeed > 0;
   }
 
-
+  /*
+   *
+   * @return width of Player
+   */
   float getWidth(){
     return this.playerWidth;
   }
+
+  /*
+   *
+   * @return height of Player
+   */
   float getHeight(){
     return this.playerHeight;
   }
+
+
+  /*
+   *
+   * @return position in x-axis of Player
+   */
   float getXPos(){
     return this.xPos;
   }
+
+  /*
+   *
+   * @return position in y-axis of Player
+   */
   float getYPos(){
    return this.yPos;
   }
+
+  /*
+   *
+   * @return speed in x-axis of Player
+   */
   float getXSpeed(){
     return this.xSpeed;
   }
+
+  /*
+   *
+   * @return speed in y-axis of Player
+   */
   float getYSpeed(){
     return this.ySpeed;
   }
@@ -253,8 +294,9 @@ class Player {
   /*
    * Updates what offset each object in the map should be moved in the next frame
    *
+   * @param m the Map in which the Player is currently in
+   * @return None
    */
-
   // TODO: Update handling of rescaled positions/width/height
   void updateMapPosition(Map m) {
     if (rescaleByWidth(this.xPos + this.xSpeed) > 1200*m.playerBoundryX || this.xSpeed == 0) {
@@ -275,7 +317,11 @@ class Player {
     }
   }
 
-
+  /*
+   *
+   * @param m the Map in which the Player is currently in
+   * @return if the Player is falling outside of the map
+   */
   boolean checkForFallDeath(Map m) {
     if (this.ySpeed >= this.lethalSpeed) {
       for (GameObject object : m.objects) {
@@ -292,7 +338,10 @@ class Player {
     return false;
   }
 
-
+  /*
+   *
+   * @return if the speed of the Player makes the collision lethal
+   */
   boolean checkForCollisionDeath() {
     if (this.ySpeed >= this.lethalSpeed) {
       return true;
@@ -300,10 +349,18 @@ class Player {
     return false;
   }
 
+  /*
+   *
+   * @return if the player is alive
+   */
   boolean isAlive() {
     return this.isAlive;
   }
 
+  /*
+   *
+   * @return None
+   */
   void climbAnimation(){
 
   }
