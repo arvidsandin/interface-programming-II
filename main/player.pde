@@ -78,8 +78,9 @@ class Player {
   }
 
   /*
-   * updates the player's position based on current speed
+   * updates any positions that will change in one frame
    *
+   * @param m the Map in which the Player is currently in
    * @return None
    */
   void timeStep(Map m) {
@@ -98,6 +99,12 @@ class Player {
     }
   }
 
+  /*
+   * updates the player's speed if the player is running and based on gravity
+   *
+   * @param m the Map in which the Player is currently in
+   * @return None
+   */
   void increasePlayerSpeed(Map m) {
     this.ySpeed += m.gravity;
     if (movesLeft) {
@@ -119,7 +126,12 @@ class Player {
   }
 
 
-
+  /*
+   * slows down the player's speed if the player stops running
+   *
+   * @param m the Map in which the Player is currently in
+   * @return None
+   */
   void addFriction(Map m) {
     if (!this.movesLeft && !this.movesRight) {
       this.xSpeed -= m.friction*xSpeed;
@@ -131,20 +143,28 @@ class Player {
     }
   }
 
-
+  /*
+   * updates the player's speed if it collisides with any object
+   *
+   * @param m the Map in which the Player is currently in
+   * @return None
+   */
   void handleCollision(Map m) {
     for (GameObject object : m.objects) {
+      //rectangle collision x-axis
       if (object.collisionDetection(this) == 1) {
         climb(object);
         this.xSpeed = 0;
       }
+      //rectangle collision y-axis
       else if (object.collisionDetection(this) == 2) {
         if (checkForCollisionDeath()) {
           this.isAlive = false;
         }
         this.ySpeed = 0;
       }
-      //TODO: make triangel collision handling work better
+      //triangle, collision from above
+      //TODO: make triangle collision handling work better
       else if (object.collisionDetection(this) == 3) {
         if (checkForCollisionDeath()) {
           this.isAlive = false;
@@ -231,7 +251,7 @@ class Player {
   }
 
   /*
-   * Updates map offset each frame
+   * Updates what offset each object in the map should be moved in the next frame
    *
    */
 

@@ -39,7 +39,7 @@ void setup(){
  * Main loop of what to draw on screen
  */
 void draw(){
-  
+
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();
     mainMenu.drawMenu();
@@ -48,7 +48,7 @@ void draw(){
 
   }
   else if (navigation == NavType.INGAME){
-    
+
     boolean gameOver = game.timeStep();
     if(!gameOver){
       game.drawGame();
