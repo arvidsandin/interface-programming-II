@@ -5,12 +5,12 @@ class Player {
   boolean isAlive = true;
   float xPos = 600;
   float yPos = 300;
-  float playerHeight = 50;
-  float playerWidth = 30;
-  float playerAcceleration = 0.5;
+  float playerHeight = 90;
+  float playerWidth = 40;
+  float playerAcceleration = 0.6;
   float xSpeed = 0;
   float ySpeed = 0;
-  float lethalSpeed = 30;
+  float lethalSpeed = 25;
   float maxHorizontalSpeed = 5;
   boolean movesLeft = false;
   boolean movesRight = false;
@@ -19,6 +19,7 @@ class Player {
   boolean isClimbing = false;
 
   boolean inAnimation = false;
+  PImage playerModel = loadImage("data/models/crop.png");
 
 
    // TODO: Implement ability to slide in player and game controls
@@ -106,16 +107,29 @@ class Player {
     if (movesRight) {
       this.xSpeed += this.playerAcceleration;
     }
+    
+    
 
-    //stop at max speed
     if (this.xSpeed > this.maxHorizontalSpeed)
     {
-      this.xSpeed = this.maxHorizontalSpeed;
+      println("here");
+      this.xSpeed -= 2*this.playerAcceleration;
+      //stop at max speed
+      if (this.xSpeed < this.maxHorizontalSpeed)
+      {
+        this.xSpeed = this.maxHorizontalSpeed;
+      }
     }
     else if (this.xSpeed < -this.maxHorizontalSpeed)
     {
-      this.xSpeed = -this.maxHorizontalSpeed;
+      this.xSpeed += 2*this.playerAcceleration;
+      //stop at max speed
+      if (this.xSpeed > -this.maxHorizontalSpeed)
+      {
+        this.xSpeed = -this.maxHorizontalSpeed;
+      }
     }
+
   }
 
 
@@ -160,6 +174,7 @@ class Player {
 
 
   void climb(GameObject object) {
+    // Allow climbing while jumping or while fall speed is low
     if (this.isJumping()) {
       this.isClimbing = true;
       float objY = object.getPosition()[1];
@@ -173,7 +188,7 @@ class Player {
           this.ySpeed = -2;
         }
       }
-      else if(abs(this.climbDistance) <= this.playerHeight * 2.5){
+      else if(abs(this.climbDistance) <= this.playerHeight * 1.5){
       // To climb wall
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
@@ -257,8 +272,9 @@ class Player {
     fill(255, 60, 60);
     pushStyle();
     rectMode(CENTER);
+    imageMode(CENTER);
     
-    rect(this.xPos, this.yPos, this.playerWidth, this.playerHeight);
+    image(this.playerModel, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
     
     popStyle();
   }
@@ -276,7 +292,10 @@ class Player {
    */
   void jump() {
     if (this.ySpeed == 0) {
-      this.ySpeed = -6;
+      this.ySpeed = -5;
+    }
+    if(abs(this.xSpeed) > 0){
+      this.xSpeed *= 1.75;
     }
   }
 

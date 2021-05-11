@@ -27,10 +27,10 @@ int currentLanguage = ENG;
 void setup(){
 
  //P2D uses OpenGL code to run faster on computer graphics card
- size(500, 200, P2D);
+ size(1200, 600, P2D);
  background(137, 209, 254);
  
- game = new Game(new Map(0.15, 0.15/*TODO:change gravity and friciton constants*/, getLevel1()));
+ game = new Game(new Map(0.2, 0.2/*TODO:change gravity and friciton constants*/, getLevel1()));
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();
 }
