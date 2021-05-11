@@ -3,7 +3,6 @@
  * An interface for menus and their necessary functions they must implement
  */
 interface Menu{
-
    //Enum for each main menu button
   enum mainMenuButtonType{
     START,
@@ -11,7 +10,7 @@ interface Menu{
     TUTORIAL,
     QUIT,
   }
-
+  
   //Enum for each game menu button
   enum gameMenuButtonType{
   GAME_RETURN,
@@ -19,7 +18,7 @@ interface Menu{
   GAME_LEVEL,
   EXIT_BUTTON,
   }
-
+  
   //Enum for each tutorial menu button
   enum tutorialMenuButtonType{
     MOVE_TUTORIAL,
@@ -28,22 +27,7 @@ interface Menu{
     EXIT_BUTTON,
   }
 
-  /*int ID;
-
-  Button[] menuButtons;
-
-  int[] buttonOffsets;
-
-  String[] menuTextElements;
-
-  PFont[] fontElements;
-
-  */
-  //Menu(int ID, Button[] menuButtons, String[] menuTextElements);
-
   void createMenuButtons();
-
   void drawMenu();
-
   void drawTextElements();
 }

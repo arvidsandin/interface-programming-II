@@ -26,6 +26,11 @@ public class GameMenu implements Menu{
   int CHOOSELEVEL= 2;
   int MAINMENU = 3;
 
+  /***************************************************************************************************************************************************
+   *  MODEL
+   ***************************************************************************************************************************************************
+   */
+
       /*
        * Sets up default fonts and menu buttons to be included in the game menu
        *
@@ -54,34 +59,7 @@ public class GameMenu implements Menu{
         this.gameMenuButtons[i] = new Button(i, false, false, this.btnTextLanguages[currentLanguage][i], this.textColor, this.textFont, xPosBtn, yPosBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
       }
     }
-
-    void drawMenu(){
-      pushStyle();
-      background(this.menuBackground);
-
-      textAlign(CENTER);
-
-      //Draw game menu buttons
-      for(int i = 0; i < this.gameMenuButtons.length; ++i){
-        if(this.gameMenuButtons[i] != null){
-          this.gameMenuButtons[i].drawMe();
-        }
-      }
-      //Draw menu text
-      this.drawTextElements();
-
-      popStyle();
-    }
-
-     /*
-     * Draws up text elements in the game menu
-     *
-     * @return None
-    */
-    void drawTextElements(){
-
-    }
-
+    
     /*
      * Moves all animated objects that are part of the game menu
      *
@@ -107,7 +85,7 @@ public class GameMenu implements Menu{
     */
     void updateBtnLanguage(){
       for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
-             this.gameMenuButtons[i].changeBtnText(this.btnTextLanguages[currentLanguage][i]);
+             this.gameMenuButtons[i].setBtnText(this.btnTextLanguages[currentLanguage][i]);
       }
     }
 
@@ -139,4 +117,35 @@ public class GameMenu implements Menu{
     }
   }
 
+  /***************************************************************************************************************************************************
+   *  VIEW
+   ***************************************************************************************************************************************************
+   */
+
+    void drawMenu(){
+      pushStyle();
+      background(this.menuBackground);
+
+      textAlign(CENTER);
+
+      //Draw game menu buttons
+      for(int i = 0; i < this.gameMenuButtons.length; ++i){
+        if(this.gameMenuButtons[i] != null){
+          this.gameMenuButtons[i].drawMe();
+        }
+      }
+      //Draw menu text
+      this.drawTextElements();
+
+      popStyle();
+    }
+
+     /*
+     * Draws up text elements in the game menu
+     *
+     * @return None
+    */
+    void drawTextElements(){
+
+    }
 }

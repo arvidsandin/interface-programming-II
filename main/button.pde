@@ -13,7 +13,7 @@ class Button {
 
   String btnText;
   color btnTextColor = color(0, 0, 0);
-  PFont textFont = createFont("data/fonts/good times rg.ttf", 24, true);
+  PFont textFont = createFont("data/fonts/good times rg.ttf", floor(height/25), true);
 
   float xPos;
   float yPos;
@@ -158,14 +158,7 @@ class Button {
       this.btnWidth = btnWidth;
       this.btnHeight = btnHeight;
 
-      if(animateBtn){
-        this.animHeightUp = this.btnHeight/ 2;
-        this.animHeightDown = this.animHeightUp;
-      }
-      else{
-        this.animHeightUp = 0;
-        this.animHeightDown = 0;
-      }
+      setAnimation(animateBtn);
 
       this.btnColor = btnColor;
       this.btnBorderColor = btnBorderColor;
@@ -205,7 +198,6 @@ class Button {
       this.btnBorderColor = btnBorderColor;
     }
 
-
      /*
      * Animates the button from line width to full button width
      *
@@ -230,7 +222,162 @@ class Button {
            }
          }
      }
+     
+    /*
+     * Check if a point is inside button
+     *
+     * @param x  x-value of point
+     * @param y  y-value of point
+     * @return is point inside the button
+    */
+    boolean isInside(){
+      int x = mouseX;
+      int y = mouseY;
 
+      //Check if button is a rectangle
+      if(this.quadOffset == 0){
+
+       return (x >= xPos && x <= xPos+this.btnWidth  && y >= yPos && y <= yPos+this.btnHeight);
+      }
+
+     return (
+          //inside inside the biggest rectangle the button fits in
+          x >= xPos && x <= xPos+this.btnWidth+this.quadOffset &&
+          y >= yPos && y <= yPos+btnHeight &&
+          //inside left triangle
+          y <= this.btnHeight/this.quadOffset*x + this.yPos-(this.btnHeight/this.quadOffset*this.xPos) &&
+          //inside right triangle
+          y >= this.btnHeight/this.quadOffset*x + (this.yPos)-(this.btnHeight/this.quadOffset*(this.xPos+this.btnWidth-this.quadOffset))
+          );
+    }
+
+
+    /*
+     * Sets another string to the text of the button object
+     *
+     * @param text   The new text for the button
+     * @return None
+     */
+    void setBtnText(String text){
+     this.btnText = text;
+    }
+
+    /*
+     * Sets a new font value to the text of the button object
+     *
+     * @param font   The new font for the button's text
+     * @return None
+     */
+    void setBtnTextFont(PFont font){
+     this.textFont = font;
+    }
+
+    /*
+     * Sets a new color value to the text of button object
+     *
+     * @param btnColor   The new color for the button's text
+     * @return None
+     */
+    void setBtnTextColor(color btnColor){
+     this.btnTextColor = btnColor;
+    }
+
+    /*
+     * Sets a new color value to the background of the button object
+     *
+     * @param newColor   The new color for the button's background
+     * @return None
+     */
+    void setBtnColor(color newColor){
+      this.btnColor = newColor;
+    }
+    
+    /*
+     * Sets the width and height of the button
+     *
+     * @return None
+     */
+    void setBtnDimensions(float btnWidth, float btnHeight){
+      this.btnWidth = btnWidth;
+      this.btnHeight = btnHeight;
+    }
+    /*
+     * Sets the (x,y)-position of the button. Corresponds to upper left corner
+     *
+     * @return None
+     */
+    void setBtnPosition(float xPos, float yPos){
+      this.xPos = xPos;
+      this.yPos = yPos;
+    }
+    
+    /*
+     * Sets whether button should have a vertical animation
+     *
+     * @return None
+     */
+    void setAnimation(boolean animate){
+      this.animateBtn = animate;
+      
+      if(animateBtn){
+        this.animHeightUp = this.btnHeight/ 2;
+        this.animHeightDown = this.animHeightUp;
+      }
+      else{
+        this.animHeightUp = 0;
+        this.animHeightDown = 0;
+      }
+    }
+    
+    /*
+     * Sets the value of quadOffset; how angled the parallelogram will be
+     *
+     * @return quadOffset
+     */
+    void setQuadOffset(float quadOffset){
+      this.quadOffset = quadOffset;
+    }
+    
+    /*
+     * Returns the value of the button ID
+     *
+     * @return quadOffset
+     */
+    float getBtnHeight(){
+      return this.btnHeight;
+    }
+    /*
+     * Returns the value of the button ID
+     *
+     * @return quadOffset
+     */
+    float getBtnWidth(){
+      return this.btnWidth;
+    }
+    
+    /*
+     * Returns the value of the button ID
+     *
+     * @return quadOffset
+     */
+    int getID(){
+     return this.ID;
+    }
+
+    /*
+     * Returns the value of quadOffset
+     *
+     * @return quadOffset
+     */
+    float getQuadOffset(){
+      return this.quadOffset;
+    }
+    
+  /***************************************************************************************************************************************************
+   *  VIEW
+   ***************************************************************************************************************************************************
+   */
+    
     /*
      * Draws up the button and the text it contains
      *
@@ -321,94 +468,7 @@ class Button {
     void drawBackgroundImage(){
 
       if(this.backgroundImage != null){
-      image(this.backgroundImage, this.xPos, this.yPos, this.btnWidth, this.btnHeight);
+        image(this.backgroundImage, this.xPos, this.yPos, this.btnWidth, this.btnHeight);
       }
     }
-
-    /*
-     * Check if a point is inside button
-     *
-     * @param x  x-value of point
-     * @param y  y-value of point
-     * @return is point inside the button
-    */
-    boolean isInside(){
-      int x = mouseX;
-      int y = mouseY;
-
-      //Check if button is a rectangle
-      if(this.quadOffset == 0){
-
-       return (x >= xPos && x <= xPos+this.btnWidth  && y >= yPos && y <= yPos+this.btnHeight);
-      }
-
-     return (
-          //inside inside the biggest rectangle the button fits in
-          x >= xPos && x <= xPos+this.btnWidth+this.quadOffset &&
-          y >= yPos && y <= yPos+btnHeight &&
-          //inside left triangle
-          y <= this.btnHeight/this.quadOffset*x + this.yPos-(this.btnHeight/this.quadOffset*this.xPos) &&
-          //inside right triangle
-          y >= this.btnHeight/this.quadOffset*x + (this.yPos)-(this.btnHeight/this.quadOffset*(this.xPos+this.btnWidth-this.quadOffset))
-          );
-    }
-
-
-    /*
-     * Sets another string to the text of the button object
-     *
-     * @param text   The new text for the button
-     * @return None
-     */
-    void changeBtnText(String text){
-     this.btnText = text;
-    }
-
-    /*
-     * Sets a new font value to the text of the button object
-     *
-     * @param font   The new font for the button's text
-     * @return None
-     */
-    void changeBtnTextFont(PFont font){
-     this.textFont = font;
-    }
-
-    /*
-     * Sets a new color value to the text of button object
-     *
-     * @param btnColor   The new color for the button's text
-     * @return None
-     */
-    void changeBtnTextColor(color btnColor){
-     this.btnTextColor = btnColor;
-    }
-
-    /*
-     * Sets a new color value to the background of the button object
-     *
-     * @param newColor   The new color for the button's background
-     * @return None
-     */
-    void changeButtonColor(color newColor){
-      this.btnColor = newColor;
-    }
-
-    int getID(){
-     return this.ID;
-    }
-
-    /*
-     * gives value of quadOffset
-     *
-     * @return quadOffset
-     */
-    float getQuadOffset(){
-      return this.quadOffset;
-    }
-
-
-
-//btnIsPressed function?
-
 }
