@@ -126,7 +126,7 @@ class GameObject{
    {
      return (p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y);
    }
-   
+
  float[] getDimensions(){
     return new float[]{this.objWidth, this.objHeight};
   }
@@ -168,6 +168,8 @@ class GameObject{
         return 0;
       }
     }
+    //triangel should be disabled until collsion handling is fixed
+    /*
     else if(this.objType.equalsIgnoreCase("triangle")){
       float d1 = sign(p.getXPos() + p.getXSpeed(), p.getYPos() + p.getHeight()/2 + p.getYSpeed(), this.xPos, this.yPos, this.x2Pos, this.y2Pos);
       float d2 = sign(p.getXPos() + p.getXSpeed(), p.getYPos() + p.getHeight()/2 + p.getYSpeed(), this.x2Pos, this.y2Pos, this.x3Pos, this.y3Pos);
@@ -182,7 +184,7 @@ class GameObject{
       else{
         return 0;
       }
-    }
+    }*/
     return 0;
   }
 
@@ -191,17 +193,17 @@ class GameObject{
    *
    * return boolean indicating whether the object is visible
    */
-   boolean isVisible(){     
+   boolean isVisible(){
      float rescaledX = rescaleByWidth(xPos);
      float rescaledY = rescaleByWidth(yPos);
-     
+
      if(this.objType.equalsIgnoreCase("ellipse") || this.objType.equalsIgnoreCase("rectangle")){
        return (
        xPos + this.objWidth > 0 && rescaledX - rescaleByWidth(this.objWidth) < width &&
        yPos + this.objHeight > 0 && rescaledY - rescaleByHeight(this.objHeight) < height);
      }
      else if (this.objType.equalsIgnoreCase("triangle")){
-       
+
        return (
        (xPos > 0 && rescaledX < width && yPos > 0 && rescaledY < height) ||
        (x2Pos > 0 && rescaleByWidth(x2Pos) < width && y2Pos > 0 && rescaleByWidth(y2Pos) < height) ||
@@ -211,7 +213,7 @@ class GameObject{
        return true;
      }
    }
-   
+
   /*
    * Changes the object's position according to given offset values.
    *
@@ -241,7 +243,7 @@ class GameObject{
    */
    void drawMe(){
      pushStyle();
-     
+
      noStroke();
      rectMode(CENTER);
      ellipseMode(CENTER);
@@ -260,7 +262,7 @@ class GameObject{
      if(this.texture != null){
         image(this.texture, this.xPos, this.yPos, this.objWidth, this.objHeight);
       }
-      
+
     popStyle();
    }
 
