@@ -19,19 +19,19 @@ class ParallaxBg{
    * Constructor with images for ParallaxBg class.
    */ 
   ParallaxBg(){
-   img1  =  loadImage( "data/parallax_images/1.png");
+   img1  =  loadImage( "data/parallax_images/sky.png");
    img1.resize(1203,600); 
    
-   img2  =  loadImage( "data/parallax_images/2.png");
+   img2  =  loadImage( "data/parallax_images/rocks.png");
    img2.resize(1203,600); 
    
-   img3  =  loadImage( "data/parallax_images/3.png");
+   img3  =  loadImage( "data/parallax_images/ground.png");
    img3.resize(1203,600);
    
-   img4  =  loadImage( "data/parallax_images/4.png");
+   img4  =  loadImage( "data/parallax_images/clouds_2.png");
    img4.resize(1203,600); 
    
-   img5  =  loadImage( "data/parallax_images/5.png");
+   img5  =  loadImage( "data/parallax_images/clouds_1.png");
    img5.resize(1203,600); 
    
   }
