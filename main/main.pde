@@ -12,6 +12,7 @@ NavType navigation = NavType.INMAINMENU;
 
 Game game;
 MainMenu mainMenu;
+SettingsMenu settingsMenu;
 GameMenu gameMenu;
 ParallaxBg parallaxBg;
 
@@ -29,10 +30,12 @@ void setup(){
 
  //P2D uses OpenGL code to run faster on computer graphics card
  size(1280, 720, P2D);
+ surface.setResizable(true);
  background(137, 209, 254);
 
  game = new Game(new Map(0.15, 0.15/*TODO:change gravity and friciton constants*/, getLevel1()));
  mainMenu = new MainMenu();
+ settingsMenu = new SettingsMenu();
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
 }
@@ -47,7 +50,8 @@ void draw(){
     mainMenu.drawMenu();
   }
   else if (navigation == NavType.INSETTINGS){
-
+    settingsMenu.moveMenu();
+    settingsMenu.drawMenu();
   }
   else if (navigation == NavType.INGAME){
 
@@ -70,7 +74,7 @@ void mouseClicked(){
     mainMenu.mainMenuClick();
   }
   else if (navigation == NavType.INSETTINGS){
-
+    settingsMenu.settingsMenuClick();
   }
   else if (navigation == NavType.INGAME){
 

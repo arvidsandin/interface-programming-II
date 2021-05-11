@@ -125,7 +125,7 @@ class MainMenu implements Menu {
     float btnHeight = height/6;
 
     int mainBtnsLength = this.mainMenuButtons.length - this.btnTextLanguages.length;
-    
+
     //Resize main buttons
     for (int i = 0; i < mainBtnsLength; ++i) {
       Button btn = this.mainMenuButtons[i];
@@ -137,11 +137,11 @@ class MainMenu implements Menu {
       btn.setAnimation(false);
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/15), true));
     }
-    
+
     //Resize language buttons
     btnWidth = btnWidth / 4;
     float yPosBtn = this.yOffset/2;
-    
+
     for (int i = 0; i < this.btnTextLanguages.length; ++i) {
       Button btn = this.mainMenuButtons[mainBtnsLength + i];
       xPosBtn = this.xOffset + (btnWidth + 10) * i;
@@ -149,7 +149,7 @@ class MainMenu implements Menu {
       btn.setBtnDimensions(btnWidth, btnHeight/1.25);
       btn.setBtnPosition(xPosBtn, yPosBtn);
     }
-    
+
     this.title = "Parkour\nScroll";
     this.titleTextPos[0] = width * (4.0/5);
     updateMenuTextFontSizes(floor(height/9), 1);
@@ -188,7 +188,7 @@ class MainMenu implements Menu {
         if (button.ID == this.START) {
           navigation = NavType.INGAME;
         } else if (button.ID == this.SETTINGS) {
-          println("GO TO SETTINGS");
+          navigation = NavType.INSETTINGS;
         } else if (button.ID == this.TUTORIAL) {
           println("GO TO TUTORIAL");
         } else if (button.ID == this.QUIT) {
@@ -197,10 +197,12 @@ class MainMenu implements Menu {
           currentLanguage = ENG;
 
           updateBtnLanguage();
+          settingsMenu.updateBtnLanguage();
         } else if (button.ID == this.SWEBTN) {
           currentLanguage = SWE;
 
           updateBtnLanguage();
+          settingsMenu.updateBtnLanguage();
         }
         break;
       }
