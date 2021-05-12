@@ -2,7 +2,6 @@
  * A class for handling the 2D settings menu; buttons and their respective actions
  */
 class SettingsMenu implements Menu {
-  boolean useSmallLayout = false;
 
   color menuBackground = color(137, 209, 254);
 
@@ -18,8 +17,8 @@ class SettingsMenu implements Menu {
   float[] titleTextPos = new float[]{(width/4) * 3, (height/5) * 2.25};
   PFont titleFont = createFont("data/fonts/good times rg.ttf", floor(height/15), true);
 
- int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}};
- int resolutionIndex = 2;
+ int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}};
+ int resolutionIndex = 1;
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
   String[][] btnTextLanguages = new String[][]{{"RESOLUTION", "BACK"}, {"UPPLÖSNING", "TILLBAKA"}};
@@ -48,7 +47,7 @@ class SettingsMenu implements Menu {
    */
   void createMenuButtons() {
 
-    settingsMenuButtons = new Button[this.btnTextLanguages[currentLanguage].length + languages.length];
+    settingsMenuButtons = new Button[this.btnTextLanguages[currentLanguage].length];
 
     float xPosBtn = width / 15;
     for (int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++) {
@@ -60,16 +59,11 @@ class SettingsMenu implements Menu {
 
 
   /*
-     * Moves all animated objects that are part of the settings menu
+   * Moves all animated objects that are part of the settings menu
    *
    * @return None
    */
   void moveMenu() {
-    if (width <= 600 && !this.useSmallLayout) {
-      this.useSmallLayout = true;  // TODO: remember to reset value to false when resize is implemented
-      useSmallLayout();
-    }
-
     for (int i = 0; i < settingsMenuButtons.length; ++i) {
       if (settingsMenuButtons[i] != null) {
         settingsMenuButtons[i].moveMe();
@@ -85,7 +79,7 @@ class SettingsMenu implements Menu {
     float btnWidth = width/2;
     float btnHeight = height/6;
 
-    int settingsBtnsLength = this.settingsMenuButtons.length - this.btnTextLanguages.length;
+    int settingsBtnsLength = this.settingsMenuButtons.length;
 
     //Resize settings buttons
     for (int i = 0; i < settingsBtnsLength; ++i) {
@@ -99,24 +93,39 @@ class SettingsMenu implements Menu {
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/15), true));
     }
 
-    //Resize language buttons
-    btnWidth = btnWidth / 4;
-    float yPosBtn = this.yOffset/2;
+    this.title = "Parkour\nScroll";
+    this.titleTextPos[0] = width * (4.0/5);
+    updateMenuTextFontSizes(floor(height/9));
+  }
 
-    for (int i = 0; i < this.btnTextLanguages.length; ++i) {
-      Button btn = this.settingsMenuButtons[settingsBtnsLength + i];
-      xPosBtn = this.xOffset + (btnWidth + 10) * i;
+  void useBigLayout() {
+    yOffset = floor(height/3.33);
+    xOffset = (width/5) * 4;
 
-      btn.setBtnDimensions(btnWidth, btnHeight/1.25);
+    float xPosBtn = width / 15;
+    float btnWidth = width / 3;
+    float btnHeight = height / 12;
+
+    int settingsBtnsLength = this.settingsMenuButtons.length;
+
+    //Resize settings buttons
+    for (int i = 0; i < settingsBtnsLength; ++i) {
+      Button btn = this.settingsMenuButtons[i];
+      float yPosBtn = this.yOffset + (height / 8) * i;
+
+      btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
+      btn.setQuadOffset(btn.getQuadOffset()*1.75);
+      btn.setAnimation(true);
+      btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/25), true));
     }
 
     this.title = "Parkour\nScroll";
     this.titleTextPos[0] = width * (4.0/5);
-    updateMenuTextFontSizes(floor(height/9), 1);
+    updateMenuTextFontSizes(floor(height/9));
   }
 
-  void updateMenuTextFontSizes(float titleFontSize, float languageFontSize) {
+  void updateMenuTextFontSizes(float titleFontSize) {
     this.titleFont = createFont("data/fonts/good times rg.ttf", titleFontSize, true);
   }
 
@@ -149,6 +158,14 @@ class SettingsMenu implements Menu {
         } else if (button.ID == this.RESOLUTION) {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
           surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
+            if (width <= 600) {
+              this.useSmallLayout();
+              mainMenu.useSmallLayout();
+            }
+            else{
+              this.useBigLayout();
+              // mainMenu.useBigLayout();
+            }
         }
         break;
       }
