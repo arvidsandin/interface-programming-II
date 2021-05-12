@@ -104,11 +104,6 @@ class MainMenu implements Menu {
    * @return None
    */
   void moveMenu() {
-    if (width <= 600 && !this.useSmallLayout) {
-      this.useSmallLayout = true;  // TODO: remember to reset value to false when resize is implemented
-      useSmallLayout();
-    }
-
     for (int i = 0; i < mainMenuButtons.length; ++i) {
       if (mainMenuButtons[i] != null) {
         mainMenuButtons[i].moveMe();
@@ -117,6 +112,7 @@ class MainMenu implements Menu {
   }
 
   void useSmallLayout() {
+    this.useSmallLayout = true;
     this.yOffset = height/12;
     this.xOffset = width * 2.1/3;
 
@@ -151,6 +147,46 @@ class MainMenu implements Menu {
     }
 
     this.title = "Parkour\nScroll";
+    this.titleTextPos[0] = width * (4.0/5);
+    updateMenuTextFontSizes(floor(height/9), 1);
+  }
+
+  void useBigLayout() {
+    this.useSmallLayout = false;
+    this.yOffset = floor(height/3.33);
+    this.xOffset = (width/5) * 4;
+
+    float xPosBtn = width / 15;
+    float btnWidth = width / 3;
+    float btnHeight = height / 12;
+
+    int mainBtnsLength = this.mainMenuButtons.length - this.btnTextLanguages.length;
+
+    //Resize main buttons
+    for (int i = 0; i < mainBtnsLength; ++i) {
+      Button btn = this.mainMenuButtons[i];
+      float yPosBtn = this.yOffset + (height / 8) * i; //height/25;
+
+      btn.setBtnDimensions(btnWidth, btnHeight);
+      btn.setBtnPosition(xPosBtn, yPosBtn);
+      btn.setQuadOffset(btn.getQuadOffset()*1.75);
+      btn.setAnimation(true);
+      btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/25), true));
+    }
+
+    //Resize language buttons
+    btnWidth = width / 12;
+    float yPosBtn = height/30;
+
+    for (int i = 0; i < this.btnTextLanguages.length; ++i) {
+      Button btn = this.mainMenuButtons[mainBtnsLength + i];
+      xPosBtn = this.xOffset + (width / 10) * i;
+
+      btn.setBtnDimensions(btnWidth, btnHeight*1.25);
+      btn.setBtnPosition(xPosBtn, yPosBtn);
+    }
+
+    this.title = "Parkour Scroll";
     this.titleTextPos[0] = width * (4.0/5);
     updateMenuTextFontSizes(floor(height/9), 1);
   }

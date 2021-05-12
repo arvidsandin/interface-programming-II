@@ -99,8 +99,8 @@ class SettingsMenu implements Menu {
   }
 
   void useBigLayout() {
-    yOffset = floor(height/3.33);
-    xOffset = (width/5) * 4;
+    this.yOffset = floor(height/3.33);
+    this.xOffset = (width/5) * 4;
 
     float xPosBtn = width / 15;
     float btnWidth = width / 3;
@@ -120,7 +120,7 @@ class SettingsMenu implements Menu {
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/25), true));
     }
 
-    this.title = "Parkour\nScroll";
+    this.title = "Parkour Scroll";
     this.titleTextPos[0] = width * (4.0/5);
     updateMenuTextFontSizes(floor(height/9));
   }
@@ -164,7 +164,7 @@ class SettingsMenu implements Menu {
             }
             else{
               this.useBigLayout();
-              // mainMenu.useBigLayout();
+              mainMenu.useBigLayout();
             }
         }
         break;
