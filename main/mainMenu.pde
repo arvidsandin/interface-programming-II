@@ -129,7 +129,7 @@ class MainMenu implements Menu {
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
-      btn.setQuadOffset(btn.getQuadOffset()/1.75);
+      btn.setQuadOffset(60/1.75);
       btn.setAnimation(false);
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/15), true));
     }
@@ -169,7 +169,7 @@ class MainMenu implements Menu {
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
-      btn.setQuadOffset(btn.getQuadOffset()*1.75);
+      btn.setQuadOffset(60);
       btn.setAnimation(true);
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/25), true));
     }

@@ -21,10 +21,11 @@ class SettingsMenu implements Menu {
  int resolutionIndex = 1;
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
-  String[][] btnTextLanguages = new String[][]{{"RESOLUTION", "BACK"}, {"UPPLÖSNING", "TILLBAKA"}};
+  String[][] btnTextLanguages = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
 
   int RESOLUTION= 0;
-  int BACK= 1;
+  int MUTE= 1;
+  int BACK= 2;
 
   /***************************************************************************************************************************************************
    *  MODEL
@@ -88,7 +89,7 @@ class SettingsMenu implements Menu {
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
-      btn.setQuadOffset(btn.getQuadOffset()/1.75);
+      btn.setQuadOffset(60/1.75);
       btn.setAnimation(false);
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/15), true));
     }
@@ -115,7 +116,7 @@ class SettingsMenu implements Menu {
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
-      btn.setQuadOffset(btn.getQuadOffset()*1.75);
+      btn.setQuadOffset(60);
       btn.setAnimation(true);
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/25), true));
     }
@@ -155,6 +156,8 @@ class SettingsMenu implements Menu {
       if (button.isInside()) {
         if (button.ID == this.BACK) {
           navigation = NavType.INMAINMENU;
+        } else if (button.ID == this.MUTE) {
+          muteGame = !muteGame;
         } else if (button.ID == this.RESOLUTION) {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
           surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);

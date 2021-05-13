@@ -23,6 +23,8 @@ int ENG = 0;
 int SWE = 1;
 int currentLanguage = ENG;
 
+boolean muteGame = false;
+
 /*
  * Sets up window and other game object's setups
  */
