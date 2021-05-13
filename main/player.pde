@@ -9,7 +9,7 @@ class Player {
   float playerHeight = 90;
   float playerWidth = 40;
   
-  float playerAcceleration = 0.6;
+  float playerAcceleration = 0.5;
   float xSpeed = 0;
   float ySpeed = 0;
   float lethalSpeed = 25;

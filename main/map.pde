@@ -77,7 +77,7 @@ class Map {
       }
       pop();
 
-      parallaxBg.drawParallax();
+      
     }
 
 
