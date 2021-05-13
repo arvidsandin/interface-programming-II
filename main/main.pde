@@ -109,6 +109,11 @@ void rescaleMenus(){
   */
 }
 
+/*
+ * 
+ *
+ * @return None
+ */
 void keyPressed(){
   if (navigation == NavType.INGAME){
     if (key == 'w' || keyCode == UP){
@@ -129,6 +134,11 @@ void keyPressed(){
   }
 }
 
+/*
+ * 
+ *
+ * @return None
+ */
 void keyReleased(){
   if (navigation == NavType.INGAME){
     if (key == 'w' || keyCode == UP){

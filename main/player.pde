@@ -160,7 +160,6 @@ class Player {
 
     if (this.xSpeed > this.maxHorizontalSpeed)
     {
-      println("here");
       this.xSpeed -= 2*this.playerAcceleration;
       //stop at max speed
       if (this.xSpeed < this.maxHorizontalSpeed)
