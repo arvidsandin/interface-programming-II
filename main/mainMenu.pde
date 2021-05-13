@@ -107,7 +107,6 @@ class MainMenu implements Menu {
    * @return None
    */
   void moveMenu() {
-
     for (int i = 0; i < mainMenuButtons.length; ++i) {
       if (mainMenuButtons[i] != null) {
         mainMenuButtons[i].moveMe();
@@ -154,7 +153,6 @@ class MainMenu implements Menu {
     
     resizeMainButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
 
-
     //Resize language buttons
     btnWidth /= 4;
     btnHeight /= 1.25;
@@ -188,8 +186,9 @@ class MainMenu implements Menu {
      
     int btnFontSize = floor(height/25);
     float newQuadOffset = 60;
+    boolean useBtnAnimation = true;
     
-    resizeMainButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, false, newQuadOffset);
+    resizeMainButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
 
 
     //Resize language buttons
@@ -246,7 +245,7 @@ class MainMenu implements Menu {
    */
   void resizeLanguageButtons(float btnWidth, float btnHeight, float yPosBtn, float xSpacing){
     int mainBtnsLength = this.mainMenuButtons.length - this.btnTextLanguages.length;
-    
+
     for (int i = 0; i < this.btnTextLanguages.length; ++i) {
       float xPosBtn = this.xOffset + xSpacing * i;
       Button btn = this.mainMenuButtons[mainBtnsLength + i];
@@ -254,6 +253,7 @@ class MainMenu implements Menu {
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
     }
+
     
     this.languageFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
     this.languageTextPos[0] = width * 11.0/15;
@@ -306,7 +306,7 @@ class MainMenu implements Menu {
         if (button.ID == this.START) {
           navigation = NavType.INGAME;
         } else if (button.ID == this.SETTINGS) {
-          println("GO TO SETTINGS");
+          navigation = NavType.INSETTINGS;
         } else if (button.ID == this.TUTORIAL) {
           println("GO TO TUTORIAL");
         } else if (button.ID == this.QUIT) {
@@ -315,10 +315,12 @@ class MainMenu implements Menu {
           currentLanguage = ENG;
 
           updateBtnLanguage();
+          settingsMenu.updateBtnLanguage();
         } else if (button.ID == this.SWEBTN) {
           currentLanguage = SWE;
           settings();
           updateBtnLanguage();
+          settingsMenu.updateBtnLanguage();
         }
         break;
       }

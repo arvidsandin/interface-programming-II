@@ -12,32 +12,36 @@ NavType navigation = NavType.INMAINMENU;
 
 Game game;
 MainMenu mainMenu;
+SettingsMenu settingsMenu;
 GameMenu gameMenu;
 ParallaxBg parallaxBg;
 
 String[] languages = new String[]{"ENG", "SWE"};
 int ENG = 0;
 int SWE = 1;
-int currentLanguage = ENG;
 
+int currentLanguage = ENG;
 int currentWidth = 1200;
 int currentHeight = 600;
+
+boolean muteGame = false;
+
 /*
  * Sets up window and other game object's setups
  * @return None
  */
 void setup(){
  //P2D uses OpenGL code to run faster on computer graphics card
- frame.setResizable(true);
+ size(1280, 720, P2D);
+ surface.setResizable(true);
  
- size(500, 200, P2D);
- settings();
  background(137, 209, 254);
  surface.setResizable(true);
  
  game = new Game();
 
  mainMenu = new MainMenu();
+ settingsMenu = new SettingsMenu();
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
 }
@@ -53,7 +57,8 @@ void draw(){
     mainMenu.drawMenu();
   }
   else if (navigation == NavType.INSETTINGS){
-
+    settingsMenu.moveMenu();
+    settingsMenu.drawMenu();
   }
   else if (navigation == NavType.INGAME){
 
@@ -97,7 +102,7 @@ void mouseClicked(){
     mainMenu.menuClick();
   }
   else if (navigation == NavType.INSETTINGS){
-
+    settingsMenu.settingsMenuClick();
   }
   else if (navigation == NavType.INGAMEMENU){
     gameMenu.menuClick();
