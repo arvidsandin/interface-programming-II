@@ -13,12 +13,12 @@ class Game{
   Game(Map m){
     map = m;
   }
-  
+
   /***************************************************************************************************************************************************
    *  MODEL
    ***************************************************************************************************************************************************
    */
-  
+
   /*
    * Updates the game and everything inside it by one frame
    *
@@ -27,7 +27,7 @@ class Game{
   boolean timeStep(){
     map.moveMe();
     player.timeStep(this.map);
-    
+
     if(!player.isAlive()){
       this.gameOver();
       this.resetGame();
@@ -35,16 +35,16 @@ class Game{
     }
     return false;
   }
-  
+
   /*
    * Exits the game and passes control back to main menu.
    *
-   * @return None 
+   * @return None
    */
   void gameOver(){
     navigation = NavType.INMAINMENU;
   }
-  
+
   /*
    * Resets the game level.
    *
@@ -73,16 +73,16 @@ class Game{
       else{
         scale((float)width/1200, (float)height/600);
       }
-      
+
       map.drawMe();
       player.drawMe();
-      
+
       pop();
     }
 
-   
+
   /*
-   * Make Player object 
+   *
    *
    * @return None
    */
@@ -90,14 +90,14 @@ class Game{
     player.jump();
   }
   /*
-   * 
+   *
    *
    * @return None
    */
   void up(){
   }
   /*
-   * 
+   *
    *
    * @return None
    */
@@ -105,14 +105,14 @@ class Game{
     player.goLeft();
   }
   /*
-   * 
+   *
    *
    * @return None
    */
   void down(){
   }
   /*
-   * 
+   *
    *
    * @return None
    */
@@ -121,14 +121,14 @@ class Game{
   }
 
   /*
-   * 
+   *
    *
    * @return None
    */
   void releaseUp(){
   }
   /*
-   * 
+   *
    *
    * @return None
    */
@@ -136,14 +136,14 @@ class Game{
     player.stopLeft();
   }
   /*
-   * 
+   *
    *
    * @return None
    */
   void releaseDown(){
   }
   /*
-   * 
+   *
    *
    * @return None
    */
@@ -151,7 +151,7 @@ class Game{
     player.stopRight();
   }
   /*
-   * 
+   *
    *
    * @return None
    */

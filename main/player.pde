@@ -35,7 +35,7 @@ class Player {
    */
   Player() {
   }
-  
+
   /*
    * Constructor to set position attributes of Player class
    *
@@ -46,41 +46,83 @@ class Player {
     this.yPos = yPos;
   }
 
+  /*
+   *
+   * @return if Player is in air
+   */
   boolean inAir() {
     return this.ySpeed != 0;
   }
 
+  /*
+   *
+   * @return if Player is jumping
+   */
   boolean isJumping() {
     return this.ySpeed < 0;
   }
 
+  /*
+   *
+   * @return if Player is falling
+   */
   boolean isFalling() {
     return this.ySpeed > 0;
   }
-  
-  
+
+  /*
+   *
+   * @return width of Player
+   */
   float getWidth(){
     return this.playerWidth;
   }
+
+  /*
+   *
+   * @return height of Player
+   */
   float getHeight(){
     return this.playerHeight;
   }
+
+
+  /*
+   *
+   * @return position in x-axis of Player
+   */
   float getXPos(){
     return this.xPos;
   }
+
+  /*
+   *
+   * @return position in y-axis of Player
+   */
   float getYPos(){
-   return this.yPos; 
+   return this.yPos;
   }
+
+  /*
+   *
+   * @return speed in x-axis of Player
+   */
   float getXSpeed(){
     return this.xSpeed;
   }
+
+  /*
+   *
+   * @return speed in y-axis of Player
+   */
   float getYSpeed(){
     return this.ySpeed;
   }
 
   /*
-   * updates the player's position based on current speed
+   * updates any positions that will change in one frame
    *
+   * @param m the Map in which the Player is currently in
    * @return None
    */
   void timeStep(Map m) {
@@ -99,6 +141,12 @@ class Player {
     }
   }
 
+  /*
+   * updates the player's speed if the player is running and based on gravity
+   *
+   * @param m the Map in which the Player is currently in
+   * @return None
+   */
   void increasePlayerSpeed(Map m) {
     this.ySpeed += m.gravity;
     if (movesLeft) {
@@ -133,7 +181,12 @@ class Player {
   }
 
 
-
+  /*
+   * slows down the player's speed if the player stops running
+   *
+   * @param m the Map in which the Player is currently in
+   * @return None
+   */
   void addFriction(Map m) {
     if (!this.movesLeft && !this.movesRight) {
       this.xSpeed -= m.friction*xSpeed;
@@ -145,25 +198,79 @@ class Player {
     }
   }
 
-
+  /*
+   * updates the player's speed if it collisides with any object
+   *
+   * @param m the Map in which the Player is currently in
+   * @return None
+   */
   void handleCollision(Map m) {
     for (GameObject object : m.objects) {
+      //rectangle collision x-axis
       if (object.collisionDetection(this) == 1) {
         climb(object);
         this.xSpeed = 0;
       }
+      //rectangle collision y-axis
       else if (object.collisionDetection(this) == 2) {
         if (checkForCollisionDeath()) {
           this.isAlive = false;
         }
         this.ySpeed = 0;
       }
+      //triangle, collision from above
+      //TODO: make triangle collision handling work better
       else if (object.collisionDetection(this) == 3) {
         if (checkForCollisionDeath()) {
           this.isAlive = false;
+          this.ySpeed = 0;
+          this.xSpeed = 0;
+          return;
         }
-        this.ySpeed = 0;
+        float oldxSpeed = this.xSpeed;
+        float oldySpeed = this.ySpeed;
+        this.ySpeed = -abs(2*oldxSpeed);
+        if (this.xSpeed == 0 || object.collisionDetection(this) != 0) {
+          this.xSpeed = 0;
+          this.ySpeed = 0;
+          //is this better?
+          this.xSpeed = -oldxSpeed;
+          return;
+        }
+        //Check the lowest angle between ~±63° that can be traveled without a collision
+        for (float i=abs(oldxSpeed); i>-abs(oldxSpeed)+0.1; i-=0.1) {
+          //i*2 is to try a wider range than 45°
+          this.ySpeed = - i*2;
+          //Normalize xSpeed and ySpeed
+          this.xSpeed = Math.signum(xSpeed)*(float)Math.cos(Math.atan(abs(ySpeed/oldxSpeed)));
+          this.ySpeed = Math.signum(ySpeed)*(float)Math.sin(Math.atan(abs(ySpeed/oldxSpeed)));
+          //Scale xSpeedand ySpeed appropriately
+          if (this.movesLeft || this.movesRight) {
+            this.xSpeed *= this.maxHorizontalSpeed;
+            this.ySpeed *= this.maxHorizontalSpeed;
+          }
+          else{
+            this.xSpeed *= this.xSpeed;
+            this.ySpeed *= this.xSpeed;
+          }
+          if (object.collisionDetection(this) != 0){
+            //Use the last i that didn't cause a collision
+            this.ySpeed = - (i+0.1)*2;
+            this.xSpeed = Math.signum(xSpeed)*(float)Math.cos(Math.atan(abs(ySpeed/oldxSpeed)));
+            this.ySpeed = Math.signum(ySpeed)*(float)Math.sin(Math.atan(abs(ySpeed/oldxSpeed)));
+            if (this.movesLeft || this.movesRight) {
+              this.xSpeed *= this.maxHorizontalSpeed;
+              this.ySpeed *= this.maxHorizontalSpeed;
+            }
+            else{
+              this.xSpeed *= this.xSpeed;
+              this.ySpeed *= this.xSpeed;
+            }
+            return;
+          }
+        }
         this.xSpeed = 0;
+        this.ySpeed = 0;
       }
     }
     if (this.isFalling()){
@@ -188,25 +295,26 @@ class Player {
           this.ySpeed = -2;
         }
       }
-      else if(abs(this.climbDistance) <= this.playerHeight * 1.5){
       // To climb wall
+      else if(abs(this.climbDistance) <= this.playerHeight * 1.5){
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
       }
       else{
-        this.ySpeed = -0.1;
+        this.ySpeed = 0;
       }
     }
   }
-  
-  /*
-   * Updates map offset each frame
-   *
-   */
 
+  /*
+   * Updates what offset each object in the map should be moved in the next frame
+   *
+   * @param m the Map in which the Player is currently in
+   * @return None
+   */
   // TODO: Update handling of rescaled positions/width/height
   void updateMapPosition(Map m) {
-    if (rescaleByWidth(this.xPos + this.xSpeed) > width*m.playerBoundryX || this.xSpeed == 0) {
+    if (rescaleByWidth(this.xPos + this.xSpeed) > 1200*m.playerBoundryX || this.xSpeed == 0) {
       m.updateXOffset(-xSpeed);
     } else if (rescaleByWidth(this.xPos + this.xSpeed) < width-width*m.playerBoundryX) {
       m.updateXOffset(-xSpeed);
@@ -224,7 +332,11 @@ class Player {
     }
   }
 
-
+  /*
+   *
+   * @param m the Map in which the Player is currently in
+   * @return if the Player is falling outside of the map
+   */
   boolean checkForFallDeath(Map m) {
     if (this.ySpeed >= this.lethalSpeed) {
       for (GameObject object : m.objects) {
@@ -241,7 +353,10 @@ class Player {
     return false;
   }
 
-
+  /*
+   *
+   * @return Boolean for whether the speed of the Player makes the collision lethal
+   */
   boolean checkForCollisionDeath() {
     if (this.ySpeed >= this.lethalSpeed) {
       return true;
@@ -249,41 +364,15 @@ class Player {
     return false;
   }
 
+  /*
+   * States whether boolean 
+   *
+   * @return if the player is alive
+   */
   boolean isAlive() {
     return this.isAlive;
   }
 
-  void climbAnimation(){
-
-  }
-
-
-  /***************************************************************************************************************************************************
-   *  VIEW
-   ***************************************************************************************************************************************************
-   */
-
-  /*
-   * Draws up the player
-   *
-   * @return None
-   */
-  void drawMe() {
-    fill(255, 60, 60);
-    pushStyle();
-    rectMode(CENTER);
-    imageMode(CENTER);
-    
-    image(this.playerModel, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
-    
-    popStyle();
-  }
-
-
-  /***************************************************************************************************************************************************
-   *  CONTROL
-   ***************************************************************************************************************************************************
-   */
 
   /*
    * makes the player jump
@@ -333,5 +422,25 @@ class Player {
    */
   void stopRight() {
     this.movesRight = false;
+  }
+
+  /***************************************************************************************************************************************************
+   *  VIEW
+   ***************************************************************************************************************************************************
+   */
+
+  /*
+   * Draws up the player
+   *
+   * @return None
+   */
+  void drawMe() {
+    fill(255, 60, 60);
+    pushStyle();
+    imageMode(CENTER);
+    
+    image(this.playerModel, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
+
+    popStyle();
   }
 }

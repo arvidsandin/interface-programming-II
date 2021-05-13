@@ -13,6 +13,7 @@ NavType navigation = NavType.INMAINMENU;
 Game game;
 MainMenu mainMenu;
 GameMenu gameMenu;
+ParallaxBg parallaxBg;
 
 GameObject object;
 
@@ -27,19 +28,21 @@ int currentLanguage = ENG;
 void setup(){
 
  //P2D uses OpenGL code to run faster on computer graphics card
- size(1200, 600, P2D);
+ size(1280, 720, P2D);
  background(137, 209, 254);
  
  game = new Game(new Map(0.2, 0.2/*TODO:change gravity and friciton constants*/, getLevel1()));
+
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();
+ parallaxBg = new ParallaxBg();
 }
 
 /*
  * Main loop of what to draw on screen
  */
 void draw(){
-  
+
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();
     mainMenu.drawMenu();
@@ -48,7 +51,7 @@ void draw(){
 
   }
   else if (navigation == NavType.INGAME){
-    
+
     boolean gameOver = game.timeStep();
     if(!gameOver){
       game.drawGame();
