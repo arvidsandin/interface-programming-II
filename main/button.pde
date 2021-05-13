@@ -215,11 +215,10 @@ class Button {
      *
      * @return A new Button object
      */
-    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, color btnColor, color btnBorderColor){
+    Button(int ID, boolean withLine, String btnText, float xPos, float yPos, color btnColor, color btnBorderColor){
       this.ID = ID;
 
       this.withLine = withLine;
-      setAnimation(animateBtn);
 
       this.btnText = btnText;
 

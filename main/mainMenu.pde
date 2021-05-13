@@ -10,16 +10,6 @@ class MainMenu implements Menu {
   color btnBorderColor = color(110, 123, 189);
   color flagBorderColor = color(0, 0, 0, 0);
   
-  // Dimensions for main and language buttons
-  float[] btnWidths;
-  float[] btnHeights;
-  
-  // Spacing between buttons - x used by language buttons, y used by main buttons
-  float xBtnSpacing = (width / 10);
-  float yBtnSpacing = (height / 8);
-  // Set button font size and animation
-  int btnFontSize;
-  boolean animateMainBtns = true;
 
   Button[] mainMenuButtons;
 
@@ -37,6 +27,7 @@ class MainMenu implements Menu {
   int languageFontSize = ceil(height/35);
   PFont languageFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
   String[] flagImgs = new String[]{"data/menu_images/eng_flag.png", "data/menu_images/swe_flag.png"};
+  float[] languageTextPos = new float[]{width * 11.0/15, height/15};
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
   String[][] btnTextLanguages = new String[][]{{"START", "SETTINGS", "TUTORIAL", "QUIT"}, {"STARTA", "INSTÄLLNINGAR", "HJÄLPINSTRUKTIONER", "AVSLUTA"}};
@@ -83,27 +74,24 @@ class MainMenu implements Menu {
    * @return A new MainMenu object
    */
   MainMenu() {
-      mainMenuButtons = new Button[this.btnTextLanguages[currentLanguage].length + languages.length];
-  
-      // Create main buttons
-      float xPosBtn = width / 15;
-      for (int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++) {
-        float yPosBtn = this.yOffset + this.yBtnSpacing * i;
-  
-        mainMenuButtons[i] = new Button(i, true, this.animateMainBtns, this.btnTextLanguages[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
-      }
-  
-      // Create language buttons
-      float yPosBtn = height/30;
-      float btnWidth = width /12;
-      float btnHeight = height / 12;
-      for (int i = 0; i < languages.length; ++i) {
-  
-        xPosBtn = xOffset + this.xBtnSpacing * i;
-        int languageBtnIndex = this.btnTextLanguages[currentLanguage].length;
-  
-        mainMenuButtons[languageBtnIndex + i] = new Button(languageBtnIndex + i, false, false, null, xPosBtn, yPosBtn, btnWidth, btnHeight, this.btnBorderColor, this.btnBorderColor, 0, flagImgs[i]);
-      }
+    mainMenuButtons = new Button[this.btnTextLanguages[currentLanguage].length + languages.length];
+
+    float xPosBtn = width / 15;
+    for (int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++) {
+      float yPosBtn = this.yOffset + (height / 8) * i;
+
+      mainMenuButtons[i] = new Button(i, true, this.btnTextLanguages[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
+    }
+
+    float yPosBtn = height/30;
+    float btnWidth = width /12;
+    float btnHeight = height / 12;
+    for (int i = 0; i < languages.length; ++i) {
+
+      xPosBtn = xOffset + (width / 10) * i;
+
+      mainMenuButtons[this.btnTextLanguages[currentLanguage].length + i] = new Button(this.btnTextLanguages[currentLanguage].length + i, false, false, null, xPosBtn, yPosBtn, btnWidth, btnHeight, this.btnBorderColor, this.btnBorderColor, 0, flagImgs[i]);
+    }
      
      // Resize created menu and buttons if necessary
      if(width <= this.resizeLimit){
@@ -129,127 +117,147 @@ class MainMenu implements Menu {
   
   
   /*
-   * Sets smaller button dimensions and font sizes to use in the window
-   *
-   * @return None
-   */
-  void setSmallScreenVariables(){
-    // Updates from previous value if height is changed
-    this.titleFontSize = floor(height/10);
-    this.btnFontSize = floor(height/15);
-    
-    this.yOffset = height/12;
-    this.xOffset = width * 2.0/3;
-    
-    this.animateMainBtns = false;
-    this.btnWidths = new float[]{width/2, width / 7.5};
-    this.btnHeights = new float[]{height / 6, height / 6.5};
-    
-    this.xBtnSpacing = (this.btnWidths[1] + 10);
-    this.yBtnSpacing = (height / 4.5);
-  }
-
-  /*
-   * Sets the default button dimensions and font sizes to use in the window
-   *
-   * @return None
-   */
-  void setDefaultScreenVariables(){
-    // Updates from previous value if height is changed
-    this.titleFontSize = floor(height/15);
-    this.btnFontSize = floor(height/25);
-    
-    this.yOffset = floor(height/3.33);
-    this.xOffset = width * (4 / 5.0);
-    
-    this.animateMainBtns = true;
-    this.btnWidths = new float[]{width /3, width / 12};
-    this.btnHeights = new float[]{height / 12, height / 12};
-    
-    this.xBtnSpacing = (width / 10);
-    this.yBtnSpacing = (height / 8);
-  }
-  
-  
-  /*
    * Resizes menu elements according to a small or larger screen. Adapted to a 2.5:1 ratio in small size.
    *
    * @return None
    */
   void resize(){
-    int mainBtnsLength = this.mainMenuButtons.length - this.btnTextLanguages.length;
-    float newQuadOffset;
-    float newXStartPos;
-    float newYStartPos;
-    
     if(width <= this.resizeLimit){
-      newQuadOffset = 35;
-      newXStartPos =  width / 30;
-      newYStartPos = this.yOffset/2;
-      this.setSmallScreenVariables();
-      
-      //Break title in two and resize
-      this.resizeTitle(true);
+      this.useSmallLayout();
     }
     else{
-      newQuadOffset = 60;
-      newXStartPos =  width / 15;
-      newYStartPos = height / 30;
-      this.setDefaultScreenVariables();
-      // Will reset to default title size in one line
-      this.resizeTitle(false);
+      this.useBigLayout();
     }
-    // Resize main buttons
-    this.resizeMainButtons(this.btnWidths[0], this.btnHeights[0], mainBtnsLength, newQuadOffset, newXStartPos);
-    
-    //Resize language buttons
-    resizeLanguageButtons(this.btnWidths[1], this.btnHeights[1], mainBtnsLength, newYStartPos);
   }
-
-   /*
-   * Resizes the principal menu buttons to look better on a smaller screen. Adapted to a 2.5 ratio.
-   *
-   * @param btnWidth  The new width of the main button
-   * @param btnHeight  The new height of the main button
-   * @param mainBtnsLength  The number of main buttons
-   * @param newQuadOffset  The new quad offset to use on the buttons
-   * @param xPosBtn the x-coordinate to use for all main buttons
+  
+  /*
+   * Resizes menu elements to be more visible on a small screen. Adapted to a 2.5:1 ratio.
    *
    * @return None
    */
-  void resizeMainButtons(float btnWidth, float btnHeight, int mainBtnsLength, float newQuadOffset, float xPosBtn){
+  void useSmallLayout(){
+    this.yOffset = height/12;
+    this.xOffset = width * 2.1/3;
+    
+    this.titleFontSize = floor(height/10);
+    this.languageFontSize = ceil(height/15);
+    
+    //Resize main buttons
+    float btnWidth = width/2;
+    float btnHeight = height/6;
+    float newXStartPos =  width / 30;
+    float ySpacing = (height / 4.5);
+     
+    int btnFontSize = floor(height/15);
+    float newQuadOffset = 35;
+    boolean useBtnAnimation = false;
+    
+    resizeMainButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
+
+
+    //Resize language buttons
+    btnWidth /= 4;
+    btnHeight /= 1.25;
+    
+    float newYStartPos = this.yOffset/2;
+    float xSpacing = (btnWidth + 10);
+
+    resizeLanguageButtons(btnWidth, btnHeight, newYStartPos, xSpacing);
+    
+    //Break title in two and resize
+    this.resizeTitle(true);
+  }
+  
+  /*
+   * Resizes menu elements according to a larger screen.
+   *
+   * @return None
+   */
+  void useBigLayout(){
+    this.yOffset = floor(height / 3.33);
+    this.xOffset = (width / 5) * 4;
+    
+    this.titleFontSize = floor(height/15);
+    this.languageFontSize = ceil(height/35);
+    
+    //Resize main buttons
+    float btnWidth = width / 3;
+    float btnHeight = height / 12;
+    float newXStartPos =  width / 15;
+    float ySpacing = (height / 8);
+     
+    int btnFontSize = floor(height/25);
+    float newQuadOffset = 60;
+    
+    resizeMainButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, false, newQuadOffset);
+
+
+    //Resize language buttons
+    btnWidth =  width / 12;
+    btnHeight *= 1.25;
+    float newYStartPos = height / 30;
+    float xSpacing = (width / 10);
+
+    resizeLanguageButtons(btnWidth, btnHeight, newYStartPos, xSpacing);
+    
+    // Will reset to default title size in one line
+    this.resizeTitle(false);
+  }
+
+  /*
+   * Resizes the principal menu buttons to look better on a smaller screen. Adapted to a 2.5 ratio.
+   *
+   * @param btnWidth    The new width of the main button
+   * @param btnHeight    The new height of the main button
+   * @param xPosBtn   The x-coordinate to use for all main buttons
+   * @param ySpacing    The space between buttons on the y-axis. Measured from the center of buttons.
+   * @param btnFontSize   The new font size of the buttons
+   * @param animateMainBtns   Whether the buttons should be animated or not
+   * @param newQuadOffset    The new quad offset to use on the buttons
+   *
+   * @return None
+   */
+  void resizeMainButtons(float btnWidth, float btnHeight, float xPosBtn, float ySpacing, int btnFontSize, boolean animateMainBtns, float newQuadOffset){
+    int mainBtnsLength = this.mainMenuButtons.length - this.btnTextLanguages.length;
+    
     for (int i = 0; i < mainBtnsLength; ++i) {
-      float yPosBtn = this.yOffset + this.yBtnSpacing * i;
+      float yPosBtn = this.yOffset + ySpacing * i;
       Button btn = this.mainMenuButtons[i];
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
       
       btn.setQuadOffset(newQuadOffset);
-      btn.setAnimation(this.animateMainBtns);
+      btn.setAnimation(animateMainBtns);
   
-      btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", this.btnFontSize, true));
+      btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", btnFontSize, true));
     }
   }
   
   /*
-   * Resizes the language buttons to look better on a smaller screen. Adapted to a 2.5 ratio.
+   * Resizes the language buttons and accompanying text to look better on a smaller screen. Adapted to a 2.5 ratio.
    *
    * @param btnWidth  The new width of the language button
    * @param btnHeight  The new height of the language button
-   * @param mainBtnsLength  The number of main buttons - Offset to get language buttons
    * @param yPosBtn the y-coordinate to use for all main buttons
+   * @param xSpacing The space to be used between buttons on the x-axis. Measured from the center of two buttons
    *
    * @return None
    */
-  void resizeLanguageButtons(float btnWidth, float btnHeight, int mainBtnsLength, float yPosBtn){
+  void resizeLanguageButtons(float btnWidth, float btnHeight, float yPosBtn, float xSpacing){
+    int mainBtnsLength = this.mainMenuButtons.length - this.btnTextLanguages.length;
+    
     for (int i = 0; i < this.btnTextLanguages.length; ++i) {
-      float xPosBtn = this.xOffset + this.xBtnSpacing * i;
+      float xPosBtn = this.xOffset + xSpacing * i;
       Button btn = this.mainMenuButtons[mainBtnsLength + i];
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
     }
+    
+    this.languageFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
+    this.languageTextPos[0] = width * 11.0/15;
+    this.languageTextPos[1] = height/15;
   }
 
   /*
@@ -261,12 +269,10 @@ class MainMenu implements Menu {
   void resizeTitle(boolean useSmallLayout) {
     if(useSmallLayout){
       this.title = "Parkour\nScroll";
-      // New X-position for title
       this.titleTextPos[0] = width * (4.0/5);
     }
     else{
       this.title = "Parkour Scroll";
-      // New X-position for title
       this.titleTextPos[0] = width * (3 / 4.0);
     }
     // Updates old y-position
@@ -330,7 +336,6 @@ class MainMenu implements Menu {
    * @return None
    */
   void drawMenu() {
-
     pushStyle();
     background(this.menuBackground);
 
@@ -382,10 +387,9 @@ class MainMenu implements Menu {
     pushStyle();
     textFont(this.languageFont);
     fill(255);
-    
     // Show only text if there is space for it
     if (!(width <= this.resizeLimit)) {
-      text(this.menuText[currentLanguage], width * 11.0/15, height/15);
+      text(this.menuText[currentLanguage], this.languageTextPos[0], this.languageTextPos[1]);
     }
     popStyle();
   }
