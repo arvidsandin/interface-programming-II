@@ -3,7 +3,6 @@
  */
 class MainMenu implements Menu {
   int resizeLimit = 600;
-  boolean animateMainBtns = true;
 
   color menuBackground = color(137, 209, 254);
 
@@ -14,10 +13,13 @@ class MainMenu implements Menu {
   // Dimensions for main and language buttons
   float[] btnWidths;
   float[] btnHeights;
+  
   // Spacing between buttons - x used by language buttons, y used by main buttons
   float xBtnSpacing = (width / 10);
   float yBtnSpacing = (height / 8);
+  // Set button font size and animation
   int btnFontSize;
+  boolean animateMainBtns = true;
 
   Button[] mainMenuButtons;
 
@@ -25,11 +27,13 @@ class MainMenu implements Menu {
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
+  // Title text attributes
   String title = "Parkour Scroll";
   int titleFontSize = floor(height/15);
   PFont titleFont = createFont("data/fonts/good times rg.ttf", this.titleFontSize, true);
   float[] titleTextPos = new float[]{(width/4) * 3, (height/5) * 2.25};
 
+  // Language buttons attributes
   int languageFontSize = ceil(height/35);
   PFont languageFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
   String[] flagImgs = new String[]{"data/menu_images/eng_flag.png", "data/menu_images/swe_flag.png"};
@@ -38,6 +42,7 @@ class MainMenu implements Menu {
   String[][] btnTextLanguages = new String[][]{{"START", "SETTINGS", "TUTORIAL", "QUIT"}, {"STARTA", "INSTÄLLNINGAR", "HJÄLPINSTRUKTIONER", "AVSLUTA"}};
   String[] menuText = new String[]{"Language: ", "Språk: "};
 
+  // Enums to correspond with a button press
   int START= 0;
   int SETTINGS= 1;
   int TUTORIAL= 2;
@@ -204,11 +209,12 @@ class MainMenu implements Menu {
    /*
    * Resizes the principal menu buttons to look better on a smaller screen. Adapted to a 2.5 ratio.
    *
-   * @param btnWidth  The new width of the button
-   * @param btnHeight  The new height of the button
+   * @param btnWidth  The new width of the main button
+   * @param btnHeight  The new height of the main button
    * @param mainBtnsLength  The number of main buttons
    * @param newQuadOffset  The new quad offset to use on the buttons
-   * @param
+   * @param xPosBtn the x-coordinate to use for all main buttons
+   *
    * @return None
    */
   void resizeMainButtons(float btnWidth, float btnHeight, int mainBtnsLength, float newQuadOffset, float xPosBtn){
@@ -229,10 +235,11 @@ class MainMenu implements Menu {
   /*
    * Resizes the language buttons to look better on a smaller screen. Adapted to a 2.5 ratio.
    *
-   * @param 
-   * @param 
-   * @param 
-   * @param
+   * @param btnWidth  The new width of the language button
+   * @param btnHeight  The new height of the language button
+   * @param mainBtnsLength  The number of main buttons - Offset to get language buttons
+   * @param yPosBtn the y-coordinate to use for all main buttons
+   *
    * @return None
    */
   void resizeLanguageButtons(float btnWidth, float btnHeight, int mainBtnsLength, float yPosBtn){
@@ -248,7 +255,7 @@ class MainMenu implements Menu {
   /*
    * Resizes the title to look better on a smaller screen. Adapted to a 2.5 ratio.
    *
-   * @param 
+   * @param useSmallLayout  Whether the resized title should adapt to a small screen or a larger one
    * @return None
    */
   void resizeTitle(boolean useSmallLayout) {
@@ -318,7 +325,7 @@ class MainMenu implements Menu {
    */
 
   /*
-     * Draws up all objects that are part of the main menu, including menu background.
+   * Draws up all objects that are part of the main menu, including menu background.
    *
    * @return None
    */
@@ -342,7 +349,7 @@ class MainMenu implements Menu {
   }
 
   /*
-     * Draws up text elements in the main menu
+   * Draws up text elements in the main menu
    *
    * @return None
    */
@@ -353,7 +360,7 @@ class MainMenu implements Menu {
   }
 
   /*
-     * Draws up game title text
+   * Draws up game title text
    *
    * @return None
    */
@@ -361,12 +368,13 @@ class MainMenu implements Menu {
     pushStyle();
     textFont(this.titleFont);
     fill(255);
+    
     text(this.title, this.titleTextPos[0], this.titleTextPos[1]);
     popStyle();
   }
 
   /*
-     * Draws up language options text
+   * Draws up language options text
    *
    * @return None
    */
@@ -375,6 +383,7 @@ class MainMenu implements Menu {
     textFont(this.languageFont);
     fill(255);
     
+    // Show only text if there is space for it
     if (!(width <= this.resizeLimit)) {
       text(this.menuText[currentLanguage], width * 11.0/15, height/15);
     }

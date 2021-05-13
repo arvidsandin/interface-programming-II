@@ -1,17 +1,20 @@
 /*
- * A class for the playable character
+ * A class for the playable character and its attributes
  */
 class Player {
   boolean isAlive = true;
   float xPos = 600;
   float yPos = 300;
+  
   float playerHeight = 90;
   float playerWidth = 40;
+  
   float playerAcceleration = 0.6;
   float xSpeed = 0;
   float ySpeed = 0;
   float lethalSpeed = 25;
   float maxHorizontalSpeed = 5;
+  
   boolean movesLeft = false;
   boolean movesRight = false;
 
@@ -19,10 +22,9 @@ class Player {
   boolean isClimbing = false;
 
   boolean inAnimation = false;
-  PImage playerModel = loadImage("data/models/crop.png");
-
-
-   // TODO: Implement ability to slide in player and game controls
+  PImage playerSprite = loadImage("data/models/crop.png");
+  // TODO: Implement ability to slide in player and game controls
+   
   /***************************************************************************************************************************************************
    *  MODEL
    ***************************************************************************************************************************************************
@@ -47,22 +49,25 @@ class Player {
   }
 
   /*
+   * Returns whether the player is moving through the air
    *
-   * @return if Player is in air
+   * @return If Player is in air
    */
   boolean inAir() {
     return this.ySpeed != 0;
   }
 
   /*
+   * Returns whether the player is jumping up
    *
-   * @return if Player is jumping
+   * @return iI Player is jumping
    */
   boolean isJumping() {
     return this.ySpeed < 0;
   }
 
   /*
+   * Returns whether the player is falling
    *
    * @return if Player is falling
    */
@@ -71,16 +76,18 @@ class Player {
   }
 
   /*
+   * The width of Player 
    *
-   * @return width of Player
+   * @return Width of Player
    */
   float getWidth(){
     return this.playerWidth;
   }
 
   /*
+   * The height of Player 
    *
-   * @return height of Player
+   * @return Height of Player
    */
   float getHeight(){
     return this.playerHeight;
@@ -88,41 +95,45 @@ class Player {
 
 
   /*
+   * Returns the Player's x-coordinate
    *
-   * @return position in x-axis of Player
+   * @return Position in x-axis of Player
    */
   float getXPos(){
     return this.xPos;
   }
 
   /*
+   * Returns the Player's y-coordinate
    *
-   * @return position in y-axis of Player
+   * @return Position in y-axis of Player
    */
   float getYPos(){
    return this.yPos;
   }
 
   /*
+   * Returns the Player's horizontal speed
    *
-   * @return speed in x-axis of Player
+   * @return Speed in x-axis of Player
    */
   float getXSpeed(){
     return this.xSpeed;
   }
 
   /*
+   * Returns the Player's vertical speed
    *
-   * @return speed in y-axis of Player
+   * @return Speed in y-axis of Player
    */
   float getYSpeed(){
     return this.ySpeed;
   }
 
   /*
-   * updates any positions that will change in one frame
+   * Updates any the Player's and game map's positions that will change in one frame
    *
-   * @param m the Map in which the Player is currently in
+   * @param m   The Map in which the Player is currently in
    * @return None
    */
   void timeStep(Map m) {
@@ -142,9 +153,9 @@ class Player {
   }
 
   /*
-   * updates the player's speed if the player is running and based on gravity
+   * Updates the player's speed based on gravity and whether the player is running
    *
-   * @param m the Map in which the Player is currently in
+   * @param m    The Map in which the Player is currently in
    * @return None
    */
   void increasePlayerSpeed(Map m) {
@@ -157,7 +168,6 @@ class Player {
     }
     
     
-
     if (this.xSpeed > this.maxHorizontalSpeed)
     {
       this.xSpeed -= 2*this.playerAcceleration;
@@ -181,7 +191,7 @@ class Player {
 
 
   /*
-   * slows down the player's speed if the player stops running
+   * Slows down the player's speed if the player stops running
    *
    * @param m the Map in which the Player is currently in
    * @return None
@@ -198,7 +208,7 @@ class Player {
   }
 
   /*
-   * Updates the player's speed if it collides with any object
+   * Updates the player's speed in along either the y or x-axis if it collides with any object
    *
    * @param m the Map in which the Player is currently in
    * @return None
@@ -224,7 +234,12 @@ class Player {
    }
   }
 
-
+  /*
+   * Updates the player's vertical speed based on whether it should be capable of sprinting up a vertical surface
+   *
+   * @param m the Map in which the Player is currently in
+   * @return None
+   */
   void climb(GameObject object) {
     // Allow climbing while jumping or while fall speed is low
     if (this.isJumping()) {
@@ -277,8 +292,9 @@ class Player {
   }
 
   /*
+   * Checks whether the player should die if it is not close enough to land on an object
    *
-   * @param m the Map in which the Player is currently in
+   * @param m   The Map in which the Player is currently in
    * @return if the Player is falling outside of the map
    */
   boolean checkForFallDeath(Map m) {
@@ -298,6 +314,7 @@ class Player {
   }
 
   /*
+   * Checks whether the player should die before impact with an object 
    *
    * @return Boolean for whether the speed of the Player makes the collision lethal
    */
@@ -309,7 +326,7 @@ class Player {
   }
 
   /*
-   * States whether boolean 
+   * States whether Player's status is alive or not
    *
    * @return if the player is alive
    */
@@ -319,7 +336,7 @@ class Player {
 
 
   /*
-   * makes the player jump
+   * Makes the player jump in next frame
    *
    * @return None
    */
@@ -333,7 +350,7 @@ class Player {
   }
 
   /*
-   * makes the player go left
+   * Makes the player go left in next frame
    *
    * @return None
    */
@@ -342,7 +359,7 @@ class Player {
   }
 
   /*
-   * makes the player go right
+   * Makes the player go right in next frame
    *
    * @return None
    */
@@ -351,7 +368,7 @@ class Player {
   }
 
   /*
-   * makes the player stop moving left
+   * Makes the player stop moving left in next frame
    *
    * @return None
    */
@@ -360,7 +377,7 @@ class Player {
   }
 
   /*
-   * makes the player stop moving right
+   * Makes the player stop moving right in next frame
    *
    * @return None
    */
@@ -383,7 +400,7 @@ class Player {
     pushStyle();
     imageMode(CENTER);
     
-    image(this.playerModel, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
+    image(this.playerSprite, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
 
     popStyle();
   }

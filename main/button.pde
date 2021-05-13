@@ -247,20 +247,19 @@ class Button {
        }
 
       if(this.isInside()){
-
+        // Animate so that button height increases
          if(this.animHeightDown > 0  && this.animHeightUp > 0){
            this.animHeightDown -= 4;
            this.animHeightUp -= 4;
          }
        }
+       // Animate so that button height decreases
       else{
            if(this.animHeightDown < this.btnHeight/2 && this.animHeightUp < this.btnHeight/2){
              this.animHeightDown += 2;
              this.animHeightUp += 2;
            }
          }
-         println(this.animHeightDown);
-         println(this.btnHeight/2);
      }
      
     /*

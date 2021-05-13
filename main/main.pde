@@ -35,7 +35,7 @@ void setup(){
  background(137, 209, 254);
  surface.setResizable(true);
  
- game = new Game(new Map(0.2, 0.2/*TODO:change gravity and friciton constants*/, getLevel1()));
+ game = new Game();
 
  mainMenu = new MainMenu();
  gameMenu = new GameMenu();

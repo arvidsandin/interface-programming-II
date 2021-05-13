@@ -121,6 +121,8 @@ class GameObject{
   /*
    * Help function for collisionDetection, taken from stackoverflow
    *
+   *
+   * @return 
    */
   float sign(float p1x, float p1y, float p2x, float p2y, float p3x, float p3y){
     return (p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y);
@@ -135,8 +137,9 @@ class GameObject{
   }
 
   /*
+   * Returns the position of a game object
    *
-   * @return The positions of the object
+   * @return The xy-position of the object in an array
    */
   float[] getPosition(){
     return new float[]{this.xPos, this.yPos};
@@ -171,7 +174,7 @@ class GameObject{
           p.getXPos() + p.getWidth()/2 > this.xPos - objWidth/2) {
         return 2;
       }
-      else if (true) {
+      else {
         return 0;
       }
     }
@@ -198,7 +201,7 @@ class GameObject{
   /*
    * States whether the game object is visible through the current dimensions of the game window
    *
-   * return boolean indicating whether the object is visible
+   * @return boolean indicating whether the object is visible
    */
   boolean isVisible(){
     float rescaledX = rescaleByWidth(xPos);
@@ -226,7 +229,7 @@ class GameObject{
    *
    * @param xMove  The direction in which the object should move on the x-axis.
    * @param yMove  The direction in which the object should move on the y-axis.
-   * return None
+   * @return None
    */
    void moveMe(float xMove, float yMove){
     this.xPos += xMove;
@@ -246,7 +249,7 @@ class GameObject{
   /*
    * Draw the object according to its given shape
    *
-   * return None
+   * @return None
    */
    void drawMe(){
      pushStyle();
