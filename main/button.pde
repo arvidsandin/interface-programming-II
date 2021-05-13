@@ -151,6 +151,43 @@ class Button {
       this.btnText = btnText;
       this.btnTextColor = btnTextColor;
       this.textFont = textFont;
+      this.xPos = xPos;
+      this.yPos = yPos;
+
+      this.btnWidth = btnWidth;
+      this.btnHeight = btnHeight;
+
+      setAnimation(animateBtn);
+
+      this.btnColor = btnColor;
+      this.btnBorderColor = btnBorderColor;
+    }
+    
+    /*
+     * Constructor with position, dimensions, colors, and ID for Button class.
+     *
+     * @param ID    The button's ID. Not guaranteed to be unique
+     * @param withLine          Whether the button should have a line to the edge of the screen's left side
+     * @param animateBtn    States whether the button should have animated height
+     * @param btnText    The button's text
+     * @param btnTextColor    The button text's color
+     * @param textFont      The button text's font
+     * @param xPos    The button's x position, relative to its upper left corner
+     * @param yPos    The button's y position, relative to its upper left corner
+     * @param btnWidth    The button's width
+     * @param btnHeight    The button's height
+     * @param btnColor    The button's color
+     * @param btnBorderColor    The button border's color
+     *
+     * @return A new Button object
+     */
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor){
+      this.ID = ID;
+
+      this.withLine = withLine;
+      this.animateBtn = animateBtn;
+
+      this.btnText = btnText;
 
       this.xPos = xPos;
       this.yPos = yPos;
@@ -178,10 +215,11 @@ class Button {
      *
      * @return A new Button object
      */
-    Button(int ID, boolean withLine, String btnText, float xPos, float yPos, color btnColor, color btnBorderColor){
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, color btnColor, color btnBorderColor){
       this.ID = ID;
 
       this.withLine = withLine;
+      setAnimation(animateBtn);
 
       this.btnText = btnText;
 
@@ -198,7 +236,7 @@ class Button {
       this.btnBorderColor = btnBorderColor;
     }
 
-     /*
+    /*
      * Animates the button from line width to full button width
      *
      * @return None
@@ -221,6 +259,8 @@ class Button {
              this.animHeightUp += 2;
            }
          }
+         println(this.animHeightDown);
+         println(this.btnHeight/2);
      }
      
     /*
@@ -300,6 +340,8 @@ class Button {
     void setBtnDimensions(float btnWidth, float btnHeight){
       this.btnWidth = btnWidth;
       this.btnHeight = btnHeight;
+      //Update animation distance
+      setAnimation(this.animateBtn);
     }
     /*
      * Sets the (x,y)-position of the button. Corresponds to upper left corner

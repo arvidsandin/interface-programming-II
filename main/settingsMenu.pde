@@ -1,9 +1,7 @@
 class settingsMenu implements Menu{
  
   
-  void createMenuButtons(){
-    
-  }
+
   
   void drawMenu(){
     
@@ -13,4 +11,11 @@ class settingsMenu implements Menu{
     
   }
   
+  void menuClick(){
+    
+  }
+  
+  void resize(){
+    
+  }
 }

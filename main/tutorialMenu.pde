@@ -9,15 +9,20 @@ public class TutorialMenu implements Menu{
   
   Button[] tutorialMenuButtons;
   
-  void createMenuButtons(){
 
+  void drawTextElements(){
+
+  }
+  
+  void menuClick(){
+    
+  }
+  
+  void resize(){
+    
   }
 
   void drawMenu(){
-
-  }
-
-  void drawTextElements(){
 
   }
 

@@ -27,7 +27,7 @@ interface Menu{
     EXIT_BUTTON,
   }
 
-  void createMenuButtons();
   void drawMenu();
-  void drawTextElements();
+  void menuClick();
+  void resize();
 }

@@ -3,7 +3,7 @@
  */
 
 public class GameMenu implements Menu{
-  color menuBackground = color(137, 209, 254, 0.4);
+  color menuBackground = color(137, 209, 254, 0.5);
 
   color btnColor = color(170,183,249);
   color btnBorderColor = color(110,123,189);
@@ -12,9 +12,9 @@ public class GameMenu implements Menu{
   float btnHeight = height / 12;
 
   color textColor = color(255);
-  PFont textFont = createFont("data/fonts/good times rg.ttf", 24, true);
+  PFont textFont = createFont("data/fonts/good times rg.ttf", width/45, true);
 
-  int topOffset = 180;
+  float topOffset = (float) width / 8;
 
   Button[] gameMenuButtons;
 
@@ -37,24 +37,11 @@ public class GameMenu implements Menu{
        * @return A new GameMenu object
       */
     GameMenu(){
-
-      this.createMenuButtons();
-    }
-
-    /*
-     * Creates all buttons that are included in the main menu.
-     *
-     * @return None
-    */
-    void createMenuButtons(){
       gameMenuButtons = new Button[btnTextLanguages[currentLanguage].length];
 
-      float widthFrac = 2;
-      float heightFrac = 8;
-
       for(int i = 0; i < gameMenuButtons.length; i++){
-        float xPosBtn = (width - this.btnWidth)/widthFrac;
-        float yPosBtn = topOffset + (height / heightFrac) * i;
+        float xPosBtn = (width - this.btnWidth)/ 2;
+        float yPosBtn = topOffset + (height / 8) * i;
 
         this.gameMenuButtons[i] = new Button(i, false, false, this.btnTextLanguages[currentLanguage][i], this.textColor, this.textFont, xPosBtn, yPosBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
       }
@@ -92,15 +79,13 @@ public class GameMenu implements Menu{
   /*
    * Click occurs while in the menu. Event will depend on which button is clicked
    *
-   *
-   *
    * @return None
   */
-  void gameMenuClick(){
+  void menuClick(){
     for (Button button:this.gameMenuButtons){
       if (button.isInside()){
         if(button.ID == this.CONTINUE){
-          println("GO BACK TO GAME");
+          navigation = NavType.INGAME;
         }
         else if(button.ID == this.SETTINGS){
           println("GO TO SETTINGS");
@@ -109,22 +94,32 @@ public class GameMenu implements Menu{
           println("GO TO LEVEL SELECTION");
         }
         else if(button.ID == this.MAINMENU){
-          println("RETURN");
           navigation = NavType.INMAINMENU;
         }
         break;
       }
     }
   }
+  
+  void resize(){
+    
+  }
 
   /***************************************************************************************************************************************************
    *  VIEW
    ***************************************************************************************************************************************************
    */
-
+    
+    /*
+     * Draws up all elements in the game menu
+     *
+     * @return None
+    */
     void drawMenu(){
       pushStyle();
-      background(this.menuBackground);
+      rectMode(CORNER);
+      fill(this.menuBackground);
+      rect(0, 0, width, height);
 
       textAlign(CENTER);
 
@@ -140,8 +135,8 @@ public class GameMenu implements Menu{
       popStyle();
     }
 
-     /*
-     * Draws up text elements in the game menu
+    /*
+     * Draws up text elements in the game menu, if there are any
      *
      * @return None
     */

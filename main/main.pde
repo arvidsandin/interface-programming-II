@@ -15,21 +15,25 @@ MainMenu mainMenu;
 GameMenu gameMenu;
 ParallaxBg parallaxBg;
 
-GameObject object;
-
 String[] languages = new String[]{"ENG", "SWE"};
 int ENG = 0;
 int SWE = 1;
 int currentLanguage = ENG;
 
+int currentWidth = 1200;
+int currentHeight = 600;
 /*
  * Sets up window and other game object's setups
+ * @return None
  */
 void setup(){
-
  //P2D uses OpenGL code to run faster on computer graphics card
- size(1280, 720, P2D);
+ frame.setResizable(true);
+ 
+ size(500, 200, P2D);
+ settings();
  background(137, 209, 254);
+ surface.setResizable(true);
  
  game = new Game(new Map(0.2, 0.2/*TODO:change gravity and friciton constants*/, getLevel1()));
 
@@ -40,6 +44,7 @@ void setup(){
 
 /*
  * Main loop of what to draw on screen
+ * @return None
  */
 void draw(){
 
@@ -61,20 +66,41 @@ void draw(){
     gameMenu.moveMenu();
     gameMenu.drawMenu();
   }
+  
+  if(width != currentWidth || height !=  currentHeight) {
+    resizeProgram();
+    currentWidth = width;
+    currentHeight = height;
+  }
+}
+
+/*
+ * Resizes all interfaces to the current sketch width and height
+ *
+ * @return None
+ */
+void resizeProgram(){
+  mainMenu.resize();
+  /*
+   gameMenu.resize();
+   tutorialMenu.resize();
+   settingsmenu.resize();
+  */
 }
 
 /*
  * Handles mouse click events in the window
+ * @return None
  */
 void mouseClicked(){
   if (navigation == NavType.INMAINMENU){
-    mainMenu.mainMenuClick();
+    mainMenu.menuClick();
   }
   else if (navigation == NavType.INSETTINGS){
 
   }
-  else if (navigation == NavType.INGAME){
-
+  else if (navigation == NavType.INGAMEMENU){
+    gameMenu.menuClick();
   }
 }
 
@@ -96,21 +122,7 @@ float rescaleByHeight(float value){
 }
 
 /*
- * Resizes all menu interfaces to the current sketch width and height
- *
- * @return None
- */
-void rescaleMenus(){
-  /*
-   gameMenu.resize();
-   mainMenu.resize();
-   tutorialMenu.resize();
-   settingsmenu.resize();
-  */
-}
-
-/*
- * 
+ * Handles key presses at different parts of the program
  *
  * @return None
  */
@@ -131,11 +143,22 @@ void keyPressed(){
     else if (key == ' '){
       game.space();
     }
+    else if (key == ESC){
+      key=0;
+      navigation = NavType.INGAMEMENU;
+    }
+  }
+  
+  if(navigation == NavType.INGAMEMENU){
+    if (key == ESC){
+      key=0;
+      navigation = NavType.INGAME;
+    }
   }
 }
 
 /*
- * 
+ * Handles key releases at different parts of the program
  *
  * @return None
  */
@@ -156,8 +179,5 @@ void keyReleased(){
     else if (key == ' '){
       game.releaseSpace();
     }
-  }
-  else if (navigation == NavType.INGAMEMENU){
-   gameMenu.gameMenuClick();
   }
 }

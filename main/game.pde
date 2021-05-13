@@ -82,7 +82,7 @@ class Game{
 
 
   /*
-   *
+   * Makes the player jump
    *
    * @return None
    */
@@ -90,14 +90,14 @@ class Game{
     player.jump();
   }
   /*
-   *
+   * Makes the player go up
    *
    * @return None
    */
   void up(){
   }
   /*
-   *
+   * Makes the player go left
    *
    * @return None
    */
@@ -105,14 +105,15 @@ class Game{
     player.goLeft();
   }
   /*
-   *
+   * Makes the player go down
    *
    * @return None
    */
   void down(){
+    // TODO: IMPLEMENT CROUCH ABILITY WHEN RUNNING/STANDING IN PLAYER
   }
   /*
-   *
+   * Makes the player go right
    *
    * @return None
    */
@@ -121,14 +122,14 @@ class Game{
   }
 
   /*
-   *
+   * Makes the player stop going up
    *
    * @return None
    */
   void releaseUp(){
   }
   /*
-   *
+   * Makes the player stop going left
    *
    * @return None
    */
@@ -136,14 +137,14 @@ class Game{
     player.stopLeft();
   }
   /*
-   *
+   * Makes the player stop going down
    *
    * @return None
    */
   void releaseDown(){
   }
   /*
-   *
+   * Makes the player stop going right
    *
    * @return None
    */
@@ -151,7 +152,7 @@ class Game{
     player.stopRight();
   }
   /*
-   *
+   * TO BE DETERMINED
    *
    * @return None
    */

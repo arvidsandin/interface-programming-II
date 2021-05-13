@@ -198,7 +198,7 @@ class Player {
   }
 
   /*
-   * updates the player's speed if it collisides with any object
+   * Updates the player's speed if it collides with any object
    *
    * @param m the Map in which the Player is currently in
    * @return None
@@ -217,65 +217,11 @@ class Player {
         }
         this.ySpeed = 0;
       }
-      //triangle, collision from above
-      //TODO: make triangle collision handling work better
-      else if (object.collisionDetection(this) == 3) {
-        if (checkForCollisionDeath()) {
-          this.isAlive = false;
-          this.ySpeed = 0;
-          this.xSpeed = 0;
-          return;
-        }
-        float oldxSpeed = this.xSpeed;
-        float oldySpeed = this.ySpeed;
-        this.ySpeed = -abs(2*oldxSpeed);
-        if (this.xSpeed == 0 || object.collisionDetection(this) != 0) {
-          this.xSpeed = 0;
-          this.ySpeed = 0;
-          //is this better?
-          this.xSpeed = -oldxSpeed;
-          return;
-        }
-        //Check the lowest angle between ~±63° that can be traveled without a collision
-        for (float i=abs(oldxSpeed); i>-abs(oldxSpeed)+0.1; i-=0.1) {
-          //i*2 is to try a wider range than 45°
-          this.ySpeed = - i*2;
-          //Normalize xSpeed and ySpeed
-          this.xSpeed = Math.signum(xSpeed)*(float)Math.cos(Math.atan(abs(ySpeed/oldxSpeed)));
-          this.ySpeed = Math.signum(ySpeed)*(float)Math.sin(Math.atan(abs(ySpeed/oldxSpeed)));
-          //Scale xSpeedand ySpeed appropriately
-          if (this.movesLeft || this.movesRight) {
-            this.xSpeed *= this.maxHorizontalSpeed;
-            this.ySpeed *= this.maxHorizontalSpeed;
-          }
-          else{
-            this.xSpeed *= this.xSpeed;
-            this.ySpeed *= this.xSpeed;
-          }
-          if (object.collisionDetection(this) != 0){
-            //Use the last i that didn't cause a collision
-            this.ySpeed = - (i+0.1)*2;
-            this.xSpeed = Math.signum(xSpeed)*(float)Math.cos(Math.atan(abs(ySpeed/oldxSpeed)));
-            this.ySpeed = Math.signum(ySpeed)*(float)Math.sin(Math.atan(abs(ySpeed/oldxSpeed)));
-            if (this.movesLeft || this.movesRight) {
-              this.xSpeed *= this.maxHorizontalSpeed;
-              this.ySpeed *= this.maxHorizontalSpeed;
-            }
-            else{
-              this.xSpeed *= this.xSpeed;
-              this.ySpeed *= this.xSpeed;
-            }
-            return;
-          }
-        }
-        this.xSpeed = 0;
-        this.ySpeed = 0;
-      }
-    }
     if (this.isFalling()){
       this.isClimbing = false;
       this.climbDistance = 0;
     }
+   }
   }
 
 
@@ -311,16 +257,15 @@ class Player {
    * @param m the Map in which the Player is currently in
    * @return None
    */
-  // TODO: Update handling of rescaled positions/width/height
   void updateMapPosition(Map m) {
-    if (rescaleByWidth(this.xPos + this.xSpeed) > 1200*m.playerBoundryX || this.xSpeed == 0) {
+    if (rescaleByWidth(this.xPos + this.xSpeed) > width*m.playerBoundryX || this.xSpeed == 0) {
       m.updateXOffset(-xSpeed);
     } else if (rescaleByWidth(this.xPos + this.xSpeed) < width-width*m.playerBoundryX) {
       m.updateXOffset(-xSpeed);
     } else {
       this.xPos = this.xPos + this.xSpeed;
     }
-
+    
     if (rescaleByHeight(yPos + ySpeed) < height-height*m.playerBoundryY || this.ySpeed == 0) {
       m.updateYOffset(-this.ySpeed);
 
