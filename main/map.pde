@@ -70,14 +70,13 @@ class Map {
       push();
       background(137, 209, 254);
       parallaxBg.drawParallax();
+      
       for (GameObject object : objects) {
         if (object.isVisible()){
           object.drawMe();
         }
       }
       pop();
-
-      
     }
 
 

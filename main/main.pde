@@ -25,6 +25,7 @@ int currentWidth = 1200;
 int currentHeight = 600;
 
 boolean muteGame = false;
+boolean useSmallLayout = false;
 
 /*
  * Sets up window and other game object's setups
@@ -71,27 +72,37 @@ void draw(){
     gameMenu.moveMenu();
     gameMenu.drawMenu();
   }
-  
-  if(width != currentWidth || height !=  currentHeight) {
-    resizeProgram();
-    currentWidth = width;
-    currentHeight = height;
-  }
 }
 
 /*
- * Resizes all interfaces to the current sketch width and height
+ * Resizes all interfaces to the current sketch width and height. 
  *
  * @return None
  */
 void resizeProgram(){
   mainMenu.resize();
-  /*
-   gameMenu.resize();
+  gameMenu.resize();
+  settingsMenu.resize();
+   /*
    tutorialMenu.resize();
-   settingsmenu.resize();
+   
   */
 }
+
+/*
+ * Updates all interfaces' languages the current selected language
+ *
+ * @return None
+ */
+void updateLanguage(){
+  mainMenu.updateLanguage();
+  gameMenu.updateLanguage();
+  settingsMenu.updateLanguage();
+  /*
+   tutorialMenu.updateLanguage();
+  */
+}
+
 
 /*
  * Handles mouse click events in the window

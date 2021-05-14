@@ -17,11 +17,11 @@ class SettingsMenu implements Menu {
   float[] titleTextPos = new float[]{(width/4) * 3, (height/5) * 2.25};
   PFont titleFont = createFont("data/fonts/good times rg.ttf", floor(height/15), true);
 
- int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}};
+ int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};
  int resolutionIndex = 1;
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
-  String[][] btnTextLanguages = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
+  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
 
   int RESOLUTION= 0;
   int MUTE= 1;
@@ -33,19 +33,24 @@ class SettingsMenu implements Menu {
    */
 
   /*
-     * Sets up fonts and menu buttons to be included in the settings menu
+   * Sets up fonts and menu buttons to be included in the settings menu
    *
    * @return A new SettingsMenu object
    */
   SettingsMenu() {
-    this.settingsMenuButtons = new Button[this.btnTextLanguages[currentLanguage].length];
+    this.settingsMenuButtons = new Button[this.btnTexts[currentLanguage].length];
 
     float xPosBtn = width / 15;
-    for (int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++) {
+    for (int i = 0; i < this.btnTexts[currentLanguage].length; i++) {
       float yPosBtn = this.yOffset + (height / 8) * i;
 
-      settingsMenuButtons[i] = new Button(i, true, this.btnTextLanguages[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
+      settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
     }
+    
+    // "Global" varaible. Resize created menu and buttons if necessary
+     if(useSmallLayout){
+        this.resize();
+      }
   }
 
 
@@ -67,8 +72,19 @@ class SettingsMenu implements Menu {
     
   }
   
+  /*
+   * Resizes menu elements according to a small or larger screen. Adapted to a 2.5:1 ratio in small size.
+   *
+   *
+   * @return None
+   */
   void resize(){
-    
+    if(useSmallLayout){
+      this.useSmallLayout();
+    }
+    else{
+      this.useBigLayout();
+    }
   }
 
   void useSmallLayout() {
@@ -92,10 +108,6 @@ class SettingsMenu implements Menu {
       btn.setAnimation(false);
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/15), true));
     }
-
-    this.title = "Parkour\nScroll";
-    this.titleTextPos[0] = width * (4.0/5);
-    updateMenuTextFontSizes(floor(height/9));
   }
 
   void useBigLayout() {
@@ -119,10 +131,6 @@ class SettingsMenu implements Menu {
       btn.setAnimation(true);
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", floor(height/25), true));
     }
-
-    this.title = "Parkour Scroll";
-    this.titleTextPos[0] = width * (4.0/5);
-    updateMenuTextFontSizes(floor(height/9));
   }
 
   void updateMenuTextFontSizes(float titleFontSize) {
@@ -135,9 +143,9 @@ class SettingsMenu implements Menu {
    *
    * @return None
    */
-  void updateBtnLanguage() {
-    for (int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++) {
-      settingsMenuButtons[i].setBtnText(btnTextLanguages[currentLanguage][i]);
+  void updateLanguage() {
+    for (int i = 0; i < this.btnTexts[currentLanguage].length; i++) {
+      settingsMenuButtons[i].setBtnText(btnTexts[currentLanguage][i]);
     }
   }
 
@@ -161,13 +169,12 @@ class SettingsMenu implements Menu {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
           surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
             if (width <= 600) {
-              this.useSmallLayout();
-              mainMenu.useSmallLayout();
+              useSmallLayout = true;
             }
             else{
-              this.useBigLayout();
-              mainMenu.useBigLayout();
+              useSmallLayout = false;
             }
+            resizeProgram();
         }
         break;
       }
@@ -203,25 +210,10 @@ class SettingsMenu implements Menu {
   }
 
   /*
-     * Draws up text elements in the settings menu
+   * Draws up text elements in the settings menu
    *
    * @return None
    */
   void drawTextElements() {
-    this.drawGameTitle();
   }
-
-  /*
-     * Draws up game title text
-   *
-   * @return None
-   */
-  void drawGameTitle() {
-    pushStyle();
-    textFont(this.titleFont);
-    fill(255);
-    text(this.title, this.titleTextPos[0], this.titleTextPos[1]);
-    popStyle();
-  }
-
 }

@@ -8,17 +8,17 @@ public class GameMenu implements Menu{
   color btnColor = color(170,183,249);
   color btnBorderColor = color(110,123,189);
 
-  float btnWidth = width / 3;
-  float btnHeight = height / 12;
+  float btnWidth = width / 2;
+  float btnHeight = height / 10;
 
   color textColor = color(255);
-  PFont textFont = createFont("data/fonts/good times rg.ttf", width/45, true);
+  PFont textFont = createFont("data/fonts/good times rg.ttf", width/44, true);
 
-  float topOffset = (float) width / 8;
+  float topOffset = (float) width / 10;
 
   Button[] gameMenuButtons;
 
-  String[][] btnTextLanguages = new String[][]{{"CONTINUE", "SETTINGS", "CHOOSE LEVEL", "MAIN MENU"}, {"FORTSÄTT", "INSTÄLLNINGAR", "VÄLJ NIVÅ", "HUVUDMENY"}};
+  String[][] btnTexts = new String[][]{{"CONTINUE", "SETTINGS", "CHOOSE LEVEL", "MAIN MENU"}, {"FORTSÄTT", "INSTÄLLNINGAR", "VÄLJ NIVÅ", "HUVUDMENY"}};
   int menuLanguage = ENG;
 
   int CONTINUE = 0;
@@ -37,13 +37,19 @@ public class GameMenu implements Menu{
        * @return A new GameMenu object
       */
     GameMenu(){
-      gameMenuButtons = new Button[btnTextLanguages[currentLanguage].length];
-
+      gameMenuButtons = new Button[btnTexts[currentLanguage].length];
+      
+      float xPosBtn = (width - this.btnWidth)/ 2;
+      float ySpacing = (height / 6);
+      
       for(int i = 0; i < gameMenuButtons.length; i++){
-        float xPosBtn = (width - this.btnWidth)/ 2;
-        float yPosBtn = topOffset + (height / 8) * i;
+        float yPosBtn = topOffset + ySpacing * i;
 
-        this.gameMenuButtons[i] = new Button(i, false, false, this.btnTextLanguages[currentLanguage][i], this.textColor, this.textFont, xPosBtn, yPosBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
+        this.gameMenuButtons[i] = new Button(i, false, false, this.btnTexts[currentLanguage][i], this.textColor, this.textFont, xPosBtn, yPosBtn, this.btnWidth, this.btnHeight, this.btnColor, this.btnBorderColor);
+      }
+      // "Global" varaible. Resize created menu and buttons if necessary
+      if(useSmallLayout){
+        this.resize();
       }
     }
     
@@ -54,7 +60,7 @@ public class GameMenu implements Menu{
     */
     void moveMenu(){
       if (currentLanguage != this.menuLanguage){
-        this.updateBtnLanguage();
+        this.updateLanguage();
       }
 
       for(int i = 0; i < this.gameMenuButtons.length; ++i){
@@ -70,9 +76,9 @@ public class GameMenu implements Menu{
      *
      * @return None
     */
-    void updateBtnLanguage(){
-      for(int i = 0; i < this.btnTextLanguages[currentLanguage].length; i++){
-             this.gameMenuButtons[i].setBtnText(this.btnTextLanguages[currentLanguage][i]);
+    void updateLanguage(){
+      for(int i = 0; i < this.btnTexts[currentLanguage].length; i++){
+             this.gameMenuButtons[i].setBtnText(this.btnTexts[currentLanguage][i]);
       }
     }
 
@@ -102,7 +108,68 @@ public class GameMenu implements Menu{
   }
   
   void resize(){
+    if(useSmallLayout){
+      this.useSmallLayout();
+    }
+    else{
+      this.useBigLayout();
+    }
+  }
+  
+  void useSmallLayout(){
+    this.btnWidth = width/2;
+    this.btnHeight = height/6;
     
+    float ySpacing = (height / 4.5);
+    float newXStartPos =  (width - this.btnWidth)/ 2;
+    
+    this.topOffset = (float) width / 25;
+    
+    int btnFontSize = width/30;
+    float newQuadOffset = 35;
+    
+    resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, newQuadOffset);
+  }
+  
+  void useBigLayout(){
+    this.btnWidth = width / 2;
+    this.btnHeight = height / 10;
+    
+    float ySpacing = (height / 6);
+    float newXStartPos = (width - this.btnWidth)/ 2;
+    
+    this.topOffset = (float) width / 10;
+    
+    int btnFontSize = width/45;
+    float newQuadOffset = 60;
+    
+    resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, newQuadOffset);
+  }
+  
+  /*
+   * Resizes the menu buttons to look better on a smaller screen. Adapted to a 2.5 ratio.
+   *
+   * @param btnWidth    The new width of the main button
+   * @param btnHeight    The new height of the main button
+   * @param xPosBtn   The x-coordinate to use for all main buttons
+   * @param ySpacing    The space between buttons on the y-axis. Measured from the center of buttons.
+   * @param btnFontSize   The new font size of the buttons
+   * @param newQuadOffset    The new quad offset to use on the buttons
+   *
+   * @return None
+   */
+  void resizeButtons(float btnWidth, float btnHeight, float xPosBtn, float ySpacing, int btnFontSize, float newQuadOffset){
+    for (int i = 0; i < this.gameMenuButtons.length; ++i) {
+      float yPosBtn = this.topOffset + ySpacing * i;
+      Button btn = this.gameMenuButtons[i];
+
+      btn.setBtnDimensions(btnWidth, btnHeight);
+      btn.setBtnPosition(xPosBtn, yPosBtn);
+      
+      btn.setQuadOffset(newQuadOffset);
+  
+      btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", btnFontSize, true));
+    }
   }
 
   /***************************************************************************************************************************************************
@@ -117,7 +184,6 @@ public class GameMenu implements Menu{
     */
     void drawMenu(){
       pushStyle();
-      rectMode(CORNER);
       fill(this.menuBackground);
       rect(0, 0, width, height);
 
