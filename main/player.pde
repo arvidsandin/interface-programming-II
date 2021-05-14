@@ -3,8 +3,8 @@
  */
 class Player {
   boolean isAlive = true;
-  float xPos = width/2;
-  float yPos = height/2;
+  float xPos = 600;
+  float yPos = 300;
   
   float playerHeight = 90;
   float playerWidth = 40;
