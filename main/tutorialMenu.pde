@@ -9,15 +9,33 @@ public class TutorialMenu implements Menu{
   
   Button[] tutorialMenuButtons;
   
-  void createMenuButtons(){
+  /*
+   * Sets up default fonts and menu buttons to be included in the game menu
+   *
+   * @param useSmallLayout  Whether the resized title should adapt to a small screen or a larger one
+   * @return A new GameMenu object
+   */
+  TutorialMenu(boolean useSmallLayout){
+    
+  }
 
+  void drawTextElements(){
+
+  }
+  
+  void menuClick(){
+    
+  }
+  
+  
+  void resize(){
+    
   }
 
   void drawMenu(){
 
   }
-
-  void drawTextElements(){
+  void updateMenuLanguage(){
 
   }
 

@@ -12,44 +12,62 @@ NavType navigation = NavType.INMAINMENU;
 
 Game game;
 MainMenu mainMenu;
+SettingsMenu settingsMenu;
 GameMenu gameMenu;
 ParallaxBg parallaxBg;
-
-GameObject object;
 
 String[] languages = new String[]{"ENG", "SWE"};
 int ENG = 0;
 int SWE = 1;
+
 int currentLanguage = ENG;
+
+boolean inGame = false;
+boolean muteGame = false;
+boolean useSmallLayout = false;
 
 /*
  * Sets up window and other game object's setups
+ * @return None
  */
 void setup(){
-
  //P2D uses OpenGL code to run faster on computer graphics card
- size(1200, 600, P2D);
+ size(1280, 720, P2D);
+ surface.setResizable(true);
+ 
  background(137, 209, 254);
- game = new Game(new Map(0.1, 0.1/*TODO:change gravity and friciton constants*/, getLevel1()));
+ surface.setResizable(true);
+ 
+ game = new Game();
+
  mainMenu = new MainMenu();
+ settingsMenu = new SettingsMenu();
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
 }
 
 /*
  * Main loop of what to draw on screen
+ * @return None
  */
 void draw(){
 
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();
     mainMenu.drawMenu();
+    inGame = false;
   }
   else if (navigation == NavType.INSETTINGS){
-
+    settingsMenu.moveMenu();
+    settingsMenu.drawMenu();
   }
   else if (navigation == NavType.INGAME){
-    game.drawGame();
+    inGame = true;
+    boolean gameOver = game.timeStep();
+    if(!gameOver){
+      game.drawGame();
+      
+    }
   }
   else if (navigation == NavType.INGAMEMENU){
     gameMenu.moveMenu();
@@ -58,20 +76,72 @@ void draw(){
 }
 
 /*
+ * Resizes all interfaces to the current sketch width and height. 
+ *
+ * @return None
+ */
+void resizeProgram(){
+  mainMenu.resize();
+  gameMenu.resize();
+  settingsMenu.resize();
+   /*
+   tutorialMenu.resize();
+  */
+}
+
+/*
+ * Updates all interfaces' languages the current selected language
+ *
+ * @return None
+ */
+void updateLanguage(){
+  mainMenu.updateMenuLanguage();
+  gameMenu.updateMenuLanguage();
+  settingsMenu.updateMenuLanguage();
+  /*
+   tutorialMenu.updateMenuLanguage();
+  */
+}
+
+
+/*
  * Handles mouse click events in the window
+ * @return None
  */
 void mouseClicked(){
   if (navigation == NavType.INMAINMENU){
-    mainMenu.mainMenuClick();
+    mainMenu.menuClick();
   }
   else if (navigation == NavType.INSETTINGS){
-
+    settingsMenu.menuClick();
   }
-  else if (navigation == NavType.INGAME){
-
+  else if (navigation == NavType.INGAMEMENU){
+    gameMenu.menuClick();
   }
 }
 
+/*
+ * Rescales a value by the current width of the window
+ *
+ * @return The rescaled value
+ */
+float rescaleByWidth(float value){
+  return value * width/1200.0;
+}
+/*
+ * Rescales a value by the current height of the window
+ *
+ * @return The rescaled value
+ */
+float rescaleByHeight(float value){
+  return value * height/600.0;
+}
+
+/*
+ * Handles key presses at different parts of the program
+ *
+ * @return None
+ */
 void keyPressed(){
   if (navigation == NavType.INGAME){
     if (key == 'w' || keyCode == UP){
@@ -89,9 +159,25 @@ void keyPressed(){
     else if (key == ' '){
       game.space();
     }
+    else if (key == ESC){
+      key=0;
+      navigation = NavType.INGAMEMENU;
+    }
+  }
+  
+  if(navigation == NavType.INGAMEMENU){
+    if (key == ESC){
+      key=0;
+      navigation = NavType.INGAME;
+    }
   }
 }
 
+/*
+ * Handles key releases at different parts of the program
+ *
+ * @return None
+ */
 void keyReleased(){
   if (navigation == NavType.INGAME){
     if (key == 'w' || keyCode == UP){
@@ -110,21 +196,4 @@ void keyReleased(){
       game.releaseSpace();
     }
   }
-  else if (navigation == NavType.INGAMEMENU){
-   gameMenu.gameMenuClick();
-  }
-}
-
-/*
- * Resizes all menu interfaces to the current sketch width and height
- *
- * @return None
- */
-void resizeMenus(){
-  /*
-   gameMenu.resize();
-   mainMenu.resize();
-   tutorialMenu.resize();
-   settingsmenu.resize();
-  */
 }
