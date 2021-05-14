@@ -3,8 +3,8 @@
  */
 class Player {
   boolean isAlive = true;
-  float xPos = 600;
-  float yPos = 300;
+  float xPos = width/2;
+  float yPos = height/2;
   
   float playerHeight = 90;
   float playerWidth = 40;
@@ -51,7 +51,7 @@ class Player {
   /*
    * Returns whether the player is moving through the air
    *
-   * @return If Player is in air
+   * @return Whether Player is in air
    */
   boolean inAir() {
     return this.ySpeed != 0;
@@ -60,7 +60,7 @@ class Player {
   /*
    * Returns whether the player is jumping up
    *
-   * @return iI Player is jumping
+   * @return Whether Player is jumping
    */
   boolean isJumping() {
     return this.ySpeed < 0;
@@ -69,7 +69,7 @@ class Player {
   /*
    * Returns whether the player is falling
    *
-   * @return if Player is falling
+   * @return Whether Player is falling
    */
   boolean isFalling() {
     return this.ySpeed > 0;
@@ -131,25 +131,41 @@ class Player {
   }
 
   /*
-   * Updates any the Player's and game map's positions that will change in one frame
+   * Updates any of the Player's positions that will change in one frame, based on the map
    *
    * @param m   The Map in which the Player is currently in
    * @return None
    */
-  void timeStep(Map m) {
+  void moveMe(Map m) {
     //Accelerations
     this.increasePlayerSpeed(m);
-
     this.addFriction(m);
+    
+    //this.updatePosition();
 
     this.handleCollision(m);
-
-    //Camera movements
-    this.updateMapPosition(m);
 
     if (this.checkForFallDeath(m)) {
       this.isAlive = false;
     }
+  }
+  
+  /*
+   * Updates the player's x-position with their horizontal speed
+   *
+   * @return None
+   */
+  void updateXPosition(){
+    this.xPos = this.xPos + this.xSpeed;
+    
+  }
+  /*
+   * Updates the player's y-position with their vertical speed
+   *
+   * @return None
+   */
+  void updateYPosition(){
+    this.yPos = this.yPos + this.ySpeed;
   }
 
   /*
@@ -266,30 +282,6 @@ class Player {
     }
   }
 
-  /*
-   * Updates what offset each object in the map should be moved in the next frame
-   *
-   * @param m the Map in which the Player is currently in
-   * @return None
-   */
-  void updateMapPosition(Map m) {
-    if (rescaleByWidth(this.xPos + this.xSpeed) > width*m.playerBoundryX || this.xSpeed == 0) {
-      m.updateXOffset(-xSpeed);
-    } else if (rescaleByWidth(this.xPos + this.xSpeed) < width-width*m.playerBoundryX) {
-      m.updateXOffset(-xSpeed);
-    } else {
-      this.xPos = this.xPos + this.xSpeed;
-    }
-    
-    if (rescaleByHeight(yPos + ySpeed) < height-height*m.playerBoundryY * 0.8|| this.ySpeed == 0) {
-      m.updateYOffset(-this.ySpeed);
-
-    } else if (rescaleByHeight(yPos + ySpeed) > height*m.playerBoundryY) {
-      m.updateYOffset(-this.ySpeed);
-    } else {
-      this.yPos = this.yPos + this.ySpeed;
-    }
-  }
 
   /*
    * Checks whether the player should die if it is not close enough to land on an object

@@ -36,8 +36,8 @@ class Game{
    * @return boolean indicating whether game over has been reached or not
    */
   boolean timeStep(){
-    map.moveMe();
-    player.timeStep(this.map);
+    player.moveMe(this.map);
+    map.moveMe(player);
 
     if(!player.isAlive()){
       this.gameOver();
@@ -79,7 +79,7 @@ class Game{
    */
     void drawGame(){
       push();
-      if(width <= 600){
+      if(useSmallLayout){
         scale((float)width/1000, (float)height/400);
       }
       else{

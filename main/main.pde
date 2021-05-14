@@ -21,8 +21,6 @@ int ENG = 0;
 int SWE = 1;
 
 int currentLanguage = ENG;
-int currentWidth = 1200;
-int currentHeight = 600;
 
 boolean inGame = false;
 boolean muteGame = false;

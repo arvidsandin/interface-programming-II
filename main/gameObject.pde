@@ -129,7 +129,7 @@ class GameObject{
   }
 
   /*
-   *
+   * Returns the dimensions of the object
    * @return The dimensions of the object
    */
   float[] getDimensions(){

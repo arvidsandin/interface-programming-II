@@ -158,7 +158,7 @@ public class GameMenu implements Menu{
   }
   
   /*
-   * Resizes the menu buttons to look better on a smaller screen. Adapted to a 2.5 ratio.
+   * Resizes the menu buttons to new dimensions and position. Adapted to a 2.5 ratio.
    *
    * @param btnWidth    The new width of the main button
    * @param btnHeight    The new height of the main button

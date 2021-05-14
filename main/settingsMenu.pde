@@ -12,10 +12,6 @@ class SettingsMenu implements Menu {
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
-  String title = "Parkour Scroll";
-  float[] titleTextPos = new float[]{(width/4) * 3, (height/5) * 2.25};
-  PFont titleFont = createFont("data/fonts/good times rg.ttf", floor(height/15), true);
-
  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};
  int resolutionIndex = 1;
 
@@ -176,7 +172,7 @@ class SettingsMenu implements Menu {
   }
   
   /*
-   * Resizes the menu buttons to look better on a smaller screen. Adapted to a 2.5 ratio.
+   * Resizes the menu buttons to new dimensions and position. Adapted to a 2.5 ratio.
    *
    * @param btnWidth    The new width of the main button
    * @param btnHeight    The new height of the main button

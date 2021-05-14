@@ -264,8 +264,6 @@ class Button {
     /*
      * Check if a point is inside button
      *
-     * @param x  x-value of point
-     * @param y  y-value of point
      * @return is point inside the button
     */
     boolean isInside(){
@@ -333,6 +331,8 @@ class Button {
     /*
      * Sets the width and height of the button
      *
+     * @param btnWidth  The button's new width
+     * @param btnHeight  The button's new height
      * @return None
      */
     void setBtnDimensions(float btnWidth, float btnHeight){
@@ -344,6 +344,8 @@ class Button {
     /*
      * Sets the (x,y)-position of the button. Corresponds to upper left corner
      *
+     * @param xPos  The button's new x-position
+     * @param yPos  The button's new y-position
      * @return None
      */
     void setBtnPosition(float xPos, float yPos){
@@ -354,6 +356,7 @@ class Button {
     /*
      * Sets whether button should have a vertical animation
      *
+     * @param  animate Whether the button should be animated or not
      * @return None
      */
     void setAnimation(boolean animate){
@@ -372,24 +375,25 @@ class Button {
     /*
      * Sets the value of quadOffset; how angled the parallelogram will be
      *
-     * @return quadOffset
+     * @param quadOffset  The new parallelogram offset for the button
+     * @return None
      */
     void setQuadOffset(float quadOffset){
       this.quadOffset = quadOffset;
     }
     
     /*
-     * Returns the value of the button ID
+     * Returns the button's height
      *
-     * @return quadOffset
+     * @return The button's height
      */
     float getBtnHeight(){
       return this.btnHeight;
     }
     /*
-     * Returns the value of the button ID
+     * Returns the button's width
      *
-     * @return quadOffset
+     * @return The button's width
      */
     float getBtnWidth(){
       return this.btnWidth;
@@ -398,7 +402,7 @@ class Button {
     /*
      * Returns the value of the button ID
      *
-     * @return quadOffset
+     * @return The button's ID
      */
     int getID(){
      return this.ID;

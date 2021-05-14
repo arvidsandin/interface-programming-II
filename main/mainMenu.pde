@@ -243,7 +243,7 @@ class MainMenu implements Menu {
   }
 
   /*
-   * Resizes the principal menu buttons to current window dimensions.
+   * Resizes the principal menu buttons to new dimensions and position.
    *
    * @param btnWidth    The new width of the main button
    * @param btnHeight    The new height of the main button
@@ -273,7 +273,7 @@ class MainMenu implements Menu {
   }
   
   /*
-   * Resizes the language buttons and accompanying text to current window dimensions.
+   * Resizes the language buttons and accompanying text to new dimensions and position.
    *
    * @param btnWidth  The new width of the language button
    * @param btnHeight  The new height of the language button

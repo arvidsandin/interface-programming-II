@@ -51,10 +51,46 @@ class Map {
    *
    * @return None
    */
-  void moveMe(){
+  void moveMe(Player p){
+    //Camera movements
+    this.updateMapPosition(p);
+    
    for (GameObject object : objects) {
      object.moveMe(xOffset, yOffset);
    }
+  }
+  
+  /*
+   * Updates what offset each object in the map should be moved in the next frame, as well as the player's position if necessary
+   *
+   * @param p The player which the map is drawn for
+   * @return None
+   */
+  void updateMapPosition(Player p) {
+    float xSpeed = p.getXSpeed();
+    float ySpeed = p.getYSpeed();
+    float xPos = p.getXPos();
+    float yPos = p.getYPos();
+    
+    if (rescaleByWidth(xPos + xSpeed) > width * this.playerBoundryX || xSpeed == 0) {
+      this.updateXOffset(-xSpeed);
+    } else if (rescaleByWidth(xPos + xSpeed) < width - width*this.playerBoundryX) {
+      this.updateXOffset(-xSpeed);
+    }
+    else{
+      p.updateXPosition();
+    }
+    
+    if (rescaleByHeight(yPos + ySpeed) < height - height * this.playerBoundryY || ySpeed == 0) {
+      this.updateYOffset(-ySpeed);
+
+    } else if (rescaleByHeight(yPos + ySpeed) > height*this.playerBoundryY) {
+      this.updateYOffset(-ySpeed);
+    }else{
+      p.updateYPosition();
+    }
+    
+    // TODO: CONSIDER WHETHER MAP SHOULD GET TO UPDATE PLAYER POSITION RATHER THAN PLAYER
   }
 
   /***************************************************************************************************************************************************

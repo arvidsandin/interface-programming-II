@@ -6,7 +6,7 @@ class Level{
   GameObject[] level;
 
   /*
-   * A class for holding game levels made from GameObjects 
+   * Creates a level
    *
    * @return A new level object
    */
