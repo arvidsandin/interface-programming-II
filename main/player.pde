@@ -281,7 +281,7 @@ class Player {
       this.xPos = this.xPos + this.xSpeed;
     }
     
-    if (rescaleByHeight(yPos + ySpeed) < height-height*m.playerBoundryY || this.ySpeed == 0) {
+    if (rescaleByHeight(yPos + ySpeed) < height-height*m.playerBoundryY * 0.8|| this.ySpeed == 0) {
       m.updateYOffset(-this.ySpeed);
 
     } else if (rescaleByHeight(yPos + ySpeed) > height*m.playerBoundryY) {

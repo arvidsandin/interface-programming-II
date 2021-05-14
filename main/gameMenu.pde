@@ -3,9 +3,10 @@
  */
 
 public class GameMenu implements Menu{
-  color menuBackground = color(137, 209, 254, 0.5);
-
-  color btnColor = color(170,183,249);
+  Button[] gameMenuButtons;
+  
+  color menuBackground = color(137, 209, 254);
+  color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110,123,189);
 
   float btnWidth = width / 2;
@@ -15,8 +16,6 @@ public class GameMenu implements Menu{
   PFont textFont = createFont("data/fonts/good times rg.ttf", width/44, true);
 
   float topOffset = (float) width / 10;
-
-  Button[] gameMenuButtons;
 
   String[][] btnTexts = new String[][]{{"CONTINUE", "SETTINGS", "CHOOSE LEVEL", "MAIN MENU"}, {"FORTSÄTT", "INSTÄLLNINGAR", "VÄLJ NIVÅ", "HUVUDMENY"}};
   int menuLanguage = ENG;
@@ -59,10 +58,6 @@ public class GameMenu implements Menu{
      * @return None
     */
     void moveMenu(){
-      if (currentLanguage != this.menuLanguage){
-        this.updateLanguage();
-      }
-
       for(int i = 0; i < this.gameMenuButtons.length; ++i){
         if(this.gameMenuButtons[i] != null){
            this.gameMenuButtons[i].moveMe();
@@ -76,7 +71,7 @@ public class GameMenu implements Menu{
      *
      * @return None
     */
-    void updateLanguage(){
+    void updateMenuLanguage(){
       for(int i = 0; i < this.btnTexts[currentLanguage].length; i++){
              this.gameMenuButtons[i].setBtnText(this.btnTexts[currentLanguage][i]);
       }
@@ -94,7 +89,7 @@ public class GameMenu implements Menu{
           navigation = NavType.INGAME;
         }
         else if(button.ID == this.SETTINGS){
-          println("GO TO SETTINGS");
+          navigation = NavType.INSETTINGS;
         }
         else if(button.ID == this.CHOOSELEVEL){
           println("GO TO LEVEL SELECTION");
@@ -107,6 +102,12 @@ public class GameMenu implements Menu{
     }
   }
   
+  /*
+   * Resizes menu elements according to a small or larger screen. Adapted to a 2.5:1 ratio in small size.
+   *
+   *
+   * @return None
+   */
   void resize(){
     if(useSmallLayout){
       this.useSmallLayout();
@@ -116,6 +117,11 @@ public class GameMenu implements Menu{
     }
   }
   
+  /*
+   * Resizes menu elements to be more visible on a small screen. 
+   *
+   * @return None
+   */
   void useSmallLayout(){
     this.btnWidth = width/2;
     this.btnHeight = height/6;
@@ -128,22 +134,27 @@ public class GameMenu implements Menu{
     int btnFontSize = width/30;
     float newQuadOffset = 35;
     
-    resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, newQuadOffset);
+    this.resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, newQuadOffset);
   }
   
+  /*
+   * Resizes menu elements according to a larger screen.
+   *
+   * @return None
+   */
   void useBigLayout(){
     this.btnWidth = width / 2;
     this.btnHeight = height / 10;
     
     float ySpacing = (height / 6);
-    float newXStartPos = (width - this.btnWidth)/ 2;
+    float newXStartPos = (width - this.btnWidth)/ 2;  // Offset by btnWidth as button position is upper left corner
     
     this.topOffset = (float) width / 10;
     
     int btnFontSize = width/45;
     float newQuadOffset = 60;
     
-    resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, newQuadOffset);
+    this.resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, newQuadOffset);
   }
   
   /*
@@ -184,9 +195,9 @@ public class GameMenu implements Menu{
     */
     void drawMenu(){
       pushStyle();
-      fill(this.menuBackground);
+      fill(color( 0, 209, 209, 0.5));
       rect(0, 0, width, height);
-
+      
       textAlign(CENTER);
 
       //Draw game menu buttons

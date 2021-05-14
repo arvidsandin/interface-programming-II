@@ -35,5 +35,8 @@ public class TutorialMenu implements Menu{
   void drawMenu(){
 
   }
+  void updateMenuLanguage(){
+
+  }
 
 }

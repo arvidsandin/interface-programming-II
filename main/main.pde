@@ -24,6 +24,7 @@ int currentLanguage = ENG;
 int currentWidth = 1200;
 int currentHeight = 600;
 
+boolean inGame = false;
 boolean muteGame = false;
 boolean useSmallLayout = false;
 
@@ -56,16 +57,18 @@ void draw(){
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();
     mainMenu.drawMenu();
+    inGame = false;
   }
   else if (navigation == NavType.INSETTINGS){
     settingsMenu.moveMenu();
     settingsMenu.drawMenu();
   }
   else if (navigation == NavType.INGAME){
-
+    inGame = true;
     boolean gameOver = game.timeStep();
     if(!gameOver){
       game.drawGame();
+      
     }
   }
   else if (navigation == NavType.INGAMEMENU){
@@ -95,11 +98,11 @@ void resizeProgram(){
  * @return None
  */
 void updateLanguage(){
-  mainMenu.updateLanguage();
-  gameMenu.updateLanguage();
-  settingsMenu.updateLanguage();
+  mainMenu.updateMenuLanguage();
+  gameMenu.updateMenuLanguage();
+  settingsMenu.updateMenuLanguage();
   /*
-   tutorialMenu.updateLanguage();
+   tutorialMenu.updateMenuLanguage();
   */
 }
 
@@ -113,7 +116,7 @@ void mouseClicked(){
     mainMenu.menuClick();
   }
   else if (navigation == NavType.INSETTINGS){
-    settingsMenu.settingsMenuClick();
+    settingsMenu.menuClick();
   }
   else if (navigation == NavType.INGAMEMENU){
     gameMenu.menuClick();

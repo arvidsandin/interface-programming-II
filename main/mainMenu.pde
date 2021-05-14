@@ -2,14 +2,13 @@
  * A class for handling the 2D main menu; buttons and their respective actions
  */
 class MainMenu implements Menu {
-  color menuBackground = color(137, 209, 254);
+  Button[] mainMenuButtons;
+  
+  color menuBackground = color(137, 209, 255);
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
   color flagBorderColor = color(0, 0, 0, 0);
-  
-
-  Button[] mainMenuButtons;
 
   // Button offsets from origo on screen
   float yOffset = floor(height/3.33);
@@ -19,7 +18,7 @@ class MainMenu implements Menu {
   String title = "Parkour Scroll";
   int titleFontSize = floor(height/15);
   PFont titleFont = createFont("data/fonts/good times rg.ttf", this.titleFontSize, true);
-  float[] titleTextPos = new float[]{(width/4) * 3, (height/5) * 2.25};
+  float[] titleTextPos = new float[]{width * (2.95 / 4.0), (height/5) * 2.25};
 
   // Language buttons attributes
   int languageFontSize = ceil(height/35);
@@ -117,6 +116,48 @@ class MainMenu implements Menu {
     }
   }
   
+  /*
+   * Changes the menu button's text to the current language
+   *
+   * @return None
+   */
+  void updateMenuLanguage() {
+    for (int i = 0; i < this.btnTexts[currentLanguage].length; i++) {
+      mainMenuButtons[i].setBtnText(this.btnTexts[currentLanguage][i]);
+    }
+  }
+  
+  /*
+   * Click while in the menu. Event will depend on which button is clicked
+   *
+   * @return None
+   */
+  void menuClick() {
+    for (Button button : mainMenuButtons) {
+      if (button.isInside()) {
+        if (button.ID == this.START) {
+          navigation = NavType.INGAME;
+        } else if (button.ID == this.SETTINGS) {
+          navigation = NavType.INSETTINGS;
+        } else if (button.ID == this.TUTORIAL) {
+          println("GO TO TUTORIAL");
+        } else if (button.ID == this.QUIT) {
+          exit();
+        } 
+        // Call global update Language function
+        else if (button.ID == this.ENGBTN) {
+          currentLanguage = ENG;
+          
+          updateLanguage();
+        } else if (button.ID == this.SWEBTN) {
+          currentLanguage = SWE;
+          updateLanguage();
+        }
+        break;
+      }
+    }
+  }
+  
   
   /*
    * Resizes menu elements according to a small or larger screen. Adapted to a 2.5:1 ratio in small size.
@@ -134,7 +175,7 @@ class MainMenu implements Menu {
   }
   
   /*
-   * Resizes menu elements to be more visible on a small screen. Adapted to a 2.5:1 ratio.
+   * Resizes menu elements to be more visible on a small screen. 
    *
    * @return None
    */
@@ -202,7 +243,7 @@ class MainMenu implements Menu {
   }
 
   /*
-   * Resizes the principal menu buttons to current window dimensions, and whether to use a layout for small screens.
+   * Resizes the principal menu buttons to current window dimensions.
    *
    * @param btnWidth    The new width of the main button
    * @param btnHeight    The new height of the main button
@@ -218,8 +259,8 @@ class MainMenu implements Menu {
     int mainBtnsLength = this.mainMenuButtons.length - this.btnTexts.length;
     
     for (int i = 0; i < mainBtnsLength; ++i) {
-      float yPosBtn = this.yOffset + ySpacing * i;
       Button btn = this.mainMenuButtons[i];
+      float yPosBtn = this.yOffset + ySpacing * i;
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
@@ -232,7 +273,7 @@ class MainMenu implements Menu {
   }
   
   /*
-   * Resizes the language buttons and accompanying text to current window dimensions, and whether to use a layout for small screens.
+   * Resizes the language buttons and accompanying text to current window dimensions.
    *
    * @param btnWidth  The new width of the language button
    * @param btnHeight  The new height of the language button
@@ -255,7 +296,7 @@ class MainMenu implements Menu {
   }
 
   /*
-   * Resizes the menu text elements that aren't buttons, according to current window dimensions and whether to use a small or large layout.
+   * Resizes the menu text elements that aren't buttons, according to current window dimensions.
    *
    * @return None
    */
@@ -269,7 +310,7 @@ class MainMenu implements Menu {
     }
     else{
       this.title = "Parkour Scroll";
-      this.titleTextPos[0] = width * (3 / 4.0);
+      this.titleTextPos[0] = width * (2.95 / 4.0);
       this.titleFontSize = floor(height/15);
       
       this.showLanguageText = true;
@@ -285,53 +326,6 @@ class MainMenu implements Menu {
     this.languageTextPos[1] = height/15;
   }
   
-  
-
-  /*
-   * Changes the menu button's text to the current language
-   *
-   * @return None
-   */
-  void updateLanguage() {
-    for (int i = 0; i < this.btnTexts[currentLanguage].length; i++) {
-      mainMenuButtons[i].setBtnText(this.btnTexts[currentLanguage][i]);
-    }
-  }
-
-
-
-  /*
-   * Click while in the menu. Event will depend on which button is clicked
-   *
-   * @return None
-   */
-  void menuClick() {
-    for (Button button : mainMenuButtons) {
-      if (button.isInside()) {
-        if (button.ID == this.START) {
-          navigation = NavType.INGAME;
-        } else if (button.ID == this.SETTINGS) {
-          navigation = NavType.INSETTINGS;
-        } else if (button.ID == this.TUTORIAL) {
-          println("GO TO TUTORIAL");
-        } else if (button.ID == this.QUIT) {
-          exit();
-        } else if (button.ID == this.ENGBTN) {
-          currentLanguage = ENG;
-
-          updateLanguage();
-          settingsMenu.updateLanguage();
-        } else if (button.ID == this.SWEBTN) {
-          currentLanguage = SWE;
-          settings();
-          updateLanguage();
-          settingsMenu.updateLanguage();
-        }
-        break;
-      }
-    }
-  }
-
   /***************************************************************************************************************************************************
    *  VIEW
    ***************************************************************************************************************************************************

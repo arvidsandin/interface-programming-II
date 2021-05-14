@@ -30,4 +30,5 @@ interface Menu{
   void drawMenu();
   void menuClick();
   void resize();
+  void updateMenuLanguage();
 }
