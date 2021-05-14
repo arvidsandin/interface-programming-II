@@ -88,7 +88,6 @@ void resizeProgram(){
   settingsMenu.resize();
    /*
    tutorialMenu.resize();
-   
   */
 }
 

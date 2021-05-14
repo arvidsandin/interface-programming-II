@@ -5,7 +5,7 @@
 public class GameMenu implements Menu{
   Button[] gameMenuButtons;
   
-  color menuBackground = color(137, 209, 254);
+  color menuBackground = color(175, 175, 175, 3);
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110,123,189);
 
@@ -195,7 +195,8 @@ public class GameMenu implements Menu{
     */
     void drawMenu(){
       pushStyle();
-      fill(color( 0, 209, 209, 0.5));
+      // Transparency overwrites itself
+      fill(this.menuBackground);
       rect(0, 0, width, height);
       
       textAlign(CENTER);
