@@ -83,7 +83,8 @@ class SettingsMenu implements Menu {
       if (button.isInside()) {
         if (button.ID == this.BACK) {
           if(inGame){
-            navigation = NavType.INGAME;
+            navigation = NavType.INGAMEMENU;
+            returnToGame();
           }
           else{
             navigation = NavType.INMAINMENU;

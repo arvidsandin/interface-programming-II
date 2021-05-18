@@ -21,7 +21,6 @@ int ENG = 0;
 int SWE = 1;
 
 int currentLanguage = ENG;
-
 boolean inGame = false;
 boolean muteGame = false;
 boolean useSmallLayout = false;
@@ -66,13 +65,26 @@ void draw(){
     boolean gameOver = game.timeStep();
     if(!gameOver){
       game.drawGame();
-      
     }
   }
   else if (navigation == NavType.INGAMEMENU){
     gameMenu.moveMenu();
     gameMenu.drawMenu();
   }
+  
+  // Check whether it's possible the interface is being accessed during active game session
+  if(navigation != NavType.INGAMEMENU && navigation != NavType.INGAME && navigation != NavType.INSETTINGS){
+    inGame = false;
+  }
+}
+
+/*
+ * Draws the latest game frame without updating it
+ *
+ * @return None
+ */
+void returnToGame(){
+  game.drawGame();
 }
 
 /*
@@ -88,6 +100,24 @@ void resizeProgram(){
    tutorialMenu.resize();
   */
 }
+
+/*
+ * Rescales a value by the current width of the window
+ *
+ * @return The rescaled value
+ */
+float rescaleByWidth(float value){
+  return value * width/1200.0;
+}
+/*
+ * Rescales a value by the current height of the window
+ *
+ * @return The rescaled value
+ */
+float rescaleByHeight(float value){
+  return value * height/600.0;
+}
+
 
 /*
  * Updates all interfaces' languages the current selected language
@@ -120,22 +150,6 @@ void mouseClicked(){
   }
 }
 
-/*
- * Rescales a value by the current width of the window
- *
- * @return The rescaled value
- */
-float rescaleByWidth(float value){
-  return value * width/1200.0;
-}
-/*
- * Rescales a value by the current height of the window
- *
- * @return The rescaled value
- */
-float rescaleByHeight(float value){
-  return value * height/600.0;
-}
 
 /*
  * Handles key presses at different parts of the program

@@ -22,7 +22,7 @@ class Player {
   boolean isClimbing = false;
 
   boolean inAnimation = false;
-  PImage playerSprite = loadImage("data/models/crop.png");
+  PImage playerSprite = loadImage("data/models/Sprite sheet.png");
   // TODO: Implement ability to slide in player and game controls
    
   /***************************************************************************************************************************************************
