@@ -24,6 +24,7 @@ class Player {
   //Player visualization and animation variables
   boolean isRunning = false;
   boolean isClimbing = false;
+  boolean isFacingLeft = false;
   PImage playerSprite = loadImage("data/models/cut.png");
   PImage spriteSheet = loadImage("data/models/Sprite sheet.png");
 
