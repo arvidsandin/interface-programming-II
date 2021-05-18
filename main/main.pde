@@ -21,6 +21,9 @@ int ENG = 0;
 int SWE = 1;
 
 int currentLanguage = ENG;
+float currentWidth = 0;
+float currentHeight = 0;
+
 boolean inGame = false;
 boolean muteGame = false;
 boolean useSmallLayout = false;

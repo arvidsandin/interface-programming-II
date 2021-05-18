@@ -3,6 +3,7 @@
  */
 class Player {
   boolean isAlive = true;
+  // Position given from center of figure
   float xPos = 600;
   float yPos = 300;
   
@@ -14,34 +15,31 @@ class Player {
   float ySpeed = 0;
   float lethalSpeed = 25;
   float maxHorizontalSpeed = 5;
-  
+
   boolean movesLeft = false;
   boolean movesRight = false;
-
+  
   float climbDistance = 0;
-  boolean isClimbing = false;
 
   //Player visualization and animation variables
-  boolean inAnimation = false;
+  boolean isRunning = false;
+  boolean isClimbing = false;
   PImage playerSprite = loadImage("data/models/cut.png");
-  
-  //TODO: Implement sprite sheet
+  PImage spriteSheet = loadImage("data/models/Sprite sheet.png");
+
   // Arrays need to be initialised before the setup. 
-  //
   // The number of sprites in each row.
-  //
   int[] spriteSize = {2, 13, 13};
-  // The direction of movement: 1 is right, -1 is left
-  // 
-  int[] spriteDir = {-1, 1, 0};
   
-  int spriteHeight = 60;
-  int spriteWidth = 60;
+  // The direction of movement: -1 is left, 1 is right 
+  int[] spriteDir = {0, 1, -1};
+  // The dimensions of each sprite
+  int spriteHeight = 600;
+  int spriteWidth = 400;
   
-  // We store a sequence of images in an ArrayLists. 
-  // 
-  ArrayList<PImage> animation;
-  ArrayList<Sprite> sprite_data;
+  // We store a sequence of images in an ArrayLists.
+  ArrayList<PlayerSprite> spriteAnimations;
+  int currentSequence = 0;
   
   // TODO: Implement ability to slide in player and game controls
    
@@ -56,6 +54,8 @@ class Player {
    * @return A new Player object
    */
   Player() {
+    
+    this.initializeSprites();
   }
 
   /*
@@ -66,7 +66,51 @@ class Player {
   Player(float xPos, float yPos) {
     this.xPos = xPos;
     this.yPos = yPos;
+    
+    this.initializeSprites();
   }
+  
+  /*
+   * Creates the sprite animation sets that the player will use.
+   *
+   * @return None
+   */
+  void initializeSprites(){
+    ArrayList<PImage> animation = new ArrayList<PImage>();
+    spriteAnimations = new ArrayList<PlayerSprite>();
+    
+    for  (int i = 0; i < this.spriteSize.length; i++) {
+    // Selecting the row coordinate for animation sequence. 
+    
+    
+    int y = i * this.spriteHeight ;
+    // Separating the images of each row. 
+    //
+    for (int j = 0; j < spriteSize[i]; j++) {
+       // Find the coordinates and sizes of each individual image in the row. 
+       // 
+      int x = j * this.spriteWidth;
+      
+      // We pick the img from the spritesheet at position x, y and w wide, and h high.
+      //
+      PImage img = spriteSheet.get(x, y, this.spriteWidth, this.spriteHeight);
+      img.resize((int) this.playerWidth + 30, (int) this.playerHeight);
+      // We add this to the animation sequence.
+      // 
+      animation.add(img);
+    }
+    
+    // Each animation sequence of a separate sprite is stored in spriteAnimations, for use in the 
+    // draw method.
+    //SpriteDir's index corresponds to the sprite sheet's animation direction. Stationary, right or left.
+    this.spriteAnimations.add(new PlayerSprite(animation, this.xPos, this.yPos, this.spriteDir[i] * 0.15));
+    
+    //Then we reset the animation variable, for a new sequence.
+    // 
+    animation = new ArrayList<PImage>();
+    }
+  }
+  
 
   /*
    * Returns whether the player is moving through the air
@@ -149,26 +193,6 @@ class Player {
   float getYSpeed(){
     return this.ySpeed;
   }
-
-  /*
-   * Updates any of the Player's positions that will change in one frame, based on the map
-   *
-   * @param m   The Map in which the Player is currently in
-   * @return None
-   */
-  void moveMe(Map m) {
-    //Accelerations
-    this.increasePlayerSpeed(m);
-    this.addFriction(m);
-    
-    //this.updatePosition();
-
-    this.handleCollision(m);
-
-    if (this.checkForFallDeath(m)) {
-      this.isAlive = false;
-    }
-  }
   
   /*
    * Updates the player's x-position with their horizontal speed
@@ -186,6 +210,65 @@ class Player {
    */
   void updateYPosition(){
     this.yPos = this.yPos + this.ySpeed;
+  }
+
+  /*
+   * Updates any of the Player's positions that will change in one frame, based on the map
+   *
+   * @param m   The Map in which the Player is currently in
+   * @return None
+   */
+  void moveMe(Map m) {
+    //Accelerations
+    this.increasePlayerSpeed(m);
+    this.addFriction(m);
+    
+    // Detect collisions in the game
+    this.handleCollision(m);
+
+    if (this.checkForFallDeath(m)) {
+      this.isAlive = false;
+    }
+    
+    // Select correct sprite animation for current player activity
+    this.animate();
+  }
+  
+  void animate(){
+    
+    if(this.xSpeed == 0){
+      if(currentSequence != 0){
+        currentSequence = 0;
+        spriteAnimations.get(currentSequence).resetIndex();
+      }
+      
+      if (this.movesRight){
+        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos);  //Standing left
+      }
+      else{
+        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //Standing right
+      }
+      
+    }
+    else if (abs(this.xSpeed) > 0){
+      if (this.movesRight){
+        if(currentSequence != 1){
+          currentSequence = 1;
+          spriteAnimations.get(currentSequence).resetIndex();
+        }
+        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //RUNNING right
+      }
+      else{
+        if(currentSequence != 2){
+          currentSequence = 2;
+          spriteAnimations.get(currentSequence).resetIndex();
+        }
+         this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //RUNNING left
+      }
+    }
+    
+    
+    
   }
 
   /*
@@ -412,7 +495,9 @@ class Player {
     pushStyle();
     imageMode(CENTER);
     
-    image(this.playerSprite, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
+    this.spriteAnimations.get(currentSequence).show();
+    
+    //image(this.playerSprite, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
 
     popStyle();
   }

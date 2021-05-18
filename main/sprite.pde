@@ -1,8 +1,8 @@
 /*
  * A class for animated or static sprites to be visualized
  */
-class Sprite{
-  // We use some "global variables" for the main class (i.e., this tab). 
+class PlayerSprite{
+  // x, y correspond to index position of  
   float x, y, w, speed, index;
    
   // The length of this sprite. 
@@ -17,7 +17,7 @@ class Sprite{
   // variables in the constructor is to use a trailing "_" (underscore) for the
   // input variables.
   //
-  Sprite(ArrayList<PImage> animation_, float x_, float y_, float speed_) {
+  PlayerSprite(ArrayList<PImage> animation_, float x_, float y_, float speed_) {
     this.x = x_;
     this.y = y_;
 
@@ -46,6 +46,66 @@ class Sprite{
     // when it is used as an selector. 
     //
     index = 0.0;
+    
+    if(speed_ < 0){
+     index = len -1; 
+    }
+  }
+  
+  // This function performs the selection of the sprite, 
+  // and draws the image on the screen.
+  //
+  void show() {
+    
+    // The current sprite is addressed by a simple calculation 
+    // with the modulo operator over the index number. 
+    // 
+    int ix = abs(floor(this.index) % len);   
+    
+    pushStyle();
+    // Draw the current image on the right place on the screen. 
+    // 
+    image(animation.get(ix), this.x, this.y);
+    
+    popStyle();
+  }
+  
+  // This function performs the movement in terms of calculations
+  // 
+  void animate(float xPos, float yPos) {
+    
+    // The index number is updated with the speed. Note that speed
+    // is a floating point number. 
+    // 
+    this.index += this.speed;
+    
+    this.x = xPos;
+    this.y = yPos;
+
+    // If the speed is set to zero, we have a sprite that is stationary and just switching
+    // the sprite. 
+    // 
+    //if (this.speed == 0.0) {
+    //  this.index = abs(this.index + 0.1) % len;
+    //}
+    // The new x-position is calculated using an accelerator on the speed. 
+    // Remember that there is a framerate setting that will change the overall speed
+    // of the animation. 
+    // 
+    x += this.speed * 5;
+    
+    // We need to check for the border cases. This is similar to checking for 
+    // collisions in other animations. 
+    // 
+  }
+  
+  void resetIndex(){
+    if(this.speed < 0){
+     index = len -1; 
+    }
+    else{
+      index = 0.0;
+    }
   }
   
 }
