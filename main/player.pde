@@ -21,8 +21,28 @@ class Player {
   float climbDistance = 0;
   boolean isClimbing = false;
 
+  //Player visualization and animation variables
   boolean inAnimation = false;
-  PImage playerSprite = loadImage("data/models/Sprite sheet.png");
+  PImage playerSprite = loadImage("data/models/cut.png");
+  
+  //TODO: Implement sprite sheet
+  // Arrays need to be initialised before the setup. 
+  //
+  // The number of sprites in each row.
+  //
+  int[] spriteSize = {2, 13, 13};
+  // The direction of movement: 1 is right, -1 is left
+  // 
+  int[] spriteDir = {-1, 1, 0};
+  
+  int spriteHeight = 60;
+  int spriteWidth = 60;
+  
+  // We store a sequence of images in an ArrayLists. 
+  // 
+  ArrayList<PImage> animation;
+  ArrayList<Sprite> sprite_data;
+  
   // TODO: Implement ability to slide in player and game controls
    
   /***************************************************************************************************************************************************
