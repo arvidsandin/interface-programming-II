@@ -7,8 +7,8 @@ class Player {
   float xPos = 600;
   float yPos = 300;
   
-  float playerHeight = 90;
-  float playerWidth = 40;
+  float playerHeight = 100;
+  float playerWidth = 50;
   
   float playerAcceleration = 0.5;
   float xSpeed = 0;
