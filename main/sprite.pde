@@ -77,11 +77,13 @@ class PlayerSprite {
     // The index number is updated with the speed. Note that speed
     // is a floating point number. 
     // 
-    this.index += this.speed;
-
     if (this.speed < 0.0 && index <= 0.0) {
       index = len -1;
     }
+    
+    this.index += this.speed;
+
+    
 
     this.x = xPos;
     this.y = yPos;

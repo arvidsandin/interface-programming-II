@@ -104,113 +104,12 @@ class Player {
     // Each animation sequence of a separate sprite is stored in spriteAnimations, for use in the 
     // draw method.
     //SpriteDir's index corresponds to the sprite sheet's animation direction. Stationary, right or left.
-    this.spriteAnimations.add(new PlayerSprite(animation, this.xPos, this.yPos, this.spriteDir[i] * 0.15));
+    this.spriteAnimations.add(new PlayerSprite(animation, this.xPos, this.yPos, this.spriteDir[i] * 0.25));
     
     //Then we reset the animation variable, for a new sequence.
     // 
     animation = new ArrayList<PImage>();
     }
-  }
-  
-
-  /*
-   * Returns whether the player is moving through the air
-   *
-   * @return Whether Player is in air
-   */
-  boolean inAir() {
-    return this.ySpeed != 0;
-  }
-
-  /*
-   * Returns whether the player is jumping up
-   *
-   * @return Whether Player is jumping
-   */
-  boolean isJumping() {
-    return this.ySpeed < 0;
-  }
-
-  /*
-   * Returns whether the player is falling
-   *
-   * @return Whether Player is falling
-   */
-  boolean isFalling() {
-    return this.ySpeed > 0;
-  }
-
-  /*
-   * The width of Player 
-   *
-   * @return Width of Player
-   */
-  float getWidth(){
-    return this.playerWidth;
-  }
-
-  /*
-   * The height of Player 
-   *
-   * @return Height of Player
-   */
-  float getHeight(){
-    return this.playerHeight;
-  }
-
-
-  /*
-   * Returns the Player's x-coordinate
-   *
-   * @return Position in x-axis of Player
-   */
-  float getXPos(){
-    return this.xPos;
-  }
-
-  /*
-   * Returns the Player's y-coordinate
-   *
-   * @return Position in y-axis of Player
-   */
-  float getYPos(){
-   return this.yPos;
-  }
-
-  /*
-   * Returns the Player's horizontal speed
-   *
-   * @return Speed in x-axis of Player
-   */
-  float getXSpeed(){
-    return this.xSpeed;
-  }
-
-  /*
-   * Returns the Player's vertical speed
-   *
-   * @return Speed in y-axis of Player
-   */
-  float getYSpeed(){
-    return this.ySpeed;
-  }
-  
-  /*
-   * Updates the player's x-position with their horizontal speed
-   *
-   * @return None
-   */
-  void updateXPosition(){
-    this.xPos = this.xPos + this.xSpeed;
-    
-  }
-  /*
-   * Updates the player's y-position with their vertical speed
-   *
-   * @return None
-   */
-  void updateYPosition(){
-    this.yPos = this.yPos + this.ySpeed;
   }
 
   /*
@@ -430,6 +329,105 @@ class Player {
     return this.isAlive;
   }
 
+  /*
+   * Returns whether the player is moving through the air
+   *
+   * @return Whether Player is in air
+   */
+  boolean inAir() {
+    return this.ySpeed != 0;
+  }
+
+  /*
+   * Returns whether the player is jumping up
+   *
+   * @return Whether Player is jumping
+   */
+  boolean isJumping() {
+    return this.ySpeed < 0;
+  }
+
+  /*
+   * Returns whether the player is falling
+   *
+   * @return Whether Player is falling
+   */
+  boolean isFalling() {
+    return this.ySpeed > 0;
+  }
+
+  /*
+   * The width of Player 
+   *
+   * @return Width of Player
+   */
+  float getWidth(){
+    return this.playerWidth;
+  }
+
+  /*
+   * The height of Player 
+   *
+   * @return Height of Player
+   */
+  float getHeight(){
+    return this.playerHeight;
+  }
+
+
+  /*
+   * Returns the Player's x-coordinate
+   *
+   * @return Position in x-axis of Player
+   */
+  float getXPos(){
+    return this.xPos;
+  }
+
+  /*
+   * Returns the Player's y-coordinate
+   *
+   * @return Position in y-axis of Player
+   */
+  float getYPos(){
+   return this.yPos;
+  }
+
+  /*
+   * Returns the Player's horizontal speed
+   *
+   * @return Speed in x-axis of Player
+   */
+  float getXSpeed(){
+    return this.xSpeed;
+  }
+
+  /*
+   * Returns the Player's vertical speed
+   *
+   * @return Speed in y-axis of Player
+   */
+  float getYSpeed(){
+    return this.ySpeed;
+  }
+  
+  /*
+   * Updates the player's x-position with their horizontal speed
+   *
+   * @return None
+   */
+  void updateXPosition(){
+    this.xPos = this.xPos + this.xSpeed;
+    
+  }
+  /*
+   * Updates the player's y-position with their vertical speed
+   *
+   * @return None
+   */
+  void updateYPosition(){
+    this.yPos = this.yPos + this.ySpeed;
+  }
 
   /*
    * Makes the player jump in next frame
