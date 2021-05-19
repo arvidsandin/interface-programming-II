@@ -46,18 +46,30 @@ void setup(){
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
  musicPlayer = new MusicPlayer(this);
+
  this.loadSettings();
 
- //Choose one of the following two lines depending on if the sound should put the rest of the program on hold
- thread("loadMusicFiles");
- // this.loadFiles();
-
+ if (muteGame){
+   thread("loadMusicFiles");
+ }
+ else{
+   this.loadMusicFiles();
+ }
 }
 
+/*
+ * load music files and starts playing the music if unmuted (and is quite slow)
+ * @return None
+ */
 public void loadMusicFiles(){
   musicPlayer.loadFiles();
   musicPlayer.loop_random();
 }
+
+/*
+ * load previous settings from file
+ * @return None
+ */
 void loadSettings(){
   String[] previousSettings = loadStrings("data/settings/settings.txt");
   muteGame = Boolean.valueOf(previousSettings[0]);
@@ -72,6 +84,7 @@ void loadSettings(){
   }
   resizeProgram();
 }
+
 /*
  * Main loop of what to draw on screen
  * @return None
