@@ -3,7 +3,7 @@
  */
  class MusicPlayer{
   SoundFile[] tracks;
-  int isPlaying;
+  int currentTrack;
   boolean isReady = false;
   main m;
 
@@ -34,7 +34,7 @@
    */
   void stop_playing(){
     if (isReady){
-      tracks[isPlaying].stop();
+      tracks[currentTrack].stop();
     }
   }
 
@@ -45,7 +45,7 @@
    */
   void pause(){
     if (isReady){
-      tracks[isPlaying].pause();
+      tracks[currentTrack].pause();
     }
   }
 
@@ -55,9 +55,9 @@
    * @return None
    */
   void loopCurrent(){
-    if (isReady){
+    if (isReady && !muteGame){
       this.stop_playing();
-      tracks[isPlaying].loop();
+      tracks[currentTrack].loop();
     }
   }
 
@@ -67,11 +67,11 @@
    * @return None
    */
   void loop_random(){
-    if (isReady){
+    if (isReady && !muteGame){
       this.stop_playing();
       Random r = new Random();
-      isPlaying = r.nextInt(tracks.length);
-      tracks[isPlaying].loop();
+      currentTrack = r.nextInt(tracks.length);
+      tracks[currentTrack].loop();
     }
   }
 
@@ -81,10 +81,10 @@
    * @return None
    */
   void loopTrack(int trackNumber){
-    if (isReady){
+    if (isReady && !muteGame){
       this.stop_playing();
-      isPlaying = trackNumber;
-      tracks[isPlaying].loop();
+      currentTrack = trackNumber;
+      tracks[currentTrack].loop();
     }
   }
 
@@ -94,10 +94,10 @@
    * @return None
    */
   void playTrack(int trackNumber){
-    if (isReady){
+    if (isReady && !muteGame){
       this.stop_playing();
-      isPlaying = trackNumber;
-      tracks[isPlaying].play();
+      currentTrack = trackNumber;
+      tracks[currentTrack].play();
     }
   }
 }

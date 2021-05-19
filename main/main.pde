@@ -46,17 +46,32 @@ void setup(){
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
  musicPlayer = new MusicPlayer(this);
+ this.loadSettings();
 
  //Choose one of the following two lines depending on if the sound should put the rest of the program on hold
- // thread("loadFiles");
- this.loadFiles();
+ thread("loadMusicFiles");
+ // this.loadFiles();
+
 }
 
-public void loadFiles(){
+public void loadMusicFiles(){
   musicPlayer.loadFiles();
   musicPlayer.loop_random();
 }
+void loadSettings(){
+  String[] previousSettings = loadStrings("data/settings/settings.txt");
+  muteGame = Boolean.valueOf(previousSettings[0]);
+  settingsMenu.resolutionIndex = Integer.parseInt(previousSettings[1]);
 
+  surface.setSize(settingsMenu.resolutions[settingsMenu.resolutionIndex][0], settingsMenu.resolutions[settingsMenu.resolutionIndex][1]);
+  if (width <= 600) {
+    useSmallLayout = true;
+  }
+  else{
+    useSmallLayout = false;
+  }
+  resizeProgram();
+}
 /*
  * Main loop of what to draw on screen
  * @return None

@@ -12,8 +12,8 @@ class SettingsMenu implements Menu {
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
- int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};
- int resolutionIndex = 1;
+  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};
+  int resolutionIndex = 1;
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
   String[][] btnTexts = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
@@ -90,22 +90,30 @@ class SettingsMenu implements Menu {
           }
 
         } else if (button.ID == this.MUTE) {
-          if (muteGame){
-            musicPlayer.loopCurrent();
-          }else{
-            musicPlayer.pause();
-          }
           muteGame = !muteGame;
+          if (muteGame){
+            musicPlayer.pause();
+          }else{
+            musicPlayer.loopCurrent();
+          }
+          String[] settings = loadStrings("data/settings/settings.txt");
+          settings[0] = String.valueOf(muteGame);
+          saveStrings("data/settings/settings.txt", settings);
+
         } else if (button.ID == this.RESOLUTION) {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
           surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
-            if (width <= 600) {
-              useSmallLayout = true;
-            }
-            else{
-              useSmallLayout = false;
-            }
-            resizeProgram();
+          if (width <= 600) {
+            useSmallLayout = true;
+          }
+          else{
+            useSmallLayout = false;
+          }
+          resizeProgram();
+
+          String[] settings = loadStrings("data/settings/settings.txt");
+          settings[1] = String.valueOf(resolutionIndex);
+          saveStrings("data/settings/settings.txt", settings);
         }
         break;
       }
