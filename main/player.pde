@@ -35,7 +35,7 @@ class Player {
   // The direction of movement: -1 is left, 1 is right 
   int[] spriteDir = {0, 1, -1};
   // The dimensions of each sprite
-  int spriteHeight = 600;
+  int spriteHeight = 500;
   int spriteWidth = 400;
   
   // We store a sequence of images in an ArrayLists.
@@ -136,6 +136,7 @@ class Player {
   
   void animate(){
     
+    // Sprite animations along x-axis
     if(this.xSpeed == 0){
       if(currentSequence != 0){
         currentSequence = 0;
@@ -150,21 +151,23 @@ class Player {
       }
       
     }
-    else if (abs(this.xSpeed) > 0){
-      if (this.movesRight){
+    else if (this.xSpeed > 0){
+        this.isFacingLeft = false;
+        
         if(currentSequence != 1){
           currentSequence = 1;
           spriteAnimations.get(currentSequence).resetIndex();
         }
-        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //RUNNING right
+      
+         this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //RUNNING left or right
       }
-      else{
+     else{
+        this.isFacingLeft = true;
         if(currentSequence != 2){
           currentSequence = 2;
           spriteAnimations.get(currentSequence).resetIndex();
         }
-         this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //RUNNING left
-      }
+        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //RUNNING left or right
     }
     
     
@@ -436,7 +439,7 @@ class Player {
    */
   void jump() {
     if (this.ySpeed == 0) {
-      this.ySpeed = -5;
+      this.ySpeed = -6;
     }
     if(abs(this.xSpeed) > 0){
       this.xSpeed *= 1.75;
