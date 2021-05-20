@@ -78,7 +78,7 @@ class PlayerSprite {
     // is a floating point number. 
     // 
     if (this.speed < 0.0 && index <= 0.0) {
-      index = len -1;
+      index = len;
     }
     
     this.index += this.speed;
