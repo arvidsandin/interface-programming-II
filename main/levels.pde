@@ -1,8 +1,8 @@
 /*
- * A class for holding game levels made from GameObjects 
+ * A class for holding game levels made from GameObjects
  */
 class Level{
-  
+
   GameObject[] level;
 
   /*
@@ -18,11 +18,30 @@ class Level{
       new GameObject("rectangle", 2550, 250, 300, 100, 0, 0, color(200, 100, 240))
     };
   }
-  
+
+
+ void level1(){
+   this.level = new GameObject[]{
+     new GameObject("rectangle", 800, 450, 2895, 200, 0, 0, color(123, 132, 123)),
+     new GameObject("rectangle", 200, 275, 120, 600, 0,0, color(123, 132, 123)),
+     new GameObject("rectangle", 800, 265, 40, 180, 0, 0, color(123, 132, 123)),
+     new GameObject("rectangle", 2550, 250, 300, 100, 0, 0, color(200, 100, 240))
+   };
+ }
+
+  void tutorialLevel(){
+    this.level = new GameObject[]{
+      new GameObject("rectangle", 800, 450, 2895, 200, 0, 0, color(123, 132, 123)),
+      new GameObject("rectangle", 200, 275, 120, 600, 0,0, color(123, 132, 123)),
+      new GameObject("rectangle", 800, 865, 40, 180, 0, 0, color(123, 132, 123)),
+      new TextObject(800, 200, 0, 0, color(255), new String[] {"Use WASD to move", "Använd WASD för att röra dig"})
+    };
+  }
+
   /*
    * Returns the game level contained in the object
    *
-   * @return The game level 
+   * @return The game level
    */
   GameObject[] getLevel(){
     return this.level;

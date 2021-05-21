@@ -30,7 +30,7 @@ class GameObject{
    *  MODEL
    ***************************************************************************************************************************************************
    */
-
+GameObject(){};
  /*
   * Creates a GameObject with a given shape, color, and background texture
   *
@@ -122,7 +122,7 @@ class GameObject{
    * Help function for collisionDetection, taken from stackoverflow
    *
    *
-   * @return 
+   * @return
    */
   float sign(float p1x, float p1y, float p2x, float p2y, float p3x, float p3y){
     return (p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y);
