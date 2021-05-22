@@ -14,18 +14,22 @@ class Player {
   float xSpeed = 0;
   float ySpeed = 0;
   float lethalSpeed = 25;
-  float maxHorizontalSpeed = 5;
+  float maxHorizontalSpeed = 7;
 
+  // Variables which are set by the user when moving in game 
   boolean movesLeft = false;
   boolean movesRight = false;
-  
+  // To determine when a climb should stop
   float climbDistance = 0;
+  
+  // To determine if a climb should be possible
+  float fallDistance = 0.0;
+  boolean isFalling = false;
 
-  //Player visualization and animation variables
-  boolean isRunning = false;
+  //Used for player visualization and animation variables
   boolean isClimbing = false;
   boolean isFacingLeft = false;
-  PImage playerSprite = loadImage("data/models/cut.png");
+  Sprite playerSprite;
   PImage spriteSheet = loadImage("data/models/Sprite sheet.png");
 
   // Arrays need to be initialised before the setup. 
@@ -39,7 +43,7 @@ class Player {
   int spriteWidth = 400;
   
   // We store a sequence of images in an ArrayLists.
-  ArrayList<PlayerSprite> spriteAnimations;
+  ArrayList<Sprite> spriteAnimations;
   int currentSequence = 0;
   
   // TODO: Implement ability to slide in player and game controls
@@ -78,7 +82,7 @@ class Player {
    */
   void initializeSprites(){
     ArrayList<PImage> animation = new ArrayList<PImage>();
-    spriteAnimations = new ArrayList<PlayerSprite>();
+    spriteAnimations = new ArrayList<Sprite>();
     
     for  (int i = 0; i < this.spriteSize.length; i++) {
     // Selecting the row coordinate for animation sequence. 
@@ -105,10 +109,10 @@ class Player {
     // Each animation sequence of a separate sprite is stored in spriteAnimations, for use in the 
     // draw method.
     if(i >= 3){
-      climbanim = 0.12 * -this.spriteDir[i];
+      climbanim = 0.12 * - this.spriteDir[i];
     }
     //SpriteDir's index corresponds to the sprite sheet's animation direction. Stationary, right or left.
-    this.spriteAnimations.add(new PlayerSprite(animation, this.xPos, this.yPos, climbanim + this.spriteDir[i] * 0.25));
+    this.spriteAnimations.add(new Sprite(animation, this.xPos, this.yPos, climbanim + this.spriteDir[i] * 0.25));
     
     //Then we reset the animation variable, for a new sequence.
     // 
@@ -273,6 +277,13 @@ class Player {
     if (this.isFalling()){
       this.isClimbing = false;
       this.climbDistance = 0;
+      if(!this.isFalling){
+        this.fallDistance = 0;
+      }
+      else{
+        this.fallDistance += abs(this.ySpeed);
+        this.isFalling = true;
+      }
     }
    }
   }
@@ -284,28 +295,39 @@ class Player {
    * @return None
    */
   void climb(GameObject object) {
+    float playerTop = this.yPos - this.playerHeight/2.0;
+    
+    float objY = object.getPosition()[1];
+    float objHeight = object.getDimensions()[1];
+    float objectTop = objY - objHeight/2;
+    println(this.isClimbing);
+    println(this.ySpeed);
+    
     // Allow climbing while jumping or while fall speed is low
-    if (this.isJumping()) {
-      this.isClimbing = true;
-      float objY = object.getPosition()[1];
-      float objHeight = object.getDimensions()[1];
-
+    if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  4)) {
+      if (!this.isClimbing){
+        this.isClimbing = true;
+        this.ySpeed = -6;
+        println("Once");
+      }
+      
+      
       // To climb edge
-      if(objY - objHeight/2 > this.yPos - this.playerHeight/2){
+      if(objectTop > playerTop){
         this.ySpeed = -3;
         if(objY - objHeight/2 > this.yPos + this.playerHeight/2 -4){
           // When close to edge
           this.ySpeed = -2;
         }
       }
-      // To climb wall
-      else if(abs(this.climbDistance) <= this.playerHeight * 1.5){
-        this.ySpeed = -4;
-        this.climbDistance += this.ySpeed;
-      }
-      else{
-        this.ySpeed = 0;
-      }
+      //// To climb wall
+      //else if(abs(this.climbDistance) <= this.playerHeight * 1.25){
+      //  this.ySpeed = -4;
+      //  this.climbDistance += this.ySpeed;
+      //}
+      //else{
+      //  this.ySpeed += 0.00001;
+      //}
     }
   }
 
@@ -518,9 +540,12 @@ class Player {
     pushStyle();
     imageMode(CENTER);
     
-    this.spriteAnimations.get(currentSequence).show();
+    // Use these to showcase hitbox
+    rectMode(CENTER);
+    rect(this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
+    //
     
-    //image(this.playerSprite, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
+    this.spriteAnimations.get(currentSequence).show();
 
     popStyle();
   }

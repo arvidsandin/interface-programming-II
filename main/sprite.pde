@@ -1,23 +1,21 @@
 /*
- * A class for animated or static sprites to be visualized
+ * A class for animated or static sprites to be visualized. Code adapted from Lars Oestricher
  */
-class PlayerSprite {
+class Sprite {
   // x, y correspond to index position of  
   float x, y, w, speed, index;
 
   // The length of this sprite. 
-  //
   int len;
 
-  // A list of small images containing the separate frames. 
-  //
+  // A list of image lists; animation sequences of small images containing the separate frames. 
   ArrayList<PImage> animation;
 
   // The Constructor. One trick to avoid the problem of finding good names of 
   // variables in the constructor is to use a trailing "_" (underscore) for the
   // input variables.
   //
-  PlayerSprite(ArrayList<PImage> animation_, float x_, float y_, float speed_) {
+  Sprite(ArrayList<PImage> animation_, float x_, float y_, float speed_) {
     this.x = x_;
     this.y = y_;
 
