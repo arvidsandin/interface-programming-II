@@ -30,10 +30,10 @@ class Player {
 
   // Arrays need to be initialised before the setup. 
   // The number of sprites in each row.
-  int[] spriteSize = {2, 13, 13};
+  int[] spriteSize = {2, 13, 13, 3, 3};
   
-  // The direction of movement: -1 is left, 1 is right 
-  int[] spriteDir = {0, 1, -1};
+  // The direction of movement for each sprite: -1 is left, 1 is right
+  int[] spriteDir = {0, 1, -1, 1, -1};
   // The dimensions of each sprite
   int spriteHeight = 500;
   int spriteWidth = 400;
@@ -101,10 +101,14 @@ class Player {
       animation.add(img);
     }
     
+    float climbanim = 0.0;
     // Each animation sequence of a separate sprite is stored in spriteAnimations, for use in the 
     // draw method.
+    if(i >= 3){
+      climbanim = 0.12 * -this.spriteDir[i];
+    }
     //SpriteDir's index corresponds to the sprite sheet's animation direction. Stationary, right or left.
-    this.spriteAnimations.add(new PlayerSprite(animation, this.xPos, this.yPos, this.spriteDir[i] * 0.25));
+    this.spriteAnimations.add(new PlayerSprite(animation, this.xPos, this.yPos, climbanim + this.spriteDir[i] * 0.25));
     
     //Then we reset the animation variable, for a new sequence.
     // 
@@ -137,7 +141,24 @@ class Player {
   void animate(){
     
     // Sprite animations along x-axis
-    if(this.xSpeed == 0){
+    if (this.xSpeed == 0 && isClimbing){
+      if(currentSequence != 3 && currentSequence != 4){
+        currentSequence = 3;
+        spriteAnimations.get(currentSequence).resetIndex();
+        currentSequence = 4;
+        spriteAnimations.get(currentSequence).resetIndex();
+      }
+      if (this.isFacingLeft){
+        currentSequence = 4;
+        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos);  //Climbing left
+      }
+      else{
+        currentSequence = 3;
+        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos);  //Climbing right
+      }
+      
+    }
+    else if (this.xSpeed == 0){
       if(currentSequence != 0){
         currentSequence = 0;
         spriteAnimations.get(currentSequence).resetIndex();
