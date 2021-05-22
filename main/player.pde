@@ -137,6 +137,9 @@ class Player {
     if (this.checkForFallDeath(m)) {
       this.isAlive = false;
     }
+    else{
+     this.handleSafeFall();
+    }
     
     // Select correct sprite animation for current player activity
     this.animate();
@@ -274,24 +277,36 @@ class Player {
         }
         this.ySpeed = 0;
       }
+   }
+  }
+  
+  /*
+   * Handles events in case the fall may lead to a secondary action
+   *
+   * @return None
+   */
+  void handleSafeFall(){
     if (this.isFalling()){
       this.isClimbing = false;
       this.climbDistance = 0;
+      
+      // Set once at beginning of fall
       if(!this.isFalling){
         this.fallDistance = 0;
+        this.isFalling = true;
       }
       else{
         this.fallDistance += abs(this.ySpeed);
-        this.isFalling = true;
       }
     }
-   }
+    else{
+      this.isFalling = false;
+    }
   }
 
   /*
-   * Updates the player's vertical speed based on whether it should be capable of sprinting up a vertical surface
+   * Updates the player's vertical speed based on whether they should be capable of sprinting up a vertical surface
    *
-   * @param m the Map in which the Player is currently in
    * @return None
    */
   void climb(GameObject object) {
@@ -300,17 +315,15 @@ class Player {
     float objY = object.getPosition()[1];
     float objHeight = object.getDimensions()[1];
     float objectTop = objY - objHeight/2;
-    println(this.isClimbing);
-    println(this.ySpeed);
     
     // Allow climbing while jumping or while fall speed is low
     if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  4)) {
-      if (!this.isClimbing){
+      
+      // Set once at beginning of a climb
+      if (!this.isClimbing) {
         this.isClimbing = true;
         this.ySpeed = -6;
-        println("Once");
       }
-      
       
       // To climb edge
       if(objectTop > playerTop){
@@ -320,14 +333,11 @@ class Player {
           this.ySpeed = -2;
         }
       }
-      //// To climb wall
-      //else if(abs(this.climbDistance) <= this.playerHeight * 1.25){
-      //  this.ySpeed = -4;
-      //  this.climbDistance += this.ySpeed;
-      //}
-      //else{
-      //  this.ySpeed += 0.00001;
-      //}
+      // To climb wall
+      else if(abs(this.climbDistance) <= this.playerHeight * (3/4.0)){
+        this.ySpeed = -4;
+        this.climbDistance += this.ySpeed;
+      }
     }
   }
 
