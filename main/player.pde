@@ -14,7 +14,7 @@ class Player {
   float xSpeed = 0;
   float ySpeed = 0;
   float lethalSpeed = 25;
-  float maxHorizontalSpeed = 7;
+  float maxHorizontalSpeed = 6;
 
   // Variables which are set by the user when moving in game 
   boolean movesLeft = false;
@@ -24,7 +24,6 @@ class Player {
   
   // To determine if a climb should be possible
   float fallDistance = 0.0;
-  boolean isFalling = false;
 
   //Used for player visualization and animation variables
   boolean isClimbing = false;
@@ -290,17 +289,10 @@ class Player {
       this.isClimbing = false;
       this.climbDistance = 0;
       
-      // Set once at beginning of fall
-      if(!this.isFalling){
-        this.fallDistance = 0;
-        this.isFalling = true;
-      }
-      else{
-        this.fallDistance += abs(this.ySpeed);
-      }
+      this.fallDistance += abs(this.ySpeed);
     }
     else{
-      this.isFalling = false;
+      this.fallDistance = 0;
     }
   }
 
