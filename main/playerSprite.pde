@@ -8,7 +8,7 @@ class PlayerSprite{
   // The number of sprites in each row of the spritesheet.
   int[] spriteSize = {2, 13, 13, 3, 3};
   // The direction of movement for each sprite: -1 is left, 1 is right
-  int[] spriteDir = {-1, 1}; //{0, 1, -1, 1, -1};     To be used instead
+  int[] spriteDir = {-1, 1};
   
   // We store sequences of images in an ArrayLists.
   ArrayList<Sprite> animationSequences = new ArrayList<Sprite>();
@@ -78,9 +78,10 @@ class PlayerSprite{
       climbAnim = 0.12 * - this.spriteDir[i % 2];
     }
     
+    spriteSequence = new Sprite(animation, p.getXPos(), p.getYPos(), climbAnim + this.spriteDir[i % 2] * 0.25);
     //SpriteDir's index corresponds to the sprite sheet's animation direction. 
     // Can be stationary, right or left.
-    this.animationSequences.add(new Sprite(animation, p.getXPos(), p.getYPos(), climbAnim + this.spriteDir[i % 2] * 0.25));
+    this.animationSequences.add(spriteSequence);
     
     //Then we reset the animation variable, for a new sequence.
     animation = new ArrayList<PImage>();
