@@ -25,27 +25,16 @@ class Player {
   // To determine if a climb should be possible
   float fallDistance = 0.0;
 
-  //Used for player visualization and animation variables
+  //Used for player sprite animations 
   boolean isClimbing = false;
-  boolean isFacingLeft = false;
-  Sprite playerSprite;
-  PImage spriteSheet = loadImage("data/models/Sprite sheet.png");
+  
+  // The animation controller of the player sprites
+  PlayerSprite playerSprite;
+  // Path to player sprite sheet
+  String spriteSheetPath = "data/models/Sprite sheet.png";
 
-  // Arrays need to be initialised before the setup. 
-  // The number of sprites in each row.
-  int[] spriteSize = {2, 13, 13, 3, 3};
-  
-  // The direction of movement for each sprite: -1 is left, 1 is right
-  int[] spriteDir = {0, 1, -1, 1, -1};
-  // The dimensions of each sprite
-  int spriteHeight = 500;
-  int spriteWidth = 400;
-  
-  // We store a sequence of images in an ArrayLists.
-  ArrayList<Sprite> spriteAnimations;
-  int currentSequence = 0;
-  
-  // TODO: Implement ability to slide in player and game controls
+
+  // FUTURE IMPLEMENTATION: Ability to slide in player and game controls
    
   /***************************************************************************************************************************************************
    *  MODEL
@@ -58,8 +47,7 @@ class Player {
    * @return A new Player object
    */
   Player() {
-    
-    this.initializeSprites();
+    playerSprite = new PlayerSprite(this, spriteSheetPath);
   }
 
   /*
@@ -71,52 +59,7 @@ class Player {
     this.xPos = xPos;
     this.yPos = yPos;
     
-    this.initializeSprites();
-  }
-  
-  /*
-   * Creates the sprite animation sets that the player will use.
-   *
-   * @return None
-   */
-  void initializeSprites(){
-    ArrayList<PImage> animation = new ArrayList<PImage>();
-    spriteAnimations = new ArrayList<Sprite>();
-    
-    for  (int i = 0; i < this.spriteSize.length; i++) {
-    // Selecting the row coordinate for animation sequence. 
-    
-    
-    int y = i * this.spriteHeight ;
-    // Separating the images of each row. 
-    //
-    for (int j = 0; j < spriteSize[i]; j++) {
-       // Find the coordinates and sizes of each individual image in the row. 
-       // 
-      int x = j * this.spriteWidth;
-      
-      // We pick the img from the spritesheet at position x, y and w wide, and h high.
-      //
-      PImage img = spriteSheet.get(x, y, this.spriteWidth, this.spriteHeight);
-      img.resize((int) this.playerWidth + 30, (int) this.playerHeight);
-      // We add this to the animation sequence.
-      // 
-      animation.add(img);
-    }
-    
-    float climbanim = 0.0;
-    // Each animation sequence of a separate sprite is stored in spriteAnimations, for use in the 
-    // draw method.
-    if(i >= 3){
-      climbanim = 0.12 * - this.spriteDir[i];
-    }
-    //SpriteDir's index corresponds to the sprite sheet's animation direction. Stationary, right or left.
-    this.spriteAnimations.add(new Sprite(animation, this.xPos, this.yPos, climbanim + this.spriteDir[i] * 0.25));
-    
-    //Then we reset the animation variable, for a new sequence.
-    // 
-    animation = new ArrayList<PImage>();
-    }
+    playerSprite = new PlayerSprite(this, spriteSheetPath);
   }
 
   /*
@@ -137,69 +80,13 @@ class Player {
       this.isAlive = false;
     }
     else{
-     this.handleSafeFall();
+     this.handleClimbWhileFalling();
     }
     
     // Select correct sprite animation for current player activity
-    this.animate();
+    this.playerSprite.animate(this);
   }
   
-  void animate(){
-    
-    // Sprite animations along x-axis
-    if (this.xSpeed == 0 && isClimbing){
-      if(currentSequence != 3 && currentSequence != 4){
-        currentSequence = 3;
-        spriteAnimations.get(currentSequence).resetIndex();
-        currentSequence = 4;
-        spriteAnimations.get(currentSequence).resetIndex();
-      }
-      if (this.isFacingLeft){
-        currentSequence = 4;
-        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos);  //Climbing left
-      }
-      else{
-        currentSequence = 3;
-        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos);  //Climbing right
-      }
-      
-    }
-    else if (this.xSpeed == 0){
-      if(currentSequence != 0){
-        currentSequence = 0;
-        spriteAnimations.get(currentSequence).resetIndex();
-      }
-      
-      if (this.movesRight){
-        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos);  //Standing left
-      }
-      else{
-        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //Standing right
-      }
-      
-    }
-    else if (this.xSpeed > 0){
-        this.isFacingLeft = false;
-        
-        if(currentSequence != 1){
-          currentSequence = 1;
-          spriteAnimations.get(currentSequence).resetIndex();
-        }
-      
-         this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //RUNNING left or right
-      }
-     else{
-        this.isFacingLeft = true;
-        if(currentSequence != 2){
-          currentSequence = 2;
-          spriteAnimations.get(currentSequence).resetIndex();
-        }
-        this.spriteAnimations.get(currentSequence).animate(this.xPos, this.yPos); //RUNNING left or right
-    }
-    
-    
-    
-  }
 
   /*
    * Updates the player's speed based on gravity and whether the player is running
@@ -280,11 +167,11 @@ class Player {
   }
   
   /*
-   * Handles events in case the fall may lead to a secondary action
+   * Handles events in case a safe fall may lead to a secondary action
    *
    * @return None
    */
-  void handleSafeFall(){
+  void handleClimbWhileFalling(){
     if (this.isFalling()){
       this.isClimbing = false;
       this.climbDistance = 0;
@@ -402,6 +289,15 @@ class Player {
    */
   boolean isFalling() {
     return this.ySpeed > 0;
+  }
+  
+  /*
+   * Returns whether the player state is set to climbing
+   *
+   * @return Whether Player is climbing
+   */
+  boolean isClimbing(){
+    return this.isClimbing;
   }
 
   /*
@@ -543,11 +439,10 @@ class Player {
     imageMode(CENTER);
     
     // Use these to showcase hitbox
-    rectMode(CENTER);
-    rect(this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
-    //
+    //rectMode(CENTER);
+    //rect(this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
     
-    this.spriteAnimations.get(currentSequence).show();
+    this.playerSprite.showAnimation();
 
     popStyle();
   }

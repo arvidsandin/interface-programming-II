@@ -1,5 +1,5 @@
 /*
- * A class for animated or static sprites to be visualized. Code adapted from Lars Oestricher
+ * A class for animated or static sprites to be visualized. Code adapted from Lars Oestricher in the course Interface Programming II.
  */
 class Sprite {
   // x, y correspond to index position of  
@@ -11,10 +11,14 @@ class Sprite {
   // A list of image lists; animation sequences of small images containing the separate frames. 
   ArrayList<PImage> animation;
 
+
+/***************************************************************************************************************************************************
+ *  MODEL
+ ***************************************************************************************************************************************************
+ */
   // The Constructor. One trick to avoid the problem of finding good names of 
   // variables in the constructor is to use a trailing "_" (underscore) for the
   // input variables.
-  //
   Sprite(ArrayList<PImage> animation_, float x_, float y_, float speed_) {
     this.x = x_;
     this.y = y_;
@@ -43,29 +47,13 @@ class Sprite {
     // which is turned into an integer, through the modulo operation (below)
     // when it is used as an selector. 
     //
+    // Animations that go toward the negative x-axis expected to start from the left
     index = 0.0;
 
+    // Animations that go toward the negative x-axis expected to start from the right
     if (speed_ < 0) {
-      index = len -1;
+      index = len;
     }
-  }
-
-  // This function performs the selection of the sprite, 
-  // and draws the image on the screen.
-  //
-  void show() {
-
-    // The current sprite is addressed by a simple calculation 
-    // with the modulo operator over the index number. 
-    // 
-    int ix = abs(floor(this.index) % len);   
-
-    pushStyle();
-    // Draw the current image on the right place on the screen. 
-    // 
-    image(animation.get(ix), this.x, this.y);
-
-    popStyle();
   }
 
   // This function performs the movement in terms of calculations
@@ -79,21 +67,12 @@ class Sprite {
       index = len;
     }
     
+    // If the speed is set to zero, we have a sprite that is stationary
     this.index += this.speed;
-
-    
-
     this.x = xPos;
     this.y = yPos;
 
 
-
-    // If the speed is set to zero, we have a sprite that is stationary and just switching
-    // the sprite. 
-    // 
-    //if (this.speed == 0.0) {
-    //  this.index = abs(this.index + 0.1) % len;
-    //}
     // The new x-position is calculated using an accelerator on the speed. 
     // Remember that there is a framerate setting that will change the overall speed
     // of the animation. 
@@ -111,5 +90,27 @@ class Sprite {
     } else {
       index = 0.0;
     }
+  }
+  
+/***************************************************************************************************************************************************
+ *  VIEW
+ ***************************************************************************************************************************************************
+ */
+ 
+  // This function performs the selection of the sprite, 
+  // and draws the image on the screen.
+  //
+  void show() {
+
+    // The current sprite is addressed by a simple calculation 
+    // with the modulo operator over the index number.
+    int ix = abs(floor(this.index) % len);   
+
+    pushStyle();
+    // Draw the current image on the right place on the screen. 
+    // 
+    image(animation.get(ix), this.x, this.y);
+
+    popStyle();
   }
 }
