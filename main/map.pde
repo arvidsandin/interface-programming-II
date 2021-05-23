@@ -59,6 +59,7 @@ class Map {
       object.moveMe(xOffset, yOffset);
     }
     parallaxBg.updateOffset(xOffset);
+    parallaxBg.animate();
   }
 
   /*
