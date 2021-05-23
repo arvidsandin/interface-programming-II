@@ -54,12 +54,13 @@ class Map {
   void moveMe(Player p){
     //Camera movements
     this.updateMapPosition(p);
-    
-   for (GameObject object : objects) {
-     object.moveMe(xOffset, yOffset);
-   }
+
+    for (GameObject object : objects) {
+      object.moveMe(xOffset, yOffset);
+    }
+    parallaxBg.updateOffset(xOffset);
   }
-  
+
   /*
    * Updates what offset each object in the map should be moved in the next frame, as well as the player's position if necessary
    *
@@ -71,7 +72,7 @@ class Map {
     float ySpeed = p.getYSpeed();
     float xPos = p.getXPos();
     float yPos = p.getYPos();
-    
+
     if (rescaleByWidth(xPos + xSpeed) > width * this.playerBoundryX || xSpeed == 0) {
       this.updateXOffset(-xSpeed);
     } else if (rescaleByWidth(xPos + xSpeed) < width - width*this.playerBoundryX) {
@@ -80,7 +81,7 @@ class Map {
     else{
       p.updateXPosition();
     }
-    
+
     if (rescaleByHeight(yPos + ySpeed) < height - height * this.playerBoundryY || ySpeed == 0) {
       this.updateYOffset(-ySpeed);
 
@@ -89,7 +90,7 @@ class Map {
     }else{
       p.updateYPosition();
     }
-    
+
     // TODO: CONSIDER WHETHER MAP SHOULD GET TO UPDATE PLAYER POSITION RATHER THAN PLAYER
   }
 
@@ -106,7 +107,7 @@ class Map {
       push();
       background(137, 209, 254);
       parallaxBg.drawParallax();
-      
+
       for (GameObject object : objects) {
         if (object.isVisible()){
           object.drawMe();
