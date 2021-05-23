@@ -10,3 +10,5 @@ application.macosx
 out
 *.autosave
 main/build
+
+main/data/settings/settings.txt
