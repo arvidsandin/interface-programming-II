@@ -1,5 +1,6 @@
 /*
- * A class for animated or static sprites to be visualized. Code adapted from Lars Oestricher in the course Interface Programming II.
+ * A class for animated or static sprites to be visualized. 
+ * Code adapted from Lars Oestricher in the course Interface Programming II, at Uppsala University.
  */
 class Sprite {
   // x, y correspond to index position of  

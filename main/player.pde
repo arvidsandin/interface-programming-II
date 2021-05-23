@@ -196,7 +196,7 @@ class Player {
     float objectTop = objY - objHeight/2;
     
     // Allow climbing while jumping or while fall speed is low
-    if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  4)) {
+    if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  6)) {
       
       // Set once at beginning of a climb
       if (!this.isClimbing) {

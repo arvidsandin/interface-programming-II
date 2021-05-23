@@ -188,6 +188,14 @@ void keyPressed(){
       navigation = NavType.INGAME;
     }
   }
+  
+  if(navigation == NavType.INSETTINGS){
+    if (key == ESC){
+      key=0;
+      navigation = NavType.INGAMEMENU;
+      returnToGame();
+    }
+  }
 }
 
 /*

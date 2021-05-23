@@ -7,9 +7,9 @@ class Map {
   float xOffset = 0;
   float yOffset = 0;
   //how far to the sides the player can go before the world moves instead of player, as a fraction of width
-  float playerBoundryX = 0.6;
+  float playerBoundryX = 0.55;
   //how far up or down the player can go before the world moves instead of player, as a fraction of height
-  float playerBoundryY = 0.6;
+  float playerBoundryY = 0.5;
   GameObject[] objects;
 
   /*
