@@ -78,6 +78,37 @@ class Game{
   }
   
   /*
+   * Will load a game level into the game. Currently there's only one
+   *
+   * @return None
+   */
+  void loadLevel(){
+    // Load tutorial level
+    this.level.level1();
+    
+    // Update map to use the level
+    map.changeLevel(this.level.getLevel());
+    game.resetGame();
+  }
+  
+  /*
+   * Will load the game tutorial
+   *
+   * @return None
+   */
+  void loadTutorial(){
+    // Load tutorial level
+    this.level.tutorialLevel();
+    // Update map to use the level
+    map.changeLevel(this.level.getLevel());
+    
+    // Update text size
+    this.resizeTutorialText();
+    // Resets game to put player at start of tutorial
+    game.resetGame();
+  }
+  
+  /*
    * Resizes text elements of the tutorial level to current window dimensions
    *
    * @return None

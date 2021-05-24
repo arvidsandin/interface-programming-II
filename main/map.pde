@@ -94,6 +94,15 @@ class Map {
 
     // TODO: CONSIDER WHETHER MAP SHOULD GET TO UPDATE PLAYER POSITION RATHER THAN PLAYER
   }
+
+  /*
+   * Loads a new level into the map
+   *
+   * @return None
+   */
+  void changeLevel(GameObject[] o){
+    this.objects = o;
+  }
   
   /*
    * Resizes text elements of the tutorial level to current window dimensions

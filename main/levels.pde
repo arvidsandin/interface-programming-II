@@ -39,6 +39,8 @@ class Level{
       new TextObject(1600, 200, 0, 0, color(255), new String[] {"Use Space to jump", "Använd mellanslag för att hoppa"}),
       new GameObject("rectangle", 3400, 300, 50, 100, 0, 0, color(123, 132, 123)),
       new TextObject(2800, 200, 0, 0, color(255), new String[] {"Keep moving against a wall while jumping \nto climb a short distance", "Fortsätt röra dig mot en vägg under ett hopp \nför att klättra en kort sträcka"}),
+      new GameObject("rectangle", 3400, 300, 50, 100, 0, 0, color(123, 132, 123)),
+      new TextObject();
     };
   }
 

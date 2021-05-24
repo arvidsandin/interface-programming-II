@@ -38,6 +38,7 @@ class TextObject extends GameObject{
    *
    * @return No collision: 0
    */
+   @Override
    int collisionDetection(Player p){
      return 0;
    }
@@ -49,7 +50,7 @@ class TextObject extends GameObject{
    */
    void resize(){
      if (useSmallLayout){
-       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/10), true);
+       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/5), true);
      }
      else{
        textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
@@ -69,6 +70,7 @@ class TextObject extends GameObject{
    *
    * @return None
    */
+   @Override
    void drawMe(){
      pushStyle();
 

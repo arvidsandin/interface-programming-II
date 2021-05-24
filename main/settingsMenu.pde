@@ -257,15 +257,15 @@ class SettingsMenu implements Menu {
     this.settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
 
     // Update position of resolution button text
-    resolutionXPos = settingsMenuButtons[RESOLUTION].getXPos() + settingsMenuButtons[RESOLUTION].getBtnWidth() + 120;
+    resolutionXPos = settingsMenuButtons[RESOLUTION].getXPos() + settingsMenuButtons[RESOLUTION].getBtnWidth() + width/20;
     resolutionYPos = settingsMenuButtons[RESOLUTION].getYPos() + settingsMenuButtons[RESOLUTION].getBtnHeight()/2.0 + 8;
 
     // Update position of music button text
-    musicXPos = settingsMenuButtons[MUSIC].getXPos() + settingsMenuButtons[MUSIC].getBtnWidth() + 100;
+    musicXPos = settingsMenuButtons[MUSIC].getXPos() + settingsMenuButtons[MUSIC].getBtnWidth() + width/20;
     musicYPos = settingsMenuButtons[MUSIC].getYPos() + settingsMenuButtons[MUSIC].getBtnHeight()/2.0 + 8;
 
     // Set position of mute button text
-    muteXPos = settingsMenuButtons[MUTE].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + 100;
+    muteXPos = settingsMenuButtons[MUTE].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + width/20;
     muteYPos = settingsMenuButtons[MUTE].getYPos() + settingsMenuButtons[MUTE].getBtnHeight()/2.0 + 8;
   }
 
@@ -320,15 +320,12 @@ class SettingsMenu implements Menu {
   void drawTextElements() {
     pushStyle();
     textFont(settingsTextFont);
-    textAlign(CENTER);
+    textAlign(CORNER);
     int mute = muteGame ? 1 : 0;
 
     text(noAudioText[currentLanguage][mute], muteXPos, muteYPos);
     
-    pushStyle();
-    textAlign(LEFT);
     text(songTitles[selectedSong], musicXPos, musicYPos);
-    popStyle();
       
     text(String.valueOf(resolutions[resolutionIndex][0]) + " x " + String.valueOf(resolutions[resolutionIndex][1]), resolutionXPos, resolutionYPos);
     popStyle();

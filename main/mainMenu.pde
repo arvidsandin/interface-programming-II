@@ -139,14 +139,12 @@ class MainMenu implements Menu {
     for (Button button : mainMenuButtons) {
       if (button.isInside()) {
         if (button.ID == this.START) {
-          game.level.level1();
-          game.resetGame();
+          game.loadLevel();
           navigation = NavType.INGAME;
         } else if (button.ID == this.SETTINGS) {
           navigation = NavType.INSETTINGS;
         } else if (button.ID == this.TUTORIAL) {
-          game.level.tutorialLevel();
-          game.resetGame();
+          game.loadTutorial();
           navigation = NavType.INGAME;
         } else if (button.ID == this.QUIT) {
           exit();
