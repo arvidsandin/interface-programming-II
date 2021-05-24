@@ -24,6 +24,7 @@ int SWE = 1;
 int currentLanguage = ENG;
 float currentWidth = 0;
 float currentHeight = 0;
+int selectedSong = 0;
 
 boolean inGame = false;
 boolean muteGame = false;
@@ -38,7 +39,7 @@ void setup(){
  size(1280, 720, P2D);
  surface.setResizable(true);
 
- background(137, 209, 254);
+ //background(137, 209, 254);
  surface.setResizable(true);
 
  game = new Game();
@@ -65,7 +66,9 @@ void setup(){
  */
 public void loadMusicFiles(){
   musicPlayer.loadFiles();
-  musicPlayer.loop_random();
+  if(!muteGame){
+    musicPlayer.loopTrack(selectedSong);
+  }
 }
 
 /*
@@ -218,6 +221,7 @@ void keyPressed(){
     else if (key == ESC){
       key=0;
       navigation = NavType.INGAMEMENU;
+      game.resetControls();
     }
   }
 

@@ -5,6 +5,7 @@
   SoundFile[] tracks;
   int currentTrack;
   boolean isReady = false;
+  boolean isPlaying = !muteGame;
   main m;
 
   /***************************************************************************************************************************************************
@@ -46,6 +47,7 @@
   void pause(){
     if (isReady){
       tracks[currentTrack].pause();
+      isPlaying = false;
     }
   }
 
@@ -55,9 +57,12 @@
    * @return None
    */
   void loopCurrent(){
+    // Global variable sets track to loop
+    currentTrack = selectedSong;
     if (isReady && !muteGame){
       this.stop_playing();
       tracks[currentTrack].loop();
+      isPlaying = true;
     }
   }
 
@@ -72,6 +77,7 @@
       Random r = new Random();
       currentTrack = r.nextInt(tracks.length);
       tracks[currentTrack].loop();
+      isPlaying = true;
     }
   }
 
@@ -85,6 +91,7 @@
       this.stop_playing();
       currentTrack = trackNumber;
       tracks[currentTrack].loop();
+      isPlaying = true;
     }
   }
 
@@ -98,6 +105,23 @@
       this.stop_playing();
       currentTrack = trackNumber;
       tracks[currentTrack].play();
+      isPlaying = true;
     }
+  }
+  
+  /*
+   * Stops playing a specified track if it is running
+   *
+   * @return None
+   */
+  void stopTrack(int trackNumber){
+      this.stop_playing();
+      currentTrack = trackNumber;
+      tracks[currentTrack].play();
+      isPlaying = false;
+  }
+  
+  boolean isPlaying(){
+    return isPlaying;
   }
 }

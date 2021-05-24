@@ -46,6 +46,16 @@ class Game{
     }
     return false;
   }
+  
+  /*
+   * Any currently active player control is stopped
+   *
+   * @return None
+   */
+  void resetControls(){
+    player.stopLeft();
+    player.stopRight();
+  }
 
   /*
    * Exits the game and passes control back to main menu.

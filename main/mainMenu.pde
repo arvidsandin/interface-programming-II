@@ -59,7 +59,6 @@ class MainMenu implements Menu {
    * @return A new MainMenu object
    */
   MainMenu(Button[] menuButtons, String title, PFont titleFont, PFont languageFont) {
-
     this.title = title;
     this.titleFont = titleFont;
     this.languageFont = languageFont;
@@ -167,8 +166,7 @@ class MainMenu implements Menu {
   /*
    * Resizes menu elements according to a small or larger screen. Adapted to a 2.5:1 ratio in small size.
    *
-   *
-   * @return None
+   turn None
    */
   void resize(){
     if(useSmallLayout){
@@ -177,6 +175,7 @@ class MainMenu implements Menu {
     else{
       this.useBigLayout();
     }
+    this.menuBackground.resize(width, height);
   }
   
   /*
@@ -342,6 +341,16 @@ class MainMenu implements Menu {
     
   }
   
+  /*
+   * Ensures the background isn't rescaled more than once, to avoid degrading quality
+   *
+   * @return None
+   */
+  void reloadBackground(){
+    menuBackground = loadImage("data/menu_images/MenuGradient.png");
+    menuBackground.resize(width, height);
+  }
+  
   /***************************************************************************************************************************************************
    *  VIEW
    ***************************************************************************************************************************************************
@@ -352,12 +361,14 @@ class MainMenu implements Menu {
    *
    * @return None
    */
-  void drawMenu() {
+  void drawMenu(){
     pushStyle();
     // An image must be the same pixel size as the background
-    this.menuBackground.resize(width, height);
+    if(menuBackground.width != width ||  menuBackground.height != height){
+      reloadBackground();
+    }
     background(this.menuBackground);
-
+    
     textAlign(CENTER);
 
     //Draw main menu buttons
