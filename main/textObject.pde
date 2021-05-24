@@ -75,6 +75,7 @@ class TextObject extends GameObject{
      noStroke();
      rectMode(CENTER);
      fill(this.fillColor);
+     textFont(textFont);
      
      rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
      
