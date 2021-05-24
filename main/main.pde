@@ -142,7 +142,7 @@ void resizeProgram(){
   gameMenu.resize();
   settingsMenu.resize();
    /*
-   tutorialMenu.resize();
+   gameStateMenu.resize();
   */
 }
 
@@ -174,7 +174,7 @@ void updateLanguage(){
   gameMenu.updateMenuLanguage();
   settingsMenu.updateMenuLanguage();
   /*
-   tutorialMenu.updateMenuLanguage();
+   gameStateMenu.updateMenuLanguage();
   */
 }
 

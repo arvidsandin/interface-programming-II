@@ -3,8 +3,7 @@
  */
 class MainMenu implements Menu {
   Button[] mainMenuButtons;
-  //PImage menuBackground = loadImage("data/menu_images/MenuGradient.png");
-  color menuBackground = color(137, 209, 254);
+  PImage menuBackground = loadImage("data/menu_images/MenuGradient.png");
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
@@ -179,7 +178,7 @@ class MainMenu implements Menu {
     else{
       this.useBigLayout();
     }
-    //this.menuBackground.resize(width, height);
+    this.menuBackground.resize(width, height);
   }
 
   /*
@@ -350,10 +349,10 @@ class MainMenu implements Menu {
    *
    * @return None
    */
-  //void reloadBackground(){
-  //  menuBackground = loadImage("data/menu_images/MenuGradient.png");
-  //  menuBackground.resize(width, height);
-  //}
+  void reloadBackground(){
+    menuBackground = loadImage("data/menu_images/MenuGradient.png");
+    menuBackground.resize(width, height);
+  }
 
   /***************************************************************************************************************************************************
    *  VIEW
@@ -368,9 +367,9 @@ class MainMenu implements Menu {
   void drawMenu(){
     pushStyle();
     // An image must be the same pixel size as the background
-    //if(menuBackground.width != width ||  menuBackground.height != height){
-    //  reloadBackground();
-    //}
+    if(menuBackground.width != width ||  menuBackground.height != height){
+      reloadBackground();
+    }
     background(this.menuBackground);
     
     textAlign(CENTER);

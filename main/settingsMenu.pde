@@ -4,8 +4,7 @@
 class SettingsMenu implements Menu {
   Button[] settingsMenuButtons;
 
-  //PImage menuBackground = loadImage("data/menu_images/MenuGradient.png");
-  color menuBackground = color(137, 209, 254);
+  PImage menuBackground = loadImage("data/menu_images/MenuGradient.png");
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
@@ -164,7 +163,7 @@ class SettingsMenu implements Menu {
     } else {
       this.useBigLayout();
     }
-    //this.menuBackground.resize(width, height);
+    this.menuBackground.resize(width, height);
   }
 
   /*
@@ -258,7 +257,7 @@ class SettingsMenu implements Menu {
     this.settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
 
     // Update position of resolution button text
-    resolutionXPos = settingsMenuButtons[RESOLUTION].getXPos() * 1.5 + settingsMenuButtons[RESOLUTION].getBtnWidth() + width / 12;
+    resolutionXPos = settingsMenuButtons[RESOLUTION].getXPos() + settingsMenuButtons[RESOLUTION].getBtnWidth() + 120;
     resolutionYPos = settingsMenuButtons[RESOLUTION].getYPos() + settingsMenuButtons[RESOLUTION].getBtnHeight()/2.0 + 8;
 
     // Update position of music button text
@@ -275,10 +274,10 @@ class SettingsMenu implements Menu {
    *
    * @return None
    */
-  //void reloadBackground() {
-  //  menuBackground = loadImage("data/menu_images/MenuGradient.png");
-  //  menuBackground.resize(width, height);
-  //}
+  void reloadBackground() {
+    menuBackground = loadImage("data/menu_images/MenuGradient.png");
+    menuBackground.resize(width, height);
+  }
 
 
   /***************************************************************************************************************************************************
@@ -294,9 +293,9 @@ class SettingsMenu implements Menu {
   void drawMenu() {
     pushStyle();
     // An image must be the same pixel size as the background
-    //if (menuBackground.width != width ||  menuBackground.height != height) {
-    //  reloadBackground();
-    //}
+    if (menuBackground.width != width ||  menuBackground.height != height) {
+      reloadBackground();
+    }
     background(this.menuBackground);
 
     textAlign(CENTER);
@@ -322,7 +321,7 @@ class SettingsMenu implements Menu {
     pushStyle();
     textFont(settingsTextFont);
     textAlign(CENTER);
-    int mute = muteGame ? 0 : 1;
+    int mute = muteGame ? 1 : 0;
 
     text(noAudioText[currentLanguage][mute], muteXPos, muteYPos);
 

@@ -1,6 +1,8 @@
 class TextObject extends GameObject{
   String[] text;
-  PFont textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
+  PFont bigtextFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
+  
+  PFont smallTextFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/10), true);
   /*
    * Creates a TextObject with a given color
    *
@@ -24,28 +26,29 @@ class TextObject extends GameObject{
      this.yMove = yMove;
      this.text = text;
      this.objWidth = textWidth(this.text[currentLanguage]);
+     
+     
    }
 
    int collisionDetection(Player p){
      return 0;
    }
-
+   
    void drawMe(){
      pushStyle();
 
      noStroke();
      rectMode(CENTER);
      fill(this.fillColor);
-
-     rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
-     textFont(this.textFont);
-     fill(this.fillColor);
+     
      if (useSmallLayout){
-       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/10), true);
+       textFont(smallTextFont);
      }
      else{
-       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
+       textFont(bigtextFont);
      }
+     rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
+     
      textLeading(30);
      text(this.text[currentLanguage], this.xPos, this.yPos);
 
