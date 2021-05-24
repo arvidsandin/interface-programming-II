@@ -76,33 +76,16 @@ class Game{
     // this.level = new Level();
     this.map = new Map(0.2, 0.2/*TODO:change gravity and friction constants*/, this.level.getLevel());
   }
-
-  /***************************************************************************************************************************************************
-   *  VIEW
-   ***************************************************************************************************************************************************
-   */
-
+  
   /*
-   * Draws up the game and everything inside it
+   * Resizes text elements of the tutorial level to current window dimensions
    *
    * @return None
    */
-    void drawGame(){
-      push();
-      if(useSmallLayout){
-        scale((float)width/1000, (float)height/400);
-      }
-      else{
-        scale((float)width/1200, (float)height/600);
-      }
-
-      map.drawMe();
-      player.drawMe();
-
-      pop();
-    }
-
-
+  void resizeTutorialText(){
+    map.resizeTutorialText();
+  }
+  
   /*
    * Makes the player jump
    *
@@ -180,5 +163,30 @@ class Game{
    */
   void releaseSpace(){
   }
+
+  /***************************************************************************************************************************************************
+   *  VIEW
+   ***************************************************************************************************************************************************
+   */
+
+  /*
+   * Draws up the game and everything inside it
+   *
+   * @return None
+   */
+    void drawGame(){
+      push();
+      if(useSmallLayout){
+        scale((float)width/1000, (float)height/400);
+      }
+      else{
+        scale((float)width/1200, (float)height/600);
+      }
+
+      map.drawMe();
+      player.drawMe();
+
+      pop();
+    }
 
 }

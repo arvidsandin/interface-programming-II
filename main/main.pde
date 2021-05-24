@@ -26,6 +26,8 @@ float currentWidth = 0;
 float currentHeight = 0;
 int selectedSong = 0;
 
+Sound globalSound = new Sound(this);
+
 boolean inGame = false;
 boolean muteGame = false;
 boolean useSmallLayout = false;
@@ -49,8 +51,9 @@ void setup(){
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
  musicPlayer = new MusicPlayer(this);
-
+ 
  this.loadSettings();
+ globalSound.volume(0.15);
 
  if (muteGame){
    thread("loadMusicFiles");
@@ -141,6 +144,7 @@ void resizeProgram(){
   mainMenu.resize();
   gameMenu.resize();
   settingsMenu.resize();
+  game.resizeTutorialText();
    /*
    gameStateMenu.resize();
   */

@@ -94,6 +94,19 @@ class Map {
 
     // TODO: CONSIDER WHETHER MAP SHOULD GET TO UPDATE PLAYER POSITION RATHER THAN PLAYER
   }
+  
+  /*
+   * Resizes text elements of the tutorial level to current window dimensions
+   *
+   * @return None
+   */
+  void resizeTutorialText(){
+    for(GameObject object : objects){
+      if (object instanceof TextObject){
+        ((TextObject) object).resize();
+      }
+    }
+  }
 
   /***************************************************************************************************************************************************
    *  VIEW

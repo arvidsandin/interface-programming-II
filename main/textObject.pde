@@ -1,8 +1,13 @@
 class TextObject extends GameObject{
   String[] text;
-  PFont bigtextFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
+  PFont textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
   
-  PFont smallTextFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/10), true);
+  
+/***************************************************************************************************************************************************
+ *  MODEL
+ ***************************************************************************************************************************************************
+ */
+
   /*
    * Creates a TextObject with a given color
    *
@@ -26,14 +31,44 @@ class TextObject extends GameObject{
      this.yMove = yMove;
      this.text = text;
      this.objWidth = textWidth(this.text[currentLanguage]);
-     
-     
    }
 
+  /*
+   * Collision detection for a text object, which are never collidable
+   *
+   * @return No collision: 0
+   */
    int collisionDetection(Player p){
      return 0;
    }
    
+  /*
+   * Resizes the object's text according to current window dimensions
+   *
+   * @return None
+   */
+   void resize(){
+     if (useSmallLayout){
+       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/10), true);
+     }
+     else{
+       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
+     }
+   }
+   
+   
+   
+/***************************************************************************************************************************************************
+ *  VIEW
+ ***************************************************************************************************************************************************
+ */
+   
+   
+  /*
+   * Draws up the text object 
+   *
+   * @return None
+   */
    void drawMe(){
      pushStyle();
 
@@ -41,12 +76,6 @@ class TextObject extends GameObject{
      rectMode(CENTER);
      fill(this.fillColor);
      
-     if (useSmallLayout){
-       textFont(smallTextFont);
-     }
-     else{
-       textFont(bigtextFont);
-     }
      rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
      
      textLeading(30);

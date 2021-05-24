@@ -324,8 +324,11 @@ class SettingsMenu implements Menu {
     int mute = muteGame ? 1 : 0;
 
     text(noAudioText[currentLanguage][mute], muteXPos, muteYPos);
-
+    
+    pushStyle();
+    textAlign(LEFT);
     text(songTitles[selectedSong], musicXPos, musicYPos);
+    popStyle();
       
     text(String.valueOf(resolutions[resolutionIndex][0]) + " x " + String.valueOf(resolutions[resolutionIndex][1]), resolutionXPos, resolutionYPos);
     popStyle();
