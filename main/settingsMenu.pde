@@ -8,6 +8,7 @@ class SettingsMenu implements Menu {
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
+  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
 
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
@@ -16,8 +17,11 @@ class SettingsMenu implements Menu {
  int resolutionIndex = 1;
 
 
-  //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
-  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
+  int settingsFontSize = ceil(height/15);
+  PFont settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
+  // Either song title or audio off is shown
+  String[] songChoice = {"House", "Boundless Energy"};
+  String[] noAudioText = {"OFF", "AV"};
 
   int RESOLUTION= 0;
   int MUTE= 1;
@@ -223,11 +227,12 @@ class SettingsMenu implements Menu {
   void resizeMenuTextElements() {
     //TBD: Implement so that e.g. screen resolution text is resized.
     if(useSmallLayout){
-
+       this.settingsFontSize = ceil(height/15);
     }
     else{
-
+       this.settingsFontSize = ceil(height/15);
     }
+    this.settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
   }
 
   /***************************************************************************************************************************************************
@@ -266,5 +271,11 @@ class SettingsMenu implements Menu {
    * @return None
    */
   void drawTextElements() {
+    //if(muteGame){
+    //  textFont(settingsTextFont);
+    //  textMode(CENTER);
+    //  text(noAudioText[currentLanguage], settingsMenuButtons[MUTE].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + 50, settingsMenuButtons[MUTE].getYPos() + settingsMenuButtons[MUTE].getBtnHeight()/2.0 + 10);
+    //}
+    
   }
 }

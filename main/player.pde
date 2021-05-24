@@ -23,7 +23,6 @@ class Player {
   // Used for determining new state of Player
   boolean isClimbing = false;
   boolean isWallJumping = false;
-  boolean hasCollided = false;
   // To determine when a climb should stop
   float climbDistance = 0;
 
@@ -125,10 +124,11 @@ class Player {
       }
     }
     
-    if(isWallJumping && ySpeed == 0){
-        xSpeed = 0;
-        isWallJumping = false;
-    }
+    // Part of wall jump - to be implemented
+    //if(isWallJumping && ySpeed == 0){
+    //    xSpeed = 0;
+    //    isWallJumping = false;
+    //}
   }
 
 
@@ -161,7 +161,6 @@ class Player {
       if (object.collisionDetection(this) == 1) {
         climb(object);
         this.xSpeed = 0;
-        this.hasCollided = true;
       }
       //rectangle collision y-axis
       else if (object.collisionDetection(this) == 2) {
@@ -169,11 +168,45 @@ class Player {
           this.isAlive = false;
         }
         this.ySpeed = 0;
-        this.hasCollided = true;
-      }
     }
-    if(inAir()){
-      this.hasCollided = false;
+   }
+  }
+  
+  /*
+   * Will stop the player's movements on the x-axis during a walljump
+   * 
+   * @return None
+   */
+  void stopAfterWallJump(){
+    if(isWallJumping){
+          stopLeft();
+          stopRight();
+          isWallJumping = false;
+     }
+  }
+  
+  /*
+   * Allows the player to move the opposite horisontal direction, if they are climbing a wall
+   * 
+   * @return None
+   */
+  void walljump() {
+   if(isClimbing){
+     isWallJumping = true;
+      if (this.movesLeft) {
+        // Leap to the right
+        stopLeft();
+        goRight();
+        this.xSpeed = 6;
+      } else if (this.movesRight) {
+        // Leap to the left
+        stopRight();
+        goLeft();
+        this.xSpeed = -6;
+      }
+      this.ySpeed += -5;
+      this.isClimbing = false;
+      this.isWallJumping= true;
     }
   }
 
@@ -229,28 +262,6 @@ class Player {
         this.climbDistance += this.ySpeed;
       }
     }
-  }
-
-  /*
-   * Allows the player to move the opposite horisontal direction, if they are climbing a wall
-   * 
-   * @return None
-   */
-  void walljump() {
-    if (this.movesLeft) {
-      // Leap to the right
-      stopLeft();
-      goRight();
-      this.xSpeed = 6;
-    } else if (this.movesRight) {
-      // Leap to the left
-      stopRight();
-      goLeft();
-      this.xSpeed = -6;
-    }
-    this.ySpeed += -5;
-    this.isClimbing = false;
-    this.isWallJumping= true;
   }
 
 
@@ -419,9 +430,10 @@ class Player {
     this.xSpeed *= 1.75;
 
     // Allow player to leap off wall
-    if (this.isClimbing) {
-      walljump();
-    }
+    // Not functioning yet
+    //if (this.isClimbing) {
+    //  walljump();
+    //}
   }
 
   /*
