@@ -4,23 +4,40 @@
 class SettingsMenu implements Menu {
   Button[] settingsMenuButtons;
 
+  //PImage menuBackground = loadImage("data/menu_images/MenuGradient.png");
   color menuBackground = color(137, 209, 254);
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
+  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUSIC", "MUTE", "BACK"}, {"UPPLÖSNING", "MUSIK", "STÄNG AV LJUD", "TILLBAKA"}};
 
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
-  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {854, 480}, {640, 360}, {500, 200}};
+  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};   // {480, 320} Poorly adapted. Consider removal for simplicity
   int resolutionIndex = 1;
+  // Determine where to write current resolution
+  float resolutionXPos;
+  float resolutionYPos;
 
-  //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
-  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
+  int settingsFontSize = ceil(height/15);
+  PFont settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
+  // Either song title or audio off is shown
+  float musicXPos;
+  float musicYPos;
+  String[] songTitles = {"House", "Boundless Energy"};
+
+  float muteXPos;
+  float muteYPos;
+  String[][] noAudioText = {{"OFF", "ON"}, {"AV", "PÅ"}};
+  float[] noAudioTextPos;
+
+  // TODO: ADD MUSICPLAYER AS ATTRIBUTE
 
   int RESOLUTION= 0;
-  int MUTE= 1;
-  int BACK= 2;
+  int MUSIC = 1;
+  int MUTE = 2;
+  int BACK = 3;
 
   /***************************************************************************************************************************************************
    *  MODEL
@@ -43,9 +60,12 @@ class SettingsMenu implements Menu {
     }
 
     // "Global" varaible. Resize created menu and buttons if necessary
-     if(useSmallLayout){
-        this.resize();
-      }
+    if (useSmallLayout) {
+      this.resize();
+    }
+
+    // SetS position of all button texts
+    resizeMenuTextElements();
   }
 
 
@@ -82,31 +102,42 @@ class SettingsMenu implements Menu {
     for (Button button : settingsMenuButtons) {
       if (button.isInside()) {
         if (button.ID == this.BACK) {
-          if(inGame){
-            navigation = NavType.INGAME;
-          }
-          else{
+          if (inGame) {
+            navigation = NavType.INGAMEMENU;
+            returnToGame();
+          } 
+          else {
             navigation = NavType.INMAINMENU;
           }
-
-        } else if (button.ID == this.MUTE) {
-          muteGame = !muteGame;
-          if (muteGame){
-            musicPlayer.pause();
-          }else{
-            musicPlayer.loopCurrent();
+        }
+        else if (button.ID == this.MUSIC) {
+          selectedSong += 1;
+          selectedSong = selectedSong % 2;
+          
+          if(!muteGame){
+            musicPlayer.loopTrack(selectedSong);
           }
+        } 
+        else if(button.ID == this.MUTE){
+          muteGame = !muteGame;
+          if(musicPlayer.isPlaying()){
+            musicPlayer.pause();
+          }
+          if(!muteGame){
+             musicPlayer.loopTrack(selectedSong);
+          }
+          
           String[] settings = loadStrings("data/settings/settings.txt");
           settings[0] = String.valueOf(muteGame);
           saveStrings("data/settings/settings.txt", settings);
-
-        } else if (button.ID == this.RESOLUTION) {
+        }
+        else if (button.ID == this.RESOLUTION) {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
           surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
           if (width <= 700) {
             useSmallLayout = true;
-          }
-          else{
+          } 
+          else {
             useSmallLayout = false;
           }
           resizeProgram();
@@ -127,13 +158,13 @@ class SettingsMenu implements Menu {
    *
    * @return None
    */
-  void resize(){
-    if(useSmallLayout){
+  void resize() {
+    if (useSmallLayout) {
       this.useSmallLayout();
-    }
-    else{
+    } else {
       this.useBigLayout();
     }
+    //this.menuBackground.resize(width, height);
   }
 
   /*
@@ -197,11 +228,10 @@ class SettingsMenu implements Menu {
    *
    * @return None
    */
-  void resizeButtons(float btnWidth, float btnHeight, float xPosBtn, float ySpacing, int btnFontSize, boolean useBtnAnimation, float newQuadOffset){
+  void resizeButtons(float btnWidth, float btnHeight, float xPosBtn, float ySpacing, int btnFontSize, boolean useBtnAnimation, float newQuadOffset) {
     for (int i = 0; i < this.settingsMenuButtons.length; ++i) {
       Button btn = this.settingsMenuButtons[i];
       float yPosBtn = this.yOffset + ySpacing * i;
-
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
@@ -220,13 +250,36 @@ class SettingsMenu implements Menu {
    */
   void resizeMenuTextElements() {
     //TBD: Implement so that e.g. screen resolution text is resized.
-    if(useSmallLayout){
-
+    if (useSmallLayout) {
+      this.settingsFontSize = ceil(height/15);
+    } else {
+      this.settingsFontSize = ceil(height/25);
     }
-    else{
+    this.settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
 
-    }
+    // Update position of resolution button text
+    resolutionXPos = settingsMenuButtons[RESOLUTION].getXPos() * 1.5 + settingsMenuButtons[RESOLUTION].getBtnWidth() + width / 12;
+    resolutionYPos = settingsMenuButtons[RESOLUTION].getYPos() + settingsMenuButtons[RESOLUTION].getBtnHeight()/2.0 + 8;
+
+    // Update position of music button text
+    musicXPos = settingsMenuButtons[MUSIC].getXPos() + settingsMenuButtons[MUSIC].getBtnWidth() + 100;
+    musicYPos = settingsMenuButtons[MUSIC].getYPos() + settingsMenuButtons[MUSIC].getBtnHeight()/2.0 + 8;
+
+    // Set position of mute button text
+    muteXPos = settingsMenuButtons[MUTE].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + 100;
+    muteYPos = settingsMenuButtons[MUTE].getYPos() + settingsMenuButtons[MUTE].getBtnHeight()/2.0 + 8;
   }
+
+  /*
+   * Ensures the background isn't rescaled more than once, to avoid degrading quality
+   *
+   * @return None
+   */
+  //void reloadBackground() {
+  //  menuBackground = loadImage("data/menu_images/MenuGradient.png");
+  //  menuBackground.resize(width, height);
+  //}
+
 
   /***************************************************************************************************************************************************
    *  VIEW
@@ -240,6 +293,10 @@ class SettingsMenu implements Menu {
    */
   void drawMenu() {
     pushStyle();
+    // An image must be the same pixel size as the background
+    //if (menuBackground.width != width ||  menuBackground.height != height) {
+    //  reloadBackground();
+    //}
     background(this.menuBackground);
 
     textAlign(CENTER);
@@ -262,5 +319,16 @@ class SettingsMenu implements Menu {
    * @return None
    */
   void drawTextElements() {
+    pushStyle();
+    textFont(settingsTextFont);
+    textAlign(CENTER);
+    int mute = muteGame ? 0 : 1;
+
+    text(noAudioText[currentLanguage][mute], muteXPos, muteYPos);
+
+    text(songTitles[selectedSong], musicXPos, musicYPos);
+      
+    text(String.valueOf(resolutions[resolutionIndex][0]) + " x " + String.valueOf(resolutions[resolutionIndex][1]), resolutionXPos, resolutionYPos);
+    popStyle();
   }
 }

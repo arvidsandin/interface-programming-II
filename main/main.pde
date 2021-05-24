@@ -22,6 +22,9 @@ int ENG = 0;
 int SWE = 1;
 
 int currentLanguage = ENG;
+float currentWidth = 0;
+float currentHeight = 0;
+int selectedSong = 0;
 
 boolean inGame = false;
 boolean muteGame = false;
@@ -36,7 +39,7 @@ void setup(){
  size(1280, 720, P2D);
  surface.setResizable(true);
 
- background(137, 209, 254);
+ //background(137, 209, 254);
  surface.setResizable(true);
 
  game = new Game();
@@ -63,7 +66,9 @@ void setup(){
  */
 public void loadMusicFiles(){
   musicPlayer.loadFiles();
-  musicPlayer.loop_random();
+  if(!muteGame){
+    musicPlayer.loopTrack(selectedSong);
+  }
 }
 
 /*
@@ -105,13 +110,26 @@ void draw(){
     boolean gameOver = game.timeStep();
     if(!gameOver){
       game.drawGame();
-
     }
   }
   else if (navigation == NavType.INGAMEMENU){
     gameMenu.moveMenu();
     gameMenu.drawMenu();
   }
+  
+  // Check whether it's possible the interface is being accessed during active game session
+  if(navigation != NavType.INGAMEMENU && navigation != NavType.INGAME && navigation != NavType.INSETTINGS){
+    inGame = false;
+  }
+}
+
+/*
+ * Draws the latest game frame without updating it
+ *
+ * @return None
+ */
+void returnToGame(){
+  game.drawGame();
 }
 
 /*
@@ -127,6 +145,24 @@ void resizeProgram(){
    tutorialMenu.resize();
   */
 }
+
+/*
+ * Rescales a value by the current width of the window
+ *
+ * @return The rescaled value
+ */
+float rescaleByWidth(float value){
+  return value * width/1200.0;
+}
+/*
+ * Rescales a value by the current height of the window
+ *
+ * @return The rescaled value
+ */
+float rescaleByHeight(float value){
+  return value * height/600.0;
+}
+
 
 /*
  * Updates all interfaces' languages the current selected language
@@ -159,22 +195,6 @@ void mouseClicked(){
   }
 }
 
-/*
- * Rescales a value by the current width of the window
- *
- * @return The rescaled value
- */
-float rescaleByWidth(float value){
-  return value * width/1200.0;
-}
-/*
- * Rescales a value by the current height of the window
- *
- * @return The rescaled value
- */
-float rescaleByHeight(float value){
-  return value * height/600.0;
-}
 
 /*
  * Handles key presses at different parts of the program
@@ -201,6 +221,7 @@ void keyPressed(){
     else if (key == ESC){
       key=0;
       navigation = NavType.INGAMEMENU;
+      game.resetControls();
     }
   }
 
@@ -208,6 +229,14 @@ void keyPressed(){
     if (key == ESC){
       key=0;
       navigation = NavType.INGAME;
+    }
+  }
+  
+  if(navigation == NavType.INSETTINGS){
+    if (key == ESC){
+      key=0;
+      navigation = NavType.INGAMEMENU;
+      returnToGame();
     }
   }
 }

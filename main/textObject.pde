@@ -41,7 +41,10 @@ class TextObject extends GameObject{
      textFont(this.textFont);
      fill(this.fillColor);
      if (useSmallLayout){
-       textSize(floor(height/10));
+       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/10), true);
+     }
+     else{
+       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
      }
      textLeading(30);
      text(this.text[currentLanguage], this.xPos, this.yPos);

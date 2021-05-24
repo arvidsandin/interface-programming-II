@@ -3,8 +3,8 @@
  */
 class MainMenu implements Menu {
   Button[] mainMenuButtons;
-
-  color menuBackground = color(137, 209, 255);
+  //PImage menuBackground = loadImage("data/menu_images/MenuGradient.png");
+  color menuBackground = color(137, 209, 254);
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
@@ -25,6 +25,11 @@ class MainMenu implements Menu {
   PFont languageFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
   String[] flagImgs = new String[]{"data/menu_images/eng_flag.png", "data/menu_images/swe_flag.png"};
   float[] languageTextPos = new float[]{width * 11.0/15, height/15};
+  
+  String[] musicCredit = new String[]{"Music from BenSound.com", "Musik av BenSound.com"};
+  int creditFontSize = languageFontSize;
+  PFont creditFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
+  float[] creditTextPos = new float[]{width * 12/15.0, height * 14/15.0};
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
   String[][] btnTexts = new String[][]{{"START", "SETTINGS", "TUTORIAL", "QUIT"}, {"STARTA", "INSTÄLLNINGAR", "INTRODUKTION", "AVSLUTA"}};
@@ -54,7 +59,6 @@ class MainMenu implements Menu {
    * @return A new MainMenu object
    */
   MainMenu(Button[] menuButtons, String title, PFont titleFont, PFont languageFont) {
-
     this.title = title;
     this.titleFont = titleFont;
     this.languageFont = languageFont;
@@ -166,8 +170,7 @@ class MainMenu implements Menu {
   /*
    * Resizes menu elements according to a small or larger screen. Adapted to a 2.5:1 ratio in small size.
    *
-   *
-   * @return None
+   turn None
    */
   void resize(){
     if(useSmallLayout){
@@ -176,6 +179,7 @@ class MainMenu implements Menu {
     else{
       this.useBigLayout();
     }
+    //this.menuBackground.resize(width, height);
   }
 
   /*
@@ -310,12 +314,16 @@ class MainMenu implements Menu {
       this.titleTextPos[0] = width * (4.0/5);
       this.titleFontSize = floor(height/10);
 
+      this.creditFontSize = ceil(height/20);
+
       this.showLanguageText = false;
     }
     else{
       this.title = "Parkour Scroll";
       this.titleTextPos[0] = width * (2.95 / 4.0);
       this.titleFontSize = floor(height/15);
+
+      this.creditFontSize = ceil(height/35);
 
       this.showLanguageText = true;
     }
@@ -328,7 +336,24 @@ class MainMenu implements Menu {
     this.languageFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
     this.languageTextPos[0] = width * 11.0/15;
     this.languageTextPos[1] = height/15;
+    
+    this.musicCredit = new String[]{"Music from BenSound.com", "Musik av BenSound.com"};
+    this.creditFont = createFont("data/fonts/good times rg.ttf", this.creditFontSize, true);
+    this.creditTextPos[0] = width * 12/15.0;
+    this.creditTextPos[1] =height * 14/15.0;
+    
+    
   }
+  
+  /*
+   * Ensures the background isn't rescaled more than once, to avoid degrading quality
+   *
+   * @return None
+   */
+  //void reloadBackground(){
+  //  menuBackground = loadImage("data/menu_images/MenuGradient.png");
+  //  menuBackground.resize(width, height);
+  //}
 
   /***************************************************************************************************************************************************
    *  VIEW
@@ -340,10 +365,14 @@ class MainMenu implements Menu {
    *
    * @return None
    */
-  void drawMenu() {
+  void drawMenu(){
     pushStyle();
+    // An image must be the same pixel size as the background
+    //if(menuBackground.width != width ||  menuBackground.height != height){
+    //  reloadBackground();
+    //}
     background(this.menuBackground);
-
+    
     textAlign(CENTER);
 
     //Draw main menu buttons
@@ -367,6 +396,7 @@ class MainMenu implements Menu {
 
     this.drawGameTitle();
     this.drawLanguageText();
+    this.drawCreditText();
   }
 
   /*
@@ -396,6 +426,20 @@ class MainMenu implements Menu {
     if (this.showLanguageText == true) {
       text(this.languageText[currentLanguage], this.languageTextPos[0], this.languageTextPos[1]);
     }
+    popStyle();
+  }
+  
+    /*
+   * Draws up the music credits text
+   *
+   * @return None
+   */
+  void drawCreditText() {
+    pushStyle();
+    textFont(this.creditFont);
+    fill(255);
+    
+    text(this.musicCredit[currentLanguage], this.creditTextPos[0], this.creditTextPos[1]);
     popStyle();
   }
 }

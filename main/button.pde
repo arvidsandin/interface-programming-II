@@ -383,6 +383,24 @@ class Button {
     }
     
     /*
+     * Returns the button's x-position, given from its center
+     *
+     * @return The button's x-position from the center
+     */
+    float getXPos(){
+      return this.xPos;
+    }
+    
+    /*
+     * Returns the button's y-position, given from its center
+     *
+     * @return The button's y-position from the center
+     */
+    float getYPos(){
+      return this.yPos;
+    }
+    
+    /*
      * Returns the button's height
      *
      * @return The button's height
