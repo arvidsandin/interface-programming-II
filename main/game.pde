@@ -126,11 +126,11 @@ class Game{
     player.jump();
   }
   /*
-   * Makes the player go up - TO BE DETERMINED
-   *
+   * Makes the player jump as well.  //Consider alternative control
    * @return None
    */
   void up(){
+    player.jump();
   }
   /*
    * Makes the player go left

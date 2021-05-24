@@ -5,7 +5,7 @@ class Player {
   boolean isAlive = true;
   // Position given from center of figure
   float xPos = 600;
-  float yPos = 300;
+  float yPos = -100;
 
   float playerHeight = 100;
   float playerWidth = 50;
@@ -13,7 +13,7 @@ class Player {
   float playerAcceleration = 0.5;
   float xSpeed = 0;
   float ySpeed = 0;
-  float lethalSpeed = 20;
+  float lethalSpeed = playerHeight / 6;
   float maxHorizontalSpeed = 6;
 
   // Variables which are set by the user when moving in game 
@@ -238,9 +238,11 @@ class Player {
     float objY = object.getPosition()[1];
     float objHeight = object.getDimensions()[1];
     float objectTop = objY - objHeight/2;
+    
+    boolean belowMaxClimb = abs(this.climbDistance) <= this.playerHeight * (3.5/4.0);
 
     // Allow climbing while jumping or while fall speed is low
-    if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  6)) {
+    if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  6) && belowMaxClimb) {
 
       // Set once at beginning of a climb
       if (!this.isClimbing) {
@@ -257,7 +259,7 @@ class Player {
         }
       }
       // To climb wall
-      else if (abs(this.climbDistance) <= this.playerHeight * (3/4.0)) {
+      else if (belowMaxClimb) {
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
       }

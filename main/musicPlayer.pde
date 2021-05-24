@@ -34,18 +34,19 @@
    * @return None
    */
   void stop_playing(){
-    if (isReady){
+    if (isReady && isPlaying){
       tracks[currentTrack].stop();
+      isPlaying = false;
     }
   }
 
   /*
-   * pause the current track
+   * pause the current track if there is one playing
    *
    * @return None
    */
   void pause(){
-    if (isReady){
+    if (isReady && isPlaying){
       tracks[currentTrack].pause();
       isPlaying = false;
     }
@@ -60,7 +61,7 @@
     // Global variable sets track to loop
     currentTrack = selectedSong;
     
-    if (isReady && !muteGame){
+    if (isReady){
       this.stop_playing();
       tracks[currentTrack].loop();
       isPlaying = true;
@@ -88,7 +89,7 @@
    * @return None
    */
   void loopTrack(int trackNumber){
-    if (isReady && !muteGame){
+    if (isReady){
       this.stop_playing();
       currentTrack = trackNumber;
       tracks[currentTrack].loop();
@@ -102,7 +103,7 @@
    * @return None
    */
   void playTrack(int trackNumber){
-    if (isReady && !muteGame){
+    if (isReady){
       this.stop_playing();
       currentTrack = trackNumber;
       tracks[currentTrack].play();

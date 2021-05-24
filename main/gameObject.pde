@@ -9,7 +9,7 @@ class GameObject{
 
   color fillColor;
 
-  // By how much to move the object in animations
+  // By how much to move the object in each animation frame
   float xMove;
   float yMove;
 
