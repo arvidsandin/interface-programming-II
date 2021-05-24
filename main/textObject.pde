@@ -1,5 +1,6 @@
 class TextObject extends GameObject{
   String[] text;
+  PFont textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
   /*
    * Creates a TextObject with a given color
    *
@@ -19,12 +20,10 @@ class TextObject extends GameObject{
      this.yPos = yPos;
      this.fillColor = fillColor;
 
-     this.objWidth = objWidth;
-     this.objHeight = objHeight;
-
      this.xMove = xMove;
      this.yMove = yMove;
      this.text = text;
+     this.objWidth = textWidth(this.text[currentLanguage]);
    }
 
    int collisionDetection(Player p){
@@ -36,10 +35,15 @@ class TextObject extends GameObject{
 
      noStroke();
      rectMode(CENTER);
-     textMode(CENTER);
      fill(this.fillColor);
 
      rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
+     textFont(this.textFont);
+     fill(this.fillColor);
+     if (useSmallLayout){
+       textSize(floor(height/10));
+     }
+     textLeading(30);
      text(this.text[currentLanguage], this.xPos, this.yPos);
 
     popStyle();

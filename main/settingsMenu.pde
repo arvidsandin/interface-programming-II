@@ -3,7 +3,7 @@
  */
 class SettingsMenu implements Menu {
   Button[] settingsMenuButtons;
-  
+
   color menuBackground = color(137, 209, 254);
 
   color btnColor = color(170, 183, 249);
@@ -12,8 +12,8 @@ class SettingsMenu implements Menu {
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
- int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};
- int resolutionIndex = 1;
+  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {854, 480}, {640, 360}, {500, 200}};
+  int resolutionIndex = 1;
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
   String[][] btnTexts = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
@@ -41,7 +41,7 @@ class SettingsMenu implements Menu {
 
       settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
     }
-    
+
     // "Global" varaible. Resize created menu and buttons if necessary
      if(useSmallLayout){
         this.resize();
@@ -88,26 +88,39 @@ class SettingsMenu implements Menu {
           else{
             navigation = NavType.INMAINMENU;
           }
-          
+
         } else if (button.ID == this.MUTE) {
           muteGame = !muteGame;
+          if (muteGame){
+            musicPlayer.pause();
+          }else{
+            musicPlayer.loopCurrent();
+          }
+          String[] settings = loadStrings("data/settings/settings.txt");
+          settings[0] = String.valueOf(muteGame);
+          saveStrings("data/settings/settings.txt", settings);
+
         } else if (button.ID == this.RESOLUTION) {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
           surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
-            if (width <= 600) {
-              useSmallLayout = true;
-            }
-            else{
-              useSmallLayout = false;
-            }
-            resizeProgram();
+          if (width <= 700) {
+            useSmallLayout = true;
+          }
+          else{
+            useSmallLayout = false;
+          }
+          resizeProgram();
+
+          String[] settings = loadStrings("data/settings/settings.txt");
+          settings[1] = String.valueOf(resolutionIndex);
+          saveStrings("data/settings/settings.txt", settings);
         }
         break;
       }
     }
   }
 
-  
+
   /*
    * Resizes menu elements according to a small or larger screen. Adapted to a 2.5:1 ratio in small size.
    *
@@ -124,7 +137,7 @@ class SettingsMenu implements Menu {
   }
 
   /*
-   * Resizes menu elements to be more visible on a small screen. 
+   * Resizes menu elements to be more visible on a small screen.
    *
    * @return None
    */
@@ -137,11 +150,11 @@ class SettingsMenu implements Menu {
 
     float newXStartPos = width / 30;
     float ySpacing = (height / 4.5);
-    
+
     int btnFontSize = floor(height/15);
     float newQuadOffset = 35;
     boolean useBtnAnimation = false;
-    
+
     this.resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
     this.resizeMenuTextElements();
   }
@@ -158,11 +171,11 @@ class SettingsMenu implements Menu {
 
     float newXStartPos = width / 15;
     float ySpacing = (height / 8);
-    
+
     float btnWidth = width / 3;
     float btnHeight = height / 12;
-    
-    
+
+
     int btnFontSize = floor(height/25);
     float newQuadOffset = 60;
     boolean useBtnAnimation = true;
@@ -170,7 +183,7 @@ class SettingsMenu implements Menu {
     this.resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
     this.resizeMenuTextElements();
   }
-  
+
   /*
    * Resizes the menu buttons to new dimensions and position. Adapted to a 2.5 ratio.
    *
@@ -188,18 +201,18 @@ class SettingsMenu implements Menu {
     for (int i = 0; i < this.settingsMenuButtons.length; ++i) {
       Button btn = this.settingsMenuButtons[i];
       float yPosBtn = this.yOffset + ySpacing * i;
-   
+
 
       btn.setBtnDimensions(btnWidth, btnHeight);
       btn.setBtnPosition(xPosBtn, yPosBtn);
-      
+
       btn.setQuadOffset(newQuadOffset);
       btn.setAnimation(useBtnAnimation);
-  
+
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", btnFontSize, true));
     }
   }
-  
+
   /*
    * Resizes the menu text elements that aren't buttons, according to current window dimensions.
    *
@@ -208,10 +221,10 @@ class SettingsMenu implements Menu {
   void resizeMenuTextElements() {
     //TBD: Implement so that e.g. screen resolution text is resized.
     if(useSmallLayout){
-      
+
     }
     else{
-      
+
     }
   }
 

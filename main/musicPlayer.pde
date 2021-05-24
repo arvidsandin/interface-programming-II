@@ -63,6 +63,9 @@
       this.stop_playing();
       tracks[currentTrack].loop();
       isPlaying = true;
+    if (isReady && !muteGame){
+      this.stop_playing();
+      tracks[currentTrack].loop();
     }
   }
 
