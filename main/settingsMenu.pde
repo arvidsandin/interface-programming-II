@@ -12,7 +12,7 @@ class SettingsMenu implements Menu {
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
-  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};
+  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {854, 480}, {640, 360}, {500, 200}};
   int resolutionIndex = 1;
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
@@ -103,7 +103,7 @@ class SettingsMenu implements Menu {
         } else if (button.ID == this.RESOLUTION) {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
           surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
-          if (width <= 600) {
+          if (width <= 700) {
             useSmallLayout = true;
           }
           else{
