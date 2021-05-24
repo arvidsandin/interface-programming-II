@@ -1,5 +1,6 @@
 class TextObject extends GameObject{
   String[] text;
+  PFont textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
   /*
    * Creates a TextObject with a given color
    *
@@ -40,6 +41,8 @@ class TextObject extends GameObject{
      fill(this.fillColor);
 
      rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
+     textFont(this.textFont);
+     fill(this.fillColor);
      text(this.text[currentLanguage], this.xPos, this.yPos);
 
     popStyle();
