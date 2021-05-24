@@ -4,7 +4,7 @@
 class SettingsMenu implements Menu {
   Button[] settingsMenuButtons;
 
-  color menuBackground = color(137, 209, 254);
+  PImage menuBackground = loadImage("data/menu_images/MenuGradient.png");
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
@@ -242,6 +242,8 @@ class SettingsMenu implements Menu {
    */
   void drawMenu() {
     pushStyle();
+    // An image must be the same pixel size as the background
+    this.menuBackground.resize(width, height);
     background(this.menuBackground);
 
     textAlign(CENTER);
