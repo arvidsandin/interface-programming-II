@@ -258,6 +258,7 @@ class GameObject{
      rectMode(CENTER);
      ellipseMode(CENTER);
      fill(this.fillColor);
+     imageMode(CENTER);
 
      if(this.objType.equalsIgnoreCase("ellipse")){
        ellipse(this.xPos, this.yPos, this.objWidth, this.objHeight);
