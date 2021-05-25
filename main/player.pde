@@ -8,9 +8,9 @@ class Player {
   float yPos = -100;
 
   float playerHeight = 100;
-  float playerWidth = 50;
+  float playerWidth = 40;
 
-  float playerAcceleration = 0.5;
+  float playerXAcceleration = 0.5;
   float xSpeed = 0;
   float ySpeed = 0;
   float lethalSpeed = playerHeight / 6;
@@ -99,16 +99,16 @@ class Player {
   void increasePlayerSpeed(Map m) {
     this.ySpeed += m.gravity;
     if (movesLeft) {
-      this.xSpeed -= this.playerAcceleration;
+      this.xSpeed -= this.playerXAcceleration;
     }
     if (movesRight) {
-      this.xSpeed += this.playerAcceleration;
+      this.xSpeed += this.playerXAcceleration;
     }
 
 
     if (this.xSpeed > this.maxHorizontalSpeed)
     {
-      this.xSpeed -= 2*this.playerAcceleration;
+      this.xSpeed -= 2*this.playerXAcceleration;
       //stop at max speed
       if (this.xSpeed < this.maxHorizontalSpeed)
       {
@@ -116,19 +116,13 @@ class Player {
       }
     } else if (this.xSpeed < -this.maxHorizontalSpeed)
     {
-      this.xSpeed += 2*this.playerAcceleration;
+      this.xSpeed += 2*this.playerXAcceleration;
       //stop at max speed
       if (this.xSpeed > -this.maxHorizontalSpeed)
       {
         this.xSpeed = -this.maxHorizontalSpeed;
       }
     }
-    
-    // Part of wall jump - to be implemented
-    //if(isWallJumping && ySpeed == 0){
-    //    xSpeed = 0;
-    //    isWallJumping = false;
-    //}
   }
 
 
@@ -144,7 +138,7 @@ class Player {
     }
 
     //Stop if speed is too low;
-    if (this.xSpeed < playerAcceleration/2 && this.xSpeed > -playerAcceleration/2) {
+    if (this.xSpeed < playerXAcceleration/2 && this.xSpeed > -playerXAcceleration/2) {
       this.xSpeed = 0;
     }
   }
@@ -433,9 +427,9 @@ class Player {
 
     // Allow player to leap off wall
     // Not functioning yet
-    //if (this.isClimbing) {
-    //  walljump();
-    //}
+    if (this.isClimbing) {
+      walljump();
+    }
   }
 
   /*

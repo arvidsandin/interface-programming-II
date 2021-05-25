@@ -144,7 +144,7 @@ void resizeProgram(){
   mainMenu.resize();
   gameMenu.resize();
   settingsMenu.resize();
-  game.resizeTutorialText();
+  game.resizeOverlayElements();
    /*
    gameStateMenu.resize();
   */
@@ -156,7 +156,7 @@ void resizeProgram(){
  * @return The rescaled value
  */
 float rescaleByWidth(float value){
-  return value * width/1200.0;
+  return value * width/1280.0;
 }
 /*
  * Rescales a value by the current height of the window
@@ -164,7 +164,7 @@ float rescaleByWidth(float value){
  * @return The rescaled value
  */
 float rescaleByHeight(float value){
-  return value * height/600.0;
+  return value * height/720.0;
 }
 
 
@@ -196,6 +196,9 @@ void mouseClicked(){
   }
   else if (navigation == NavType.INGAMEMENU){
     gameMenu.menuClick();
+  }
+  else if(navigation == NavType.INGAME){
+    game.click();
   }
 }
 

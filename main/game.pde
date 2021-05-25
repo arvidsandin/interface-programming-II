@@ -5,6 +5,7 @@ class Game{
   Level level = new Level();   // Future implementation: make Game hold all possible levels from start
   Player player = new Player();
   Map map;
+  HomeButton homeButton = new HomeButton();
   /*
    * Constructor to set all attributes of Game class with a given game map
    *
@@ -45,6 +46,17 @@ class Game{
       return true;
     }
     return false;
+  }
+  
+  /*
+   * Determines what event should happen during a mouse click during the game
+   *
+   * @return None
+   */
+  void click(){
+    if(homeButton.isInside()){
+      navigation = NavType.INGAMEMENU;
+    }
   }
   
   /*
@@ -103,18 +115,19 @@ class Game{
     map.changeLevel(this.level.getLevel());
     
     // Update text size
-    this.resizeTutorialText();
+    this.resizeOverlayElements();
     // Resets game to put player at start of tutorial
     game.resetGame();
   }
   
   /*
-   * Resizes text elements of the tutorial level to current window dimensions
+   * Resizes button and text elements of the game level to current window dimensions
    *
    * @return None
    */
-  void resizeTutorialText(){
+  void resizeOverlayElements(){
     map.resizeTutorialText();
+    homeButton.updateBtnDimensions();
   }
   
   /*
@@ -206,16 +219,18 @@ class Game{
    * @return None
    */
     void drawGame(){
+      
       push();
-      if(useSmallLayout){
-        scale((float)width/1000, (float)height/400);
-      }
-      else{
-        scale((float)width/1200, (float)height/600);
-      }
+      //if(useSmallLayout){
+      //  scale((float)width/1000, (float)height/400);
+      //}
+      //else{
+      //  scale((float)width/1200, (float)height/600);
+      //}
 
       map.drawMe();
       player.drawMe();
+      homeButton.drawMe();
 
       pop();
     }

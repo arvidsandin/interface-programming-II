@@ -9,7 +9,7 @@ class Sprite {
   // The length of this sprite. 
   int len;
 
-  // A list of image lists; animation sequences of small images containing the separate frames. 
+  // A list of image lists; animation sequences of small images containing the separate frames.
   ArrayList<PImage> animation;
 
 

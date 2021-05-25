@@ -1,3 +1,8 @@
+
+/*
+ * A class for non-collidable game objects that contain text
+ *
+ */
 class TextObject extends GameObject{
   String[] text;
   PFont textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
@@ -16,19 +21,15 @@ class TextObject extends GameObject{
    * @param yPos  The object's y-position, given from its center
    * @param objWidth  The object's width. If the object is an ellipse, this sets the first radius
    * @param objHeight  The object's height. If the object is an ellipse, this sets the second radius
-   * @param xMove  The amount to offset the x-position for animations
-   * @param yMove  The amount to offset the y-position for animations
    * @param fillColor  The object's color
    * @return A new GameObject instance
    */
-   TextObject(float xPos, float yPos, float xMove, float yMove, color fillColor, String[] text){
+   TextObject(float xPos, float yPos, color fillColor, String[] text){
      this.objType= "rectangle";
      this.xPos = xPos;
      this.yPos = yPos;
      this.fillColor = fillColor;
 
-     this.xMove = xMove;
-     this.yMove = yMove;
      this.text = text;
      this.objWidth = textWidth(this.text[currentLanguage]);
    }

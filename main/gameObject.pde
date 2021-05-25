@@ -10,8 +10,8 @@ class GameObject{
   color fillColor;
 
   // By how much to move the object in each animation frame
-  float xMove;
-  float yMove;
+  float xMove = 0;
+  float yMove = 0;
 
   // If object is an ellipse, these are its radi
   float objWidth;
@@ -39,13 +39,11 @@ GameObject(){};
   * @param yPos  The object's y-position, given from its center
   * @param objWidth  The object's width. If the object is an ellipse, this sets the first radius
   * @param objHeight  The object's height. If the object is an ellipse, this sets the second radius
-  * @param xMove  The amount to offset the x-position for animations
-  * @param yMove  The amount to offset the y-position for animations
   * @param fillColor  The object's color
   * @param texture   Image path to the texture to set for the object, relative to the sketch
   * @return A new GameObject instance
   */
-  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, float xMove, float yMove, color fillColor, String texture){
+  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, color fillColor, String texture){
     this.xPos = xPos;
     this.yPos = yPos;
     this.objType = objType;
@@ -68,12 +66,10 @@ GameObject(){};
   * @param yPos  The object's y-position, given from its center
   * @param objWidth  The object's width. If the object is an ellipse, this sets the first radius
   * @param objHeight  The object's height. If the object is an ellipse, this sets the second radius
-  * @param xMove  The amount to offset the x-position for animations
-  * @param yMove  The amount to offset the y-position for animations
   * @param fillColor  The object's color
   * @return A new GameObject instance
   */
-  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, float xMove, float yMove, color fillColor){
+  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, color fillColor){
     this.xPos = xPos;
     this.yPos = yPos;
     this.objType = objType;
@@ -82,9 +78,6 @@ GameObject(){};
 
     this.objWidth = objWidth;
     this.objHeight = objHeight;
-
-    this.xMove = xMove;
-    this.yMove = yMove;
   }
 
   /*
@@ -97,12 +90,10 @@ GameObject(){};
    * @param y2Pos  The triangle's second point's y-position
    * @param x3Pos  The triangle's third point's x-position
    * @param y3Pos  The triangle's third point's y-position
-   * @param xMove  The amount to offset the x-position for animations
-   * @param yMove  The amount to offset the y-position for animations
    * @param fillColor  The object's color
    * @return A new GameObject instance
    */
-  GameObject(String objType, float xPos, float yPos, float x2Pos, float y2Pos, float x3Pos, float y3Pos, float xMove, float yMove, color fillColor){
+  GameObject(String objType, float xPos, float yPos, float x2Pos, float y2Pos, float x3Pos, float y3Pos, color fillColor){
     this.xPos = xPos;
     this.yPos = yPos;
     this.x2Pos = x2Pos;
@@ -268,7 +259,6 @@ GameObject(){};
      else if(this.objType.equalsIgnoreCase("triangle")){
         triangle(this.xPos, this.yPos, this.x2Pos, this.y2Pos, this.x3Pos, this.y3Pos);
      }
-
      if(this.texture != null){
         image(this.texture, this.xPos, this.yPos, this.objWidth, this.objHeight);
       }

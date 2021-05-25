@@ -59,7 +59,7 @@ class PlayerSprite{
       // We pick the img from the spritesheet at position x, y and w wide, and h high.
       PImage img = spriteSheet.get(x, y, this.spriteWidth, this.spriteHeight);
       
-      img.resize((int) p.getWidth() + 30, (int) p.getHeight());
+      img.resize((int) p.getWidth() + 40, (int) p.getHeight());
       // We add this to the animation sequence.
       animation.add(img);
       
