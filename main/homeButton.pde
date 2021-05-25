@@ -8,7 +8,7 @@ class HomeButton extends Button{
   String homeButtonPath  = "data/menu_images/home_button.png";
   
   HomeButton(){
-    super(0, false, false, "", width/75, height/75, width/20, height/10, color(255), "data/menu_images/home_button.png");
+    super(0, false, false, "", width/25, height/15, width/20, height/10, color(255), "data/menu_images/home_button.png");
   }
   
   boolean isInside(){
@@ -31,10 +31,16 @@ class HomeButton extends Button{
   }
   
   void updateBtnDimensions(){
-  this.btnWidth = width/20;
-  this.btnHeight = height/10;
-  
-  this.xPos = width/25;
-  this.yPos = height/20;
+    if(useSmallLayout){
+      this.btnWidth = width/20;
+      this.btnHeight = height/5;
+    }
+    else{
+      this.btnWidth = width/20;
+      this.btnHeight = height/10;
+    }
+    
+    this.xPos = width/25;
+    this.yPos = height/15;
   }
 }

@@ -11,10 +11,9 @@ class Player {
   float playerWidth = 40;
 
   float playerXAcceleration = 0.5;
-  float playerYAcceleration = 0;
   float xSpeed = 0;
   float ySpeed = 0;
-  float lethalSpeed = playerHeight / 4;
+  float lethalSpeed = playerHeight / 5;
   float maxHorizontalSpeed = 6;
 
   // Variables which are set by the user when moving in game
@@ -101,8 +100,7 @@ class Player {
    */
   void increasePlayerSpeed(Map m) {
     this.ySpeed += m.gravity;
-    this.playerYAcceleration += m.gravity;
-    
+
     if (movesLeft) {
       this.xSpeed -= this.playerXAcceleration;
     }
@@ -139,10 +137,9 @@ class Player {
    */
   void addFriction(Map m) {
     if (!this.movesLeft && !this.movesRight) {
-      if (this.inAir()){
+      if (this.inAir()) {
         this.xSpeed -= 0.2*m.friction*xSpeed;
-      }
-      else{
+      } else {
         this.xSpeed -= m.friction*xSpeed;
       }
     }
@@ -161,7 +158,7 @@ class Player {
    */
   void handleCollision(Map m) {
     for (GameObject object : m.objects) {
-      
+
       //rectangle collision x-axis
       if (object.collisionDetection(this) == 1) {
         climb(object);
@@ -173,44 +170,29 @@ class Player {
           this.isAlive = false;
         }
         this.ySpeed = 0;
-        this.playerYAcceleration = 0;
+      }
     }
-   }
   }
 
-  /*
-   * Will stop the player's movements on the x-axis during a walljump
-   *
-   * @return None
-   */
-  void stopAfterWallJump(){
-    if(isWallJumping){
-          stopLeft();
-          stopRight();
-          isWallJumping = false;
-     }
-  }
 
   /*
-   * Allows the player to move the opposite horisontal direction, if they are climbing a wall
+   * Allows the player to move in the opposite horisontal direction, as if they are leaping off a wall
    *
    * @return None
    */
   void walljump() {
-   if(isClimbing){
-     isWallJumping = true;
-      if (this.movesLeft) {
-        // Leap to the right
-        stopLeft();
-        this.xSpeed = 6;
-      } else if (this.movesRight) {
-        // Leap to the left
-        stopRight();
-        this.xSpeed = -6;
-      }
-      this.ySpeed += -5;
-      this.isClimbing = false;
-      this.isWallJumping= true;
+    this.ySpeed += -5;
+    this.isClimbing = false;
+    this.isWallJumping= true;
+    
+    if (this.movesLeft) {
+      // Leap to the right
+      stopLeft();
+      this.xSpeed = 6;
+    } else if (this.movesRight) {
+      // Leap to the left
+      stopRight();
+      this.xSpeed = -6;
     }
   }
 
@@ -221,13 +203,18 @@ class Player {
    */
   void handleClimbWhileFalling() {
     if (this.isFalling()) {
+      // These variables are reset, to indicate inactive state
       this.isClimbing = false;
+      this.isWallJumping = false;
       this.climbDistance = 0;
 
       this.fallDistance += abs(this.ySpeed);
     } else {
       this.fallDistance = 0;
     }
+    
+    println(isClimbing);
+    println("WALLJUMP: " + isWallJumping);
   }
 
   /*
@@ -267,9 +254,8 @@ class Player {
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
       }
-    }
-    else{
-     this.isClimbing = false;
+    } else {
+      this.isClimbing = false;
     }
   }
 
@@ -323,7 +309,7 @@ class Player {
    * @return Whether Player is in air
    */
   boolean inAir() {
-    return this.playerYAcceleration != 0;
+    return this.ySpeed != 0;
   }
 
   /*
@@ -432,20 +418,19 @@ class Player {
    */
   void jump() {
     // Jump if not already in the air
-    if (this.playerYAcceleration  == 0) {
+    if (this.ySpeed  == 0) {
       this.ySpeed = -6;
       // Increase horisontal speed during jump. If 0. no change
       this.xSpeed *= 1.75;
     }
-    
   }
-  
-  
-  void spaceBar(){
+
+
+  void spaceBar() {
     jump();
-    
+
     // Allow player to leap off wall
-    // Not functioning yet
+    // Not fully functioning yet;
     if (this.isClimbing) {
       walljump();
     }
@@ -459,7 +444,7 @@ class Player {
   void goLeft() {
     this.movesLeft = true;
   }
-  
+
 
   /*
    * Makes the player go right in next frame
@@ -503,9 +488,9 @@ class Player {
     pushStyle();
     imageMode(CENTER);
 
-    // Use these to showcase hitbox
-    rectMode(CENTER);
-    rect(this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
+    // Ucomment these to showcase hitbox
+    //rectMode(CENTER);
+    //rect(this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
 
     this.playerSprite.showAnimation();
 

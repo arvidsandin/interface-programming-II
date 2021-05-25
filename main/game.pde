@@ -220,19 +220,19 @@ class Game{
    */
     void drawGame(){
       
-      push();
-      //if(useSmallLayout){
-      //  scale((float)width/1000, (float)height/400);
-      //}
-      //else{
-      //  scale((float)width/1280, (float)height/720);
-      //}
+      pushStyle();
+      if(useSmallLayout){
+        scale((float)width/1000, (float)height/400);
+      }
+      else{
+        scale((float)width/1280, (float)height/720);
+      }
 
       map.drawMe();
       player.drawMe();
       homeButton.drawMe();
 
-      pop();
+      popStyle();
     }
 
 }
