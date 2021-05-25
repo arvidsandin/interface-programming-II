@@ -50,9 +50,10 @@ void setup(){
  settingsMenu = new SettingsMenu();
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
- musicPlayer = new MusicPlayer(this);
  
  this.loadSettings();
+ musicPlayer = new MusicPlayer(this);
+ 
  globalSound.volume(0.15);
 
  if (muteGame){

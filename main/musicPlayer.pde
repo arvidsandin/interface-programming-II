@@ -61,7 +61,7 @@
     // Global variable sets track to loop
     currentTrack = selectedSong;
     
-    if (isReady){
+    if (isReady ){
       this.stop_playing();
       tracks[currentTrack].loop();
       isPlaying = true;
@@ -74,7 +74,7 @@
    * @return None
    */
   void loop_random(){
-    if (isReady && !muteGame){
+    if (isReady){
       this.stop_playing();
       Random r = new Random();
       currentTrack = r.nextInt(tracks.length);

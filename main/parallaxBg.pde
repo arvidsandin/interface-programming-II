@@ -3,6 +3,7 @@
  */
 class ParallaxBg{
   float defaultWidth = 1280;
+  float defaultHeight = 720;
   float defaultDoubleOne = defaultWidth*2 + 1;
   
   PImage sky;
@@ -31,19 +32,19 @@ class ParallaxBg{
    */
   ParallaxBg(){
    sky  =  loadImage( "data/parallax_images/sky.png");
-   sky.resize((int)defaultWidth+3,600);
+   sky.resize((int)defaultWidth+3, (int)defaultHeight);
 
    img2  =  loadImage( "data/parallax_images/rocks.png");
-   img2.resize((int)defaultWidth+3,600);
+   img2.resize((int)defaultWidth+3, (int)defaultHeight);
 
    ground  =  loadImage( "data/parallax_images/ground.png");
-   ground.resize((int)defaultWidth +3,600);
+   ground.resize((int)defaultWidth +3, (int)defaultHeight);
 
    clouds1  =  loadImage( "data/parallax_images/clouds_2.png");
-   clouds1.resize((int)defaultWidth+3,600);
+   clouds1.resize((int)defaultWidth+3, (int)defaultHeight);
 
    clouds2  =  loadImage( "data/parallax_images/clouds_1.png");
-   clouds2.resize((int)defaultWidth+3,600);
+   clouds2.resize((int)defaultWidth+3, (int)defaultHeight);
 
   }
 

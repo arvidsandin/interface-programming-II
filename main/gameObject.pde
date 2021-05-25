@@ -152,6 +152,12 @@ GameObject(){};
       return 0;
     }
     else if(this.objType.equalsIgnoreCase("rectangle")){
+      println(p.getXPos() + p.getWidth()/2 + p.getXSpeed());
+      println( this.xPos - objWidth/2);
+      
+      println(p.getXPos() - p.getWidth()/2 + p.getXSpeed());
+      println(this.xPos + objWidth/2);
+      
       if (p.getXPos() - p.getWidth()/2 + p.getXSpeed() <= this.xPos + objWidth/2 &&
           p.getXPos() + p.getWidth()/2 + p.getXSpeed() >= this.xPos - objWidth/2 &&
           p.getYPos() - p.getHeight()/2 < this.yPos + objHeight/2 &&

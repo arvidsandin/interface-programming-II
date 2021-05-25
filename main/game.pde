@@ -136,7 +136,7 @@ class Game{
    * @return None
    */
   void space(){
-    player.jump();
+    player.spaceBar();
   }
   /*
    * Makes the player jump as well.  //Consider alternative control
@@ -225,7 +225,7 @@ class Game{
       //  scale((float)width/1000, (float)height/400);
       //}
       //else{
-      //  scale((float)width/1200, (float)height/600);
+      //  scale((float)width/1280, (float)height/720);
       //}
 
       map.drawMe();
