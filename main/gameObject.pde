@@ -196,19 +196,19 @@ GameObject(){};
    */
   boolean isVisible(){
     float rescaledX = rescaleByWidth(xPos);
-    float rescaledY = rescaleByWidth(yPos);
+    float rescaledY = rescaleByHeight(yPos);
 
     if(this.objType.equalsIgnoreCase("ellipse") || this.objType.equalsIgnoreCase("rectangle")){
       return (
-      xPos + this.objWidth > 0 && rescaledX - rescaleByWidth(this.objWidth) < width &&
-      yPos + this.objHeight > 0 && rescaledY - rescaleByHeight(this.objHeight) < height);
+      rescaledX + rescaleByWidth(this.objWidth) > 0 && rescaledX - rescaleByWidth(this.objWidth) < width &&
+      rescaledY + this.objHeight > 0 && rescaledY - rescaleByHeight(this.objHeight) < height);
     }
     else if (this.objType.equalsIgnoreCase("triangle")){
 
       return (
-      (xPos > 0 && rescaledX < width && yPos > 0 && rescaledY < height) ||
-      (x2Pos > 0 && rescaleByWidth(x2Pos) < width && y2Pos > 0 && rescaleByWidth(y2Pos) < height) ||
-      (x3Pos > 0 && rescaleByWidth(x3Pos) < width && y3Pos > 0 && rescaleByWidth(y3Pos) < height));
+      (rescaleByWidth(xPos) > 0 && rescaledX < width && rescaledY > 0 && rescaledY < height) ||
+      (rescaleByWidth(x2Pos) > 0 && rescaleByWidth(x2Pos) < width && y2Pos > 0 && rescaleByHeight(y2Pos) < height) ||
+      (rescaleByWidth(x3Pos) > 0 && rescaleByWidth(x3Pos) < width && y3Pos > 0 && rescaleByHeight(y3Pos) < height));
     }
     else{
       return true;
@@ -259,6 +259,7 @@ GameObject(){};
      else if(this.objType.equalsIgnoreCase("triangle")){
         triangle(this.xPos, this.yPos, this.x2Pos, this.y2Pos, this.x3Pos, this.y3Pos);
      }
+
      if(this.texture != null){
         image(this.texture, this.xPos, this.yPos, this.objWidth, this.objHeight);
       }

@@ -13,7 +13,7 @@ class Player {
   float playerXAcceleration = 0.5;
   float xSpeed = 0;
   float ySpeed = 0;
-  float lethalSpeed = playerHeight / 6;
+  float lethalSpeed = playerHeight / 4;
   float maxHorizontalSpeed = 6;
 
   // Variables which are set by the user when moving in game 
