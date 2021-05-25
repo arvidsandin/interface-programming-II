@@ -103,7 +103,6 @@ class Player {
     this.ySpeed += m.gravity;
     this.playerYAcceleration += m.gravity;
     
-    println(this.xSpeed);
     if (movesLeft) {
       this.xSpeed -= this.playerXAcceleration;
     }
