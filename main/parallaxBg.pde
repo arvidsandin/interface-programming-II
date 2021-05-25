@@ -2,20 +2,20 @@
  * A class for drawing up the parallax backgound
  */
 class ParallaxBg{
-  PImage img1;
-  int bx=0, bx2 = 1200;
+  PImage sky;
+  float bx=0, bx2 = 1200;
 
   PImage img2;
-  int mx=0, mx2 = 1200;
+  float mx=0, mx2 = 1200;
 
-  PImage img3;
-  int fx=0, fx2 = 1200;
+  PImage ground;
+  float fx=0, fx2 = 1200;
 
-  PImage img4;
-  int ffx=0, ffx2 = 1200;
+  PImage clouds1;
+  float ffx=0, ffx2 = 1200;
 
-  PImage img5;
-  int fffx=0, fffx2 = 1200;
+  PImage clouds2;
+  float fffx=0, fffx2 = 1200;
 
   /***************************************************************************************************************************************************
    *  MODEL
@@ -27,20 +27,20 @@ class ParallaxBg{
    * @return A new ParallaxBg object
    */
   ParallaxBg(){
-   img1  =  loadImage( "data/parallax_images/sky.png");
-   img1.resize(1203,600);
+   sky  =  loadImage( "data/parallax_images/sky.png");
+   sky.resize(1203,600);
 
    img2  =  loadImage( "data/parallax_images/rocks.png");
    img2.resize(1203,600);
 
-   img3  =  loadImage( "data/parallax_images/ground.png");
-   img3.resize(1203,600);
+   ground  =  loadImage( "data/parallax_images/ground.png");
+   ground.resize(1203,600);
 
-   img4  =  loadImage( "data/parallax_images/clouds_2.png");
-   img4.resize(1203,600);
+   clouds1  =  loadImage( "data/parallax_images/clouds_2.png");
+   clouds1.resize(1203,600);
 
-   img5  =  loadImage( "data/parallax_images/clouds_1.png");
-   img5.resize(1203,600);
+   clouds2  =  loadImage( "data/parallax_images/clouds_1.png");
+   clouds2.resize(1203,600);
 
   }
 
@@ -75,6 +75,19 @@ class ParallaxBg{
      ffx=mod(round(ffx+x*speed2+1200), 2401)-1200; ffx2=mod(round(ffx2+x*speed2+1200), 2401)-1200;
      fffx=mod(round(fffx+x*speed3+1200), 2401)-1200; fffx2=mod(round(fffx2+x*speed3+1200), 2401)-1200;
    }
+   
+   /*
+   * Updates the movement of some parallax images, as an independent animation
+   *
+   * @return None
+   */
+   void animate(){
+     ffx += 1;
+     ffx2 += 1;
+     
+     fffx += 0.6;
+     fffx2 += 0.6;
+   }
 
 
   /***************************************************************************************************************************************************
@@ -90,11 +103,11 @@ class ParallaxBg{
   void drawParallax(){
       pushStyle();
 
-      image(img1, bx, 0); image(img1, bx2, 0);
+      image(sky, bx, 0); image(sky, bx2, 0);
       image(img2, mx, 0); image(img2, mx2, 0);
-      image(img3, fx, 0); image(img3, fx2, 0);
-      image(img4, ffx, 0); image(img4, ffx2, 0);
-      image(img5, fffx, 0); image(img5, fffx2, 0);
+      image(ground, fx, 0); image(ground, fx2, 0);
+      image(clouds1, ffx, 0); image(clouds1, ffx2, 0);
+      image(clouds2, fffx, 0); image(clouds2, fffx2, 0);
 
       popStyle();
     }

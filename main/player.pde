@@ -3,27 +3,38 @@
  */
 class Player {
   boolean isAlive = true;
-  float xPos = width/2;
-  float yPos = height/2;
+  // Position given from center of figure
+  float xPos = 600;
+  float yPos = 300;
   
-  float playerHeight = 90;
-  float playerWidth = 40;
+  float playerHeight = 100;
+  float playerWidth = 50;
   
   float playerAcceleration = 0.5;
   float xSpeed = 0;
   float ySpeed = 0;
   float lethalSpeed = 25;
-  float maxHorizontalSpeed = 5;
-  
+  float maxHorizontalSpeed = 6;
+
+  // Variables which are set by the user when moving in game 
   boolean movesLeft = false;
   boolean movesRight = false;
-
+  // To determine when a climb should stop
   float climbDistance = 0;
-  boolean isClimbing = false;
+  
+  // To determine if a climb should be possible
+  float fallDistance = 0.0;
 
-  boolean inAnimation = false;
-  PImage playerSprite = loadImage("data/models/crop.png");
-  // TODO: Implement ability to slide in player and game controls
+  //Used for player sprite animations 
+  boolean isClimbing = false;
+  
+  // The animation controller of the player sprites
+  PlayerSprite playerSprite;
+  // Path to player sprite sheet
+  String spriteSheetPath = "data/models/Sprite sheet.png";
+
+
+  // FUTURE IMPLEMENTATION: Ability to slide in player and game controls
    
   /***************************************************************************************************************************************************
    *  MODEL
@@ -36,6 +47,7 @@ class Player {
    * @return A new Player object
    */
   Player() {
+    playerSprite = new PlayerSprite(this, spriteSheetPath);
   }
 
   /*
@@ -46,88 +58,8 @@ class Player {
   Player(float xPos, float yPos) {
     this.xPos = xPos;
     this.yPos = yPos;
-  }
-
-  /*
-   * Returns whether the player is moving through the air
-   *
-   * @return Whether Player is in air
-   */
-  boolean inAir() {
-    return this.ySpeed != 0;
-  }
-
-  /*
-   * Returns whether the player is jumping up
-   *
-   * @return Whether Player is jumping
-   */
-  boolean isJumping() {
-    return this.ySpeed < 0;
-  }
-
-  /*
-   * Returns whether the player is falling
-   *
-   * @return Whether Player is falling
-   */
-  boolean isFalling() {
-    return this.ySpeed > 0;
-  }
-
-  /*
-   * The width of Player 
-   *
-   * @return Width of Player
-   */
-  float getWidth(){
-    return this.playerWidth;
-  }
-
-  /*
-   * The height of Player 
-   *
-   * @return Height of Player
-   */
-  float getHeight(){
-    return this.playerHeight;
-  }
-
-
-  /*
-   * Returns the Player's x-coordinate
-   *
-   * @return Position in x-axis of Player
-   */
-  float getXPos(){
-    return this.xPos;
-  }
-
-  /*
-   * Returns the Player's y-coordinate
-   *
-   * @return Position in y-axis of Player
-   */
-  float getYPos(){
-   return this.yPos;
-  }
-
-  /*
-   * Returns the Player's horizontal speed
-   *
-   * @return Speed in x-axis of Player
-   */
-  float getXSpeed(){
-    return this.xSpeed;
-  }
-
-  /*
-   * Returns the Player's vertical speed
-   *
-   * @return Speed in y-axis of Player
-   */
-  float getYSpeed(){
-    return this.ySpeed;
+    
+    playerSprite = new PlayerSprite(this, spriteSheetPath);
   }
 
   /*
@@ -141,32 +73,20 @@ class Player {
     this.increasePlayerSpeed(m);
     this.addFriction(m);
     
-    //this.updatePosition();
-
+    // Detect collisions in the game
     this.handleCollision(m);
 
     if (this.checkForFallDeath(m)) {
       this.isAlive = false;
     }
+    else{
+     this.handleClimbWhileFalling();
+    }
+    
+    // Select correct sprite animation for current player activity
+    this.playerSprite.animate(this);
   }
   
-  /*
-   * Updates the player's x-position with their horizontal speed
-   *
-   * @return None
-   */
-  void updateXPosition(){
-    this.xPos = this.xPos + this.xSpeed;
-    
-  }
-  /*
-   * Updates the player's y-position with their vertical speed
-   *
-   * @return None
-   */
-  void updateYPosition(){
-    this.yPos = this.yPos + this.ySpeed;
-  }
 
   /*
    * Updates the player's speed based on gravity and whether the player is running
@@ -243,28 +163,49 @@ class Player {
         }
         this.ySpeed = 0;
       }
+   }
+  }
+  
+  /*
+   * Handles events in case a safe fall may lead to a secondary action
+   *
+   * @return None
+   */
+  void handleClimbWhileFalling(){
     if (this.isFalling()){
       this.isClimbing = false;
       this.climbDistance = 0;
+      
+      this.fallDistance += abs(this.ySpeed);
     }
-   }
+    else{
+      this.fallDistance = 0;
+    }
   }
 
   /*
-   * Updates the player's vertical speed based on whether it should be capable of sprinting up a vertical surface
+   * Updates the player's vertical speed based on whether they should be capable of sprinting up a vertical surface
    *
-   * @param m the Map in which the Player is currently in
    * @return None
    */
   void climb(GameObject object) {
+    float playerTop = this.yPos - this.playerHeight/2.0;
+    
+    float objY = object.getPosition()[1];
+    float objHeight = object.getDimensions()[1];
+    float objectTop = objY - objHeight/2;
+    
     // Allow climbing while jumping or while fall speed is low
-    if (this.isJumping()) {
-      this.isClimbing = true;
-      float objY = object.getPosition()[1];
-      float objHeight = object.getDimensions()[1];
-
+    if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  6)) {
+      
+      // Set once at beginning of a climb
+      if (!this.isClimbing) {
+        this.isClimbing = true;
+        this.ySpeed = -6;
+      }
+      
       // To climb edge
-      if(objY - objHeight/2 > this.yPos - this.playerHeight/2){
+      if(objectTop > playerTop){
         this.ySpeed = -3;
         if(objY - objHeight/2 > this.yPos + this.playerHeight/2 -4){
           // When close to edge
@@ -272,12 +213,9 @@ class Player {
         }
       }
       // To climb wall
-      else if(abs(this.climbDistance) <= this.playerHeight * 1.5){
+      else if(abs(this.climbDistance) <= this.playerHeight * (3/4.0)){
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
-      }
-      else{
-        this.ySpeed = 0;
       }
     }
   }
@@ -326,6 +264,114 @@ class Player {
     return this.isAlive;
   }
 
+  /*
+   * Returns whether the player is moving through the air
+   *
+   * @return Whether Player is in air
+   */
+  boolean inAir() {
+    return this.ySpeed != 0;
+  }
+
+  /*
+   * Returns whether the player is jumping up
+   *
+   * @return Whether Player is jumping
+   */
+  boolean isJumping() {
+    return this.ySpeed < 0;
+  }
+
+  /*
+   * Returns whether the player is falling
+   *
+   * @return Whether Player is falling
+   */
+  boolean isFalling() {
+    return this.ySpeed > 0;
+  }
+  
+  /*
+   * Returns whether the player state is set to climbing
+   *
+   * @return Whether Player is climbing
+   */
+  boolean isClimbing(){
+    return this.isClimbing;
+  }
+
+  /*
+   * The width of Player 
+   *
+   * @return Width of Player
+   */
+  float getWidth(){
+    return this.playerWidth;
+  }
+
+  /*
+   * The height of Player 
+   *
+   * @return Height of Player
+   */
+  float getHeight(){
+    return this.playerHeight;
+  }
+
+
+  /*
+   * Returns the Player's x-coordinate
+   *
+   * @return Position in x-axis of Player
+   */
+  float getXPos(){
+    return this.xPos;
+  }
+
+  /*
+   * Returns the Player's y-coordinate
+   *
+   * @return Position in y-axis of Player
+   */
+  float getYPos(){
+   return this.yPos;
+  }
+
+  /*
+   * Returns the Player's horizontal speed
+   *
+   * @return Speed in x-axis of Player
+   */
+  float getXSpeed(){
+    return this.xSpeed;
+  }
+
+  /*
+   * Returns the Player's vertical speed
+   *
+   * @return Speed in y-axis of Player
+   */
+  float getYSpeed(){
+    return this.ySpeed;
+  }
+  
+  /*
+   * Updates the player's x-position with their horizontal speed
+   *
+   * @return None
+   */
+  void updateXPosition(){
+    this.xPos = this.xPos + this.xSpeed;
+    
+  }
+  /*
+   * Updates the player's y-position with their vertical speed
+   *
+   * @return None
+   */
+  void updateYPosition(){
+    this.yPos = this.yPos + this.ySpeed;
+  }
 
   /*
    * Makes the player jump in next frame
@@ -334,7 +380,7 @@ class Player {
    */
   void jump() {
     if (this.ySpeed == 0) {
-      this.ySpeed = -5;
+      this.ySpeed = -6;
     }
     if(abs(this.xSpeed) > 0){
       this.xSpeed *= 1.75;
@@ -392,7 +438,11 @@ class Player {
     pushStyle();
     imageMode(CENTER);
     
-    image(this.playerSprite, this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
+    // Use these to showcase hitbox
+    //rectMode(CENTER);
+    //rect(this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
+    
+    this.playerSprite.showAnimation();
 
     popStyle();
   }

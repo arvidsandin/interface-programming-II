@@ -12,8 +12,9 @@ class SettingsMenu implements Menu {
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
-  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};
-  int resolutionIndex = 1;
+ int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};   // {480, 320} Poorly adapted. Consider removal for simplicity
+ int resolutionIndex = 1;
+
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
   String[][] btnTexts = new String[][]{{"RESOLUTION", "MUTE", "BACK"}, {"UPPLÖSNING", "STÄNG AV LJUD", "TILLBAKA"}};
@@ -83,7 +84,8 @@ class SettingsMenu implements Menu {
       if (button.isInside()) {
         if (button.ID == this.BACK) {
           if(inGame){
-            navigation = NavType.INGAME;
+            navigation = NavType.INGAMEMENU;
+            returnToGame();
           }
           else{
             navigation = NavType.INMAINMENU;
