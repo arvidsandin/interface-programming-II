@@ -19,6 +19,7 @@ class HomeButton extends Button{
     super(0, false, false, "", width/25, height/15, width/20, height/10, color(255), homeButtonPath);
     
     this.homeButtonPath = homeButtonPath;
+
   }
   
   /*

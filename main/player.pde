@@ -212,6 +212,9 @@ class Player {
     } else {
       this.fallDistance = 0;
     }
+    
+    println(isClimbing);
+    println("WALLJUMP: " + isWallJumping);
   }
 
   /*
@@ -251,8 +254,7 @@ class Player {
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
       }
-    } 
-    else {
+    } else {
       this.isClimbing = false;
     }
   }
