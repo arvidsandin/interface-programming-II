@@ -5,7 +5,8 @@ class Game{
   Level level = new Level();   // Future implementation: make Game hold all possible levels from start
   Player player = new Player();
   Map map;
-  HomeButton homeButton = new HomeButton();
+  String homeButtonPath  = "data/menu_images/home_button.png";
+  HomeButton homeButton = new HomeButton(homeButtonPath);
   /*
    * Constructor to set all attributes of Game class with a given game map
    *
@@ -48,6 +49,7 @@ class Game{
     return false;
   }
   
+  
   /*
    * Determines what event should happen during a mouse click during the game
    *
@@ -58,6 +60,17 @@ class Game{
       navigation = NavType.INGAMEMENU;
     }
   }
+  
+  /*
+   * Resizes button and text elements of the game level to current window dimensions
+   *
+   * @return None
+   */
+  void resizeOverlayElements(){
+    map.resizeTutorialText();
+    homeButton.updateBtnDimensions();
+  }
+  
   
   /*
    * Any currently active player control is stopped
@@ -119,16 +132,7 @@ class Game{
     // Resets game to put player at start of tutorial
     game.resetGame();
   }
-  
-  /*
-   * Resizes button and text elements of the game level to current window dimensions
-   *
-   * @return None
-   */
-  void resizeOverlayElements(){
-    map.resizeTutorialText();
-    homeButton.updateBtnDimensions();
-  }
+ 
   
   /*
    * Makes the player jump
@@ -219,20 +223,23 @@ class Game{
    * @return None
    */
     void drawGame(){
-      
+      // Must use pop instead of popStyle, as scale() is a transformation
       push();
-      //if(useSmallLayout){
-      //  scale((float)width/1000, (float)height/400);
-      //}
-      //else{
-      //  scale((float)width/1280, (float)height/720);
-      //}
+      
+      if(useSmallLayout){
+        scale((float)width/1000, (float)height/550);
+      }
+      else{
+        scale((float)width/1280, (float)height/720);
+      }
 
       map.drawMe();
       player.drawMe();
-      homeButton.drawMe();
-
       pop();
+
+      //Home button must rescale itself
+      // Needs to be outside rescale for mouseClick and drawing to correspond
+      homeButton.drawMe();
     }
 
 }

@@ -13,7 +13,7 @@ class SettingsMenu implements Menu {
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
-  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {720, 480}, {480, 320}, {500, 200}};   // {480, 320} Poorly adapted. Consider removal for simplicity
+  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {854, 480}, {640, 360}};   // {480, 320} Poorly adapted. Consider removal for simplicity
   int resolutionIndex = 1;
   // Determine where to write current resolution
   float resolutionXPos;
@@ -30,13 +30,22 @@ class SettingsMenu implements Menu {
   float muteYPos;
   String[][] noAudioText = {{"OFF", "ON"}, {"AV", "PÅ"}};
   float[] noAudioTextPos;
+  
+  MusicPlayer musicPlayer;
 
-  // TODO: ADD MUSICPLAYER AS ATTRIBUTE
-
-  int RESOLUTION= 0;
+  int RESOLUTION = 0;
   int MUSIC = 1;
   int MUTE = 2;
   int BACK = 3;
+  
+  // Will be used in the future
+  //int RESOLUTION = 0;
+  //int MUSIC = RESOLUTION + 2;
+  //int MUTE = MUSIC + 2;
+  //int BACK = MUTE + 2;
+  
+  //int BACKWARD = 0;
+  //int FORWARD = 1;
 
   /***************************************************************************************************************************************************
    *  MODEL
@@ -46,17 +55,20 @@ class SettingsMenu implements Menu {
   /*
    * Sets up fonts and menu buttons to be included in the settings menu
    *
+   * @param m   The sketch program that runs the setup and draw functions
    * @return A new SettingsMenu object
    */
-  SettingsMenu() {
+  SettingsMenu(main m) {
     this.settingsMenuButtons = new Button[this.btnTexts[currentLanguage].length];
 
-    float xPosBtn = width / 15;
-    for (int i = 0; i < this.btnTexts[currentLanguage].length; i++) {
+    float xPosBtn = width / 40;
+    for (int i = 0; i < this.settingsMenuButtons.length; ++i) {
       float yPosBtn = this.yOffset + (height / 8) * i;
 
       settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
     }
+    
+    musicPlayer = new MusicPlayer(m);
 
     // "Global" varaible. Resize created menu and buttons if necessary
     if (useSmallLayout) {
@@ -89,6 +101,17 @@ class SettingsMenu implements Menu {
   void updateMenuLanguage() {
     for (int i = 0; i < this.btnTexts[currentLanguage].length; i++) {
       settingsMenuButtons[i].setBtnText(btnTexts[currentLanguage][i]);
+    }
+  }
+  
+  /*
+   * load music files and starts playing the music if unmuted (and is quite slow)
+   * @return None
+   */
+  public void loadMusicFiles(){
+    musicPlayer.loadFiles();
+    if(!muteGame){
+      musicPlayer.loopTrack(selectedSong);
     }
   }
 
@@ -163,7 +186,7 @@ class SettingsMenu implements Menu {
     } else {
       this.useBigLayout();
     }
-    this.menuBackground.resize(width, height);
+    reloadBackground();
   }
 
   /*
@@ -199,7 +222,7 @@ class SettingsMenu implements Menu {
     this.yOffset = floor(height/3.33);
     this.xOffset = (width/5) * 4;
 
-    float newXStartPos = width / 15;
+    float newXStartPos = width / 100;
     float ySpacing = (height / 8);
 
     float btnWidth = width / 3;
@@ -230,6 +253,7 @@ class SettingsMenu implements Menu {
   void resizeButtons(float btnWidth, float btnHeight, float xPosBtn, float ySpacing, int btnFontSize, boolean useBtnAnimation, float newQuadOffset) {
     for (int i = 0; i < this.settingsMenuButtons.length; ++i) {
       Button btn = this.settingsMenuButtons[i];
+      
       float yPosBtn = this.yOffset + ySpacing * i;
 
       btn.setBtnDimensions(btnWidth, btnHeight);
@@ -270,13 +294,15 @@ class SettingsMenu implements Menu {
   }
 
   /*
-   * Ensures the background isn't rescaled more than once, to avoid degrading quality
+   * Ensures the background is only reloaded if window size changes
    *
    * @return None
    */
   void reloadBackground() {
-    menuBackground = loadImage("data/menu_images/MenuGradient.png");
-    menuBackground.resize(width, height);
+    if (menuBackground.width != width ||  menuBackground.height != height) {
+      menuBackground = loadImage("data/menu_images/MenuGradient.png");
+      menuBackground.resize(width, height);
+    }
   }
 
 
@@ -293,9 +319,8 @@ class SettingsMenu implements Menu {
   void drawMenu() {
     pushStyle();
     // An image must be the same pixel size as the background
-    if (menuBackground.width != width ||  menuBackground.height != height) {
-      reloadBackground();
-    }
+    reloadBackground();
+    
     background(this.menuBackground);
 
     textAlign(CENTER);

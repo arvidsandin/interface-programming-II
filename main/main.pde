@@ -15,7 +15,7 @@ MainMenu mainMenu;
 SettingsMenu settingsMenu;
 GameMenu gameMenu;
 ParallaxBg parallaxBg;
-MusicPlayer musicPlayer;
+
 
 String[] languages = new String[]{"ENG", "SWE"};
 int ENG = 0;
@@ -29,7 +29,7 @@ int selectedSong = 0;
 Sound globalSound = new Sound(this);
 
 boolean inGame = false;
-boolean muteGame = false;
+boolean muteGame = true;
 boolean useSmallLayout = false;
 
 /*
@@ -40,20 +40,21 @@ void setup(){
  //P2D uses OpenGL code to run faster on computer graphics card
  size(1280, 720, P2D);
  surface.setResizable(true);
-
- //background(137, 209, 254);
- surface.setResizable(true);
+ 
+ currentWidth = width;
+ currentHeight = height;
 
  game = new Game();
 
  mainMenu = new MainMenu();
- settingsMenu = new SettingsMenu();
+ settingsMenu = new SettingsMenu(this);
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
  
  this.loadSettings();
- musicPlayer = new MusicPlayer(this);
  
+ 
+ // Controls sound in-game
  globalSound.volume(0.15);
 
  if (muteGame){
@@ -64,15 +65,13 @@ void setup(){
  }
 }
 
+
 /*
  * load music files and starts playing the music if unmuted (and is quite slow)
  * @return None
  */
 public void loadMusicFiles(){
-  musicPlayer.loadFiles();
-  if(!muteGame){
-    musicPlayer.loopTrack(selectedSong);
-  }
+  settingsMenu.loadMusicFiles(); 
 }
 
 /*
@@ -85,7 +84,7 @@ void loadSettings(){
   settingsMenu.resolutionIndex = Integer.parseInt(previousSettings[1]);
 
   surface.setSize(settingsMenu.resolutions[settingsMenu.resolutionIndex][0], settingsMenu.resolutions[settingsMenu.resolutionIndex][1]);
-  if (width <= 600) {
+  if (width <= 700) {
     useSmallLayout = true;
   }
   else{
@@ -99,6 +98,12 @@ void loadSettings(){
  * @return None
  */
 void draw(){
+  
+  if(currentWidth != width || currentHeight != height){
+   currentWidth = width;
+   currentHeight = height;
+   resizeProgram(); 
+  }
 
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();
@@ -211,16 +216,16 @@ void mouseClicked(){
  */
 void keyPressed(){
   if (navigation == NavType.INGAME){
-    if (key == 'w' || keyCode == UP){
+    if (key == 'w' || key == 'W'|| keyCode == UP){
       game.up();
     }
-    else if (key == 'a' || keyCode == LEFT){
+    else if (key == 'a' || key == 'A' ||  keyCode == LEFT){
       game.left();
     }
-    else if (key == 's' || keyCode == DOWN){
+    else if (key == 's' || key == 'S'|| keyCode == DOWN){
       game.down();
     }
-    else if (key == 'd' || keyCode == RIGHT){
+    else if (key == 'd' || key == 'D' ||keyCode == RIGHT){
       game.right();
     }
     else if (key == ' '){
@@ -256,16 +261,16 @@ void keyPressed(){
  */
 void keyReleased(){
   if (navigation == NavType.INGAME){
-    if (key == 'w' || keyCode == UP){
+    if (key == 'w' || key == 'W'|| keyCode == UP){
       game.releaseUp();
     }
-    else if (key == 'a' || keyCode == LEFT){
+    else if (key == 'a' || key == 'A'||keyCode == LEFT){
       game.releaseLeft();
     }
-    else if (key == 's' || keyCode == DOWN){
+    else if (key == 's' || key == 'S'|| keyCode == DOWN){
       game.releaseDown();
     }
-    else if (key == 'd' || keyCode == RIGHT){
+    else if (key == 'd' || key == 'D' ||keyCode == RIGHT){
       game.releaseRight();
     }
     else if (key == ' '){

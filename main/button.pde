@@ -123,56 +123,7 @@ class Button {
       }
     }
     
-    /*
-     * Constructor with buttons dimensions, text, animation or line for Button object, plus a background image. Assumes only the border will be colored, and has no quadOffset
-     *
-     * @param ID    The button's ID. Not guaranteed to be unique
-     * @param withLine          Whether the button should have a line to the edge of the screen's left side
-     * @param animateBtn    States whether the button should have animated height
-     * @param btnText    The button's text
-     * @param xPos    The button's x position, relative to its upper left corner
-     * @param yPos    The button's y position, relative to its upper left corner
-     * @param btnWidth    The button's width
-     * @param btnHeight    The button's height
-     * @param btnBorderColor    The button border's color
-     * @param backgroundImage    Path to the background image of the button, relative to the sketch
-     *
-     * @return A new Button object
-     */
-    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float btnWidth, float btnHeight, color btnBorderColor,  String backgroundImage){
-      this.ID = ID;
-
-      this.withLine = withLine;
-      this.animateBtn = animateBtn;
-
-      this.btnText = btnText;
-
-      this.xPos = xPos;
-      this.yPos = yPos;
-
-      this.btnWidth = btnWidth;
-      this.btnHeight = btnHeight;
-
-      if(animateBtn){
-        this.animHeightUp = this.btnHeight/ 2;
-        this.animHeightDown = this.animHeightUp;
-      }
-      else{
-        this.animHeightUp = 0;
-        this.animHeightDown = 0;
-      }
-
-      this.btnColor = btnColor;
-      this.btnBorderColor = btnBorderColor;
-
-      this.quadOffset = quadOffset;
-      if(backgroundImage != null){
-        this.backgroundImage = loadImage(backgroundImage);
-      }
-    }
-
-
-     /*
+         /*
      * Constructor with position, dimensions, colors, fonts and ID for Button class.
      *
      * @param ID    The button's ID. Not guaranteed to be unique
@@ -212,6 +163,53 @@ class Button {
     }
     
     /*
+     * Constructor with buttons dimensions, text, animation or line for Button object, plus a background image. Assumes only the border will be colored, and has no quadOffset
+     *
+     * @param ID    The button's ID. Not guaranteed to be unique
+     * @param withLine          Whether the button should have a line to the edge of the screen's left side
+     * @param animateBtn    States whether the button should have animated height
+     * @param btnText    The button's text
+     * @param xPos    The button's x position, relative to its upper left corner
+     * @param yPos    The button's y position, relative to its upper left corner
+     * @param btnWidth    The button's width
+     * @param btnHeight    The button's height
+     * @param btnBorderColor    The button border's color
+     * @param backgroundImage    Path to the background image of the button, relative to the sketch
+     *
+     * @return A new Button object
+     */
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float btnWidth, float btnHeight, color btnBorderColor,  String backgroundImage){
+      this.ID = ID;
+
+      this.withLine = withLine;
+      this.animateBtn = animateBtn;
+
+      this.btnText = btnText;
+
+      this.xPos = xPos;
+      this.yPos = yPos;
+
+      this.btnWidth = btnWidth;
+      this.btnHeight = btnHeight;
+
+      if(animateBtn){
+        this.animHeightUp = this.btnHeight/ 2;
+        this.animHeightDown = this.animHeightUp;
+      }
+      else{
+        this.animHeightUp = 0;
+        this.animHeightDown = 0;
+      }
+
+      this.btnBorderColor = btnBorderColor;
+
+      if(backgroundImage != null){
+        this.backgroundImage = loadImage(backgroundImage);
+      }
+    }
+
+    
+    /*
      * Constructor with position, dimensions, colors, and ID for Button class.
      *
      * @param ID    The button's ID. Not guaranteed to be unique
@@ -247,6 +245,47 @@ class Button {
 
       this.btnColor = btnColor;
       this.btnBorderColor = btnBorderColor;
+    }
+    
+        /*
+     * Constructor with position, dimensions, colors, quadOffset, and ID for Button class.
+     *
+     * @param ID    The button's ID. Not guaranteed to be unique
+     * @param withLine          Whether the button should have a line to the edge of the screen's left side
+     * @param animateBtn    States whether the button should have animated height
+     * @param btnText    The button's text
+     * @param btnTextColor    The button text's color
+     * @param textFont      The button text's font
+     * @param xPos    The button's x position, relative to its upper left corner
+     * @param yPos    The button's y position, relative to its upper left corner
+     * @param btnWidth    The button's width
+     * @param btnHeight    The button's height
+     * @param btnColor    The button's color
+     * @param btnBorderColor    The button border's color
+     * @param quadOffset     The offset to draw the button parallelogram with
+     *
+     * @return A new Button object
+     */
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor, float quadOffset){
+      this.ID = ID;
+
+      this.withLine = withLine;
+      this.animateBtn = animateBtn;
+
+      this.btnText = btnText;
+
+      this.xPos = xPos;
+      this.yPos = yPos;
+
+      this.btnWidth = btnWidth;
+      this.btnHeight = btnHeight;
+
+      setAnimation(animateBtn);
+
+      this.btnColor = btnColor;
+      this.btnBorderColor = btnBorderColor;
+      
+      this.quadOffset = quadOffset;
     }
 
     /*

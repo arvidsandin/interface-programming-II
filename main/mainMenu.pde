@@ -176,7 +176,7 @@ class MainMenu implements Menu {
     else{
       this.useBigLayout();
     }
-    this.menuBackground.resize(width, height);
+    reloadBackground();
   }
 
   /*
@@ -348,8 +348,10 @@ class MainMenu implements Menu {
    * @return None
    */
   void reloadBackground(){
-    menuBackground = loadImage("data/menu_images/MenuGradient.png");
-    menuBackground.resize(width, height);
+    if(menuBackground.width != width ||  menuBackground.height != height){
+      menuBackground = loadImage("data/menu_images/MenuGradient.png");
+      menuBackground.resize(width, height);
+    }
   }
 
   /***************************************************************************************************************************************************
@@ -365,9 +367,8 @@ class MainMenu implements Menu {
   void drawMenu(){
     pushStyle();
     // An image must be the same pixel size as the background
-    if(menuBackground.width != width ||  menuBackground.height != height){
-      reloadBackground();
-    }
+    reloadBackground();
+    
     background(this.menuBackground);
     
     textAlign(CENTER);

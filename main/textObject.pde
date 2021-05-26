@@ -51,7 +51,7 @@ class TextObject extends GameObject{
    */
    void resize(){
      if (useSmallLayout){
-       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/5), true);
+       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/12), true);
      }
      else{
        textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);
@@ -82,7 +82,7 @@ class TextObject extends GameObject{
      
      rect(this.xPos, this.yPos, this.objWidth, this.objHeight);
      
-     textLeading(30);
+     textLeading(35);
      text(this.text[currentLanguage], this.xPos, this.yPos);
 
     popStyle();

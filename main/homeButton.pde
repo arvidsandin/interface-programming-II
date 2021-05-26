@@ -5,24 +5,44 @@
  */
 class HomeButton extends Button{
   
-  String homeButtonPath  = "data/menu_images/home_button.png";
+  String homeButtonPath;
   
-  HomeButton(){
-    super(0, false, false, "", width/75, height/75, width/20, height/10, color(255), "data/menu_images/home_button.png");
+  
+  /*
+   * Constructor for a round home button placed at the corner of the screen during a game
+   *
+   * @return A new HomeButton object
+   */
+  HomeButton(String homeButtonPath){
+    //x and y-pos are given as center positions
+    
+    super(0, false, false, "", width/25, height/15, width/20, height/10, color(255), homeButtonPath);
+    
+    this.homeButtonPath = homeButtonPath;
   }
   
+  /*
+   * Determines whether a mouse click is inside the radius of the button
+   *
+   * @return Whether the mouse click landed inside the button
+   */
   boolean isInside(){
-    float x = rescaleByWidth(mouseX);
-    float y = rescaleByHeight(mouseY);
-    if( x >= rescaleByWidth(this.xPos - this.btnWidth/2) && x <= this.xPos + rescaleByWidth(this.btnWidth/2)){
-      if(y >= rescaleByHeight(this.yPos - this.btnHeight/2) && y <= rescaleByHeight(this.yPos + this.btnHeight/2)){
+    float x = mouseX;
+    float y = mouseY;
+    
+    float distance = sqrt(pow(x - this.xPos, 2) + pow(y - this.yPos, 2));
+
+    if(distance <= this.btnWidth/2 && distance <= this.btnHeight/2){
        return true; 
       }
-      
-    }
     return false;
   }
   
+  /*
+   * Draws the home button
+   *
+   * @return None
+   */
   void drawMe(){
     pushStyle();
     imageMode(CENTER);
@@ -30,11 +50,25 @@ class HomeButton extends Button{
     popStyle();
   }
   
+  /*
+   * Updates the button's dimensions according to current window size
+   *
+   * @return None
+   */
   void updateBtnDimensions(){
-  this.btnWidth = width/20;
-  this.btnHeight = height/10;
-  
-  this.xPos = width/25;
-  this.yPos = height/20;
+    if(useSmallLayout){
+      this.btnWidth = width/12;
+      this.btnHeight = height/6;
+      
+      this.xPos = width/19;
+      this.yPos = height/12;
+    }
+    else{
+      this.btnWidth = width/20;
+      this.btnHeight = height/10;
+      
+      this.xPos = width/25;
+      this.yPos = height/15;
+    }
   }
 }
