@@ -13,21 +13,21 @@ class SettingsMenu implements Menu {
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
-  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {854, 480}, {640, 360}};   // {480, 320} Poorly adapted. Consider removal for simplicity
+  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {854, 480}, {640, 360}, {500, 200}};   // 
   int resolutionIndex = 1;
   // Determine where to write current resolution
-  float resolutionXPos;
-  float resolutionYPos;
+  float resolutionXPos = width/20;
+  float resolutionYPos = height/15;
 
   int settingsFontSize = ceil(height/15);
   PFont settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
   // Either song title or audio off is shown
-  float musicXPos;
-  float musicYPos;
+  float musicXPos = width/20;;
+  float musicYPos = resolutionYPos * 2;
   String[] songTitles = {"House", "Boundless Energy"};
 
-  float muteXPos;
-  float muteYPos;
+  float muteXPos = width/20;;
+  float muteYPos = musicYPos * 2;
   String[][] noAudioText = {{"OFF", "ON"}, {"AV", "PÅ"}};
   float[] noAudioTextPos;
   
@@ -38,13 +38,13 @@ class SettingsMenu implements Menu {
   int MUTE = 2;
   int BACK = 3;
   
-  // Will be used in the future
+  // May be used in the future with arrow buttons
   //int RESOLUTION = 0;
   //int MUSIC = RESOLUTION + 2;
   //int MUTE = MUSIC + 2;
   //int BACK = MUTE + 2;
   
-  //int BACKWARD = 0;
+  //int BACKWARD = -1;
   //int FORWARD = 1;
 
   /***************************************************************************************************************************************************
@@ -60,13 +60,13 @@ class SettingsMenu implements Menu {
    */
   SettingsMenu(main m) {
     this.settingsMenuButtons = new Button[this.btnTexts[currentLanguage].length];
-
     float xPosBtn = width / 40;
+    
     for (int i = 0; i < this.settingsMenuButtons.length; ++i) {
       float yPosBtn = this.yOffset + (height / 8) * i;
 
-      settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
-    }
+       settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][BACK], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
+      }
     
     musicPlayer = new MusicPlayer(m);
 
@@ -132,14 +132,6 @@ class SettingsMenu implements Menu {
             navigation = NavType.INMAINMENU;
           }
         }
-        else if (button.ID == this.MUSIC) {
-          selectedSong += 1;
-          selectedSong = selectedSong % 2;
-          
-          if(!muteGame){
-            musicPlayer.loopTrack(selectedSong);
-          }
-        } 
         else if(button.ID == this.MUTE){
           muteGame = !muteGame;
           if(musicPlayer.isPlaying()){
@@ -153,9 +145,17 @@ class SettingsMenu implements Menu {
           settings[0] = String.valueOf(muteGame);
           saveStrings("data/settings/settings.txt", settings);
         }
+        else if (button.ID == this.MUSIC) {
+          selectedSong += 1;
+          selectedSong = selectedSong % 2;
+          
+          if(!muteGame){
+            musicPlayer.loopTrack(selectedSong);
+          }
+        } 
         else if (button.ID == this.RESOLUTION) {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
-          frame.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
+          surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
           if (width <= 700) {
             useSmallLayout = true;
           } 

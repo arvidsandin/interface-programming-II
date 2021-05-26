@@ -251,8 +251,11 @@ GameObject(){};
      ellipseMode(CENTER);
      fill(this.fillColor);
      imageMode(CENTER);
-
-     if(this.objType.equalsIgnoreCase("ellipse")){
+      
+     if(this.texture != null){
+        image(this.texture, this.xPos, this.yPos, this.objWidth, this.objHeight);
+      }
+     else if(this.objType.equalsIgnoreCase("ellipse")){
        ellipse(this.xPos, this.yPos, this.objWidth, this.objHeight);
      }
      else if(this.objType.equalsIgnoreCase("rectangle")){
@@ -262,9 +265,7 @@ GameObject(){};
         triangle(this.xPos, this.yPos, this.x2Pos, this.y2Pos, this.x3Pos, this.y3Pos);
      }
 
-     if(this.texture != null){
-        image(this.texture, this.xPos, this.yPos, this.objWidth, this.objHeight);
-      }
+     
 
     popStyle();
    }

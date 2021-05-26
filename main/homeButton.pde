@@ -8,6 +8,11 @@ class HomeButton extends Button{
   String homeButtonPath;
   
   
+  /***************************************************************************************************************************************************
+   *  MODEL
+   ***************************************************************************************************************************************************
+   */
+  
   /*
    * Constructor for a round home button placed at the corner of the screen during a game
    *
@@ -40,18 +45,6 @@ class HomeButton extends Button{
   }
   
   /*
-   * Draws the home button
-   *
-   * @return None
-   */
-  void drawMe(){
-    pushStyle();
-    imageMode(CENTER);
-    image(this.backgroundImage, this.xPos, this.yPos, this.btnWidth, this.btnHeight);
-    popStyle();
-  }
-  
-  /*
    * Updates the button's dimensions according to current window size
    *
    * @return None
@@ -72,4 +65,22 @@ class HomeButton extends Button{
       this.yPos = height/15;
     }
   }
+  
+  /***************************************************************************************************************************************************
+   *  VIEW
+   ***************************************************************************************************************************************************
+   */
+   
+  /*
+   * Draws the home button
+   *
+   * @return None
+   */
+  void drawMe(){
+    pushStyle();
+    imageMode(CENTER);
+    image(this.backgroundImage, this.xPos, this.yPos, this.btnWidth, this.btnHeight);
+    popStyle();
+  }
+  
 }

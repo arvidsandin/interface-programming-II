@@ -354,8 +354,8 @@ class Button {
      * @return is point inside the button
     */
     boolean isInside(){
-      int x = mouseX;
-      int y = mouseY;
+      float x = mouseX;
+      float y = mouseY;
 
       //Check if button is a rectangle
       if(this.quadOffset == 0){

@@ -13,7 +13,7 @@ class Player {
   float playerXAcceleration = 0.5;
   float xSpeed = 0;
   float ySpeed = 0;
-  float lethalSpeed = playerHeight / 5;
+  float lethalSpeed = playerHeight / 5.5;
   float maxHorizontalSpeed = 6;
 
   // Variables which are set by the user when moving in game
@@ -227,7 +227,7 @@ class Player {
     float objHeight = object.getDimensions()[1];
     float objectTop = objY - objHeight/2;
 
-    boolean belowMaxClimb = abs(this.climbDistance) <= this.playerHeight * (3.5/4.0);
+    boolean belowMaxClimb = abs(this.climbDistance) <= this.playerHeight;
 
     // Allow climbing while jumping or while fall speed is low
     if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  6) && belowMaxClimb) {

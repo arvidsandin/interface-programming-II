@@ -50,7 +50,7 @@ void setup(){
  settingsMenu = new SettingsMenu(this);
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
- 
+
  this.loadSettings();
  
  
@@ -83,7 +83,7 @@ void loadSettings(){
   muteGame = Boolean.valueOf(previousSettings[0]);
   settingsMenu.resolutionIndex = Integer.parseInt(previousSettings[1]);
 
-  frame.setSize(settingsMenu.resolutions[settingsMenu.resolutionIndex][0], settingsMenu.resolutions[settingsMenu.resolutionIndex][1]);
+  surface.setSize(settingsMenu.resolutions[settingsMenu.resolutionIndex][0], settingsMenu.resolutions[settingsMenu.resolutionIndex][1]);
   if (width <= 700) {
     useSmallLayout = true;
   }

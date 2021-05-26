@@ -1,6 +1,6 @@
 
 /*
- * An interface for menus and their necessary functions they must implement
+ * An interface for menus and the necessary functions they must implement
  */
 interface Menu{
    //Enum for each main menu button
