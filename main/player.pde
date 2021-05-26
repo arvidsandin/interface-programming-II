@@ -212,9 +212,6 @@ class Player {
     } else {
       this.fallDistance = 0;
     }
-    
-    println(isClimbing);
-    println("WALLJUMP: " + isWallJumping);
   }
 
   /*

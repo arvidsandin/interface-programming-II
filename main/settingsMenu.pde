@@ -155,7 +155,7 @@ class SettingsMenu implements Menu {
         }
         else if (button.ID == this.RESOLUTION) {
           resolutionIndex = (resolutionIndex + 1) % (resolutions.length);
-          surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
+          frame.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
           if (width <= 700) {
             useSmallLayout = true;
           } 

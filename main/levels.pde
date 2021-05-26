@@ -16,7 +16,11 @@ class Level{
       new GameObject("rectangle", 800, 450, 2895, 200,  color(123, 132, 123)),
       new GameObject("rectangle", 200, 275, 120, 600, color(123, 132, 123)),
       new GameObject("rectangle", 800, 265, 40, 180, color(123, 132, 123)),
-      new GameObject("rectangle", 2550, 245, 300, 100, color(200, 100, 240))
+      new GameObject("rectangle", 2550, 245, 300, 100, color(200, 100, 240)),
+      new GameObject("rectangle", 800, 450, 2895, 200, color(123, 132, 123)),
+      new GameObject("rectangle", 200, 275, 120, 600, color(123, 132, 123), "data/texture/building_liver.png"),
+      new GameObject("rectangle", 800, 265, 40, 180, color(123, 132, 123), "data/texture/piskel_2.png"),
+      new GameObject("rectangle", 2550, 250, 300, 100,  color(200, 100, 240))
     };
   }
 
@@ -27,25 +31,27 @@ class Level{
    */
  void level1(){
    this.level = new GameObject[]{
+     new GameObject("rectangle", 800, 265, 40, 180, color(123, 132, 123)), // Wall
      new GameObject("rectangle", 800, 450, 2400, 200, color(123, 132, 123)),
      new GameObject("rectangle", 200, 275, 120, 600, color(123, 132, 123)), // Low wall
-     new GameObject("rectangle", 800, 265, 40, 180, color(123, 132, 123)), // Base platform
+     
      new GameObject("rectangle", 2300, 250, 300, 100, color(200, 100, 240)), // Floating platform
      new GameObject("rectangle", 2650, 450, 500, 300, color(123, 132, 183)), // Safe rectangular platform
      new GameObject("rectangle", 3100, 500, 500, 50, color(123, 132, 183)),  // Thin platform
+     new GameObject("rectangle", 800, 265, 40, 170, color(123, 132, 123)),
      
      new GameObject("rectangle", 2900 + 1250, 450, 1700, 500, color(123, 132, 183)), // High, wide platform
-     new GameObject("rectangle", 3350, 200, 600, 100, color(123, 132, 183)), // Thin, high up platform
-     new GameObject("rectangle", 3700 + 260, 150, 150, 150, color(123, 132, 183)), // Rising platform
-     new GameObject("rectangle", 3700 + 630, 100, 175, 210, color(123, 132, 183)),  // Higher rising platform
-     new GameObject("rectangle", 3700 + 1050, 75, 200, 280, color(123, 132, 183)),  // Third highest rising platform
-     new GameObject("rectangle", 3700 + 1200, 75, 200, 280, color(123, 132, 183)),  // Ground support
-     new GameObject("rectangle", 5030, -175, 80, 900, color(123, 132, 213)),  // High pillar
+     new GameObject("rectangle", 3350, 200, 600, 100, color(123, 132, 183), "data/texture/piskel_1.png"), // Thin, high up platform
+     new GameObject("rectangle", 3700 + 210, 150, 150, 150, color(123, 132, 183)), // Rising platform
+     new GameObject("rectangle", 3700 + 570, 100, 175, 210, color(123, 132, 183)),  // Higher rising platform
+     new GameObject("rectangle", 3650 + 975, 75, 225, 280, color(123, 132, 183)),  // Third highest rising platform
+     new GameObject("rectangle", 3650 + 1200, 75, 250, 280, color(123, 132, 183)),  // Ground support
+     
+     new GameObject("rectangle", 4650 + 1200, -200, 1700, 500, color(123, 132, 213)), // High, wide platform
+     new GameObject("rectangle", 5000, -175, 80, 900, color(123, 132, 213), "data/texture/piskel_2.png"),  // High pillar
      
      new GameObject("rectangle", 4650, -900, 80, 1000, color(123, 132, 183)),  // High pillar behind floating pillar
      new GameObject("rectangle", 4650, -350, 300, 200, color(123, 132, 213)), // Floating pillar
-     new GameObject("rectangle", 4650 + 1200, -200, 1700, 500, color(123, 132, 213)), // High, wide platform
-     
       //new GameObject("rectangle", , , , , ),
    };
  }
