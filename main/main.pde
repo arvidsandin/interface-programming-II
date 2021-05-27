@@ -33,6 +33,13 @@ boolean inGame = false;
 boolean muteGame = true;
 boolean useSmallLayout = false;
 
+
+
+/***************************************************************************************************************************************************
+ *  MODEL
+ ***************************************************************************************************************************************************
+ */
+
 /*
  * Sets up window and other game object's setups
  * @return None
@@ -95,45 +102,6 @@ void loadSettings(){
 }
 
 /*
- * Main loop of what to draw on screen
- * @return None
- */
-void draw(){
-  
-  if(currentWidth != width || currentHeight != height){
-   currentWidth = width;
-   currentHeight = height;
-   resizeProgram(); 
-  }
-
-  if (navigation == NavType.INMAINMENU){
-    mainMenu.moveMenu();
-    mainMenu.drawMenu();
-    inGame = false;
-  }
-  else if (navigation == NavType.INSETTINGS){
-    settingsMenu.moveMenu();
-    settingsMenu.drawMenu();
-  }
-  else if (navigation == NavType.INGAME){
-    inGame = true;
-    boolean gameOver = game.timeStep();
-    if(!gameOver){
-      game.drawGame();
-    }
-  }
-  else if (navigation == NavType.INGAMEMENU){
-    gameMenu.moveMenu();
-    gameMenu.drawMenu();
-  }
-  
-  // Check whether it's possible the interface is being accessed during active game session
-  if(navigation != NavType.INGAMEMENU && navigation != NavType.INGAME && navigation != NavType.INSETTINGS){
-    inGame = false;
-  }
-}
-
-/*
  * Draws the latest game frame without updating it
  *
  * @return None
@@ -189,6 +157,57 @@ void updateLanguage(){
   */
 }
 
+
+
+/***************************************************************************************************************************************************
+ *  VIEW
+ ***************************************************************************************************************************************************
+ */
+
+/*
+ * Main loop of what to draw on screen
+ * @return None
+ */
+void draw(){
+  
+  if(currentWidth != width || currentHeight != height){
+   currentWidth = width;
+   currentHeight = height;
+   resizeProgram(); 
+  }
+
+  if (navigation == NavType.INMAINMENU){
+    mainMenu.moveMenu();
+    mainMenu.drawMenu();
+    inGame = false;
+  }
+  else if (navigation == NavType.INSETTINGS){
+    settingsMenu.moveMenu();
+    settingsMenu.drawMenu();
+  }
+  else if (navigation == NavType.INGAME){
+    inGame = true;
+    boolean gameOver = game.timeStep();
+    if(!gameOver){
+      game.drawGame();
+    }
+  }
+  else if (navigation == NavType.INGAMEMENU){
+    gameMenu.moveMenu();
+    gameMenu.drawMenu();
+  }
+  
+  // Check whether it's possible the interface is being accessed during active game session
+  if(navigation != NavType.INGAMEMENU && navigation != NavType.INGAME && navigation != NavType.INSETTINGS){
+    inGame = false;
+  }
+}
+
+
+/***************************************************************************************************************************************************
+ *  CONTROL
+ ***************************************************************************************************************************************************
+ */
 
 /*
  * Handles mouse click events in the window

@@ -8,7 +8,7 @@ class SettingsMenu implements Menu {
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
-  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUSIC", "MUTE", "BACK"}, {"UPPLÖSNING", "MUSIK", "STÄNG AV LJUD", "TILLBAKA"}, {"RESOLUCIÓN", "MUSICA", "APAGA SONIDO", "REGRESA"}};
+  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUSIC", "SOUND", "BACK"}, {"UPPLÖSNING", "MUSIK", "LJUD", "TILLBAKA"}, {"RESOLUCIÓN", "MUSICA", "SONIDO", "REGRESA"}};
 
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
@@ -28,7 +28,7 @@ class SettingsMenu implements Menu {
 
   float muteXPos = width/20;;
   float muteYPos = musicYPos * 2;
-  String[][] noAudioText = {{"OFF", "ON"}, {"AV", "PÅ"}, {"PUESTO", "APAGADO"}};
+  String[][] noAudioText = {{"OFF", "ON"}, {"AV", "PÅ"}, {"APAGADO", "PUESTO"}};
   float[] noAudioTextPos;
   
   MusicPlayer musicPlayer;
@@ -346,7 +346,7 @@ class SettingsMenu implements Menu {
     pushStyle();
     textFont(settingsTextFont);
     textAlign(CORNER);
-    int mute = muteGame ? 1 : 0;
+    int mute = muteGame ? 0 : 1;
 
     text(noAudioText[currentLanguage][mute], muteXPos, muteYPos);
     
