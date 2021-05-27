@@ -73,7 +73,7 @@ class TextObject extends GameObject{
    */
    @Override
    void drawMe(){
-     pushStyle();
+     push();
 
      noStroke();
      rectMode(CENTER);
@@ -85,6 +85,6 @@ class TextObject extends GameObject{
      textLeading(35);
      text(this.text[currentLanguage], this.xPos, this.yPos);
 
-    popStyle();
+    pop();
    }
 }

@@ -17,9 +17,10 @@ GameMenu gameMenu;
 ParallaxBg parallaxBg;
 
 
-String[] languages = new String[]{"ENG", "SWE"};
+String[] languages = new String[]{"ENG", "SWE", "SPA"}; //add last , "SPA"
 int ENG = 0;
 int SWE = 1;
+int SPA = 2;
 
 int currentLanguage = ENG;
 float currentWidth = 0;

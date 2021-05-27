@@ -8,12 +8,12 @@ class SettingsMenu implements Menu {
 
   color btnColor = color(170, 183, 249);
   color btnBorderColor = color(110, 123, 189);
-  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUSIC", "MUTE", "BACK"}, {"UPPLÖSNING", "MUSIK", "STÄNG AV LJUD", "TILLBAKA"}};
+  String[][] btnTexts = new String[][]{{"RESOLUTION", "MUSIC", "MUTE", "BACK"}, {"UPPLÖSNING", "MUSIK", "STÄNG AV LJUD", "TILLBAKA"}, {"RESOLUCIÓN", "MUSICA", "APAGA SONIDO", "REGRESA"}};
 
   float yOffset = floor(height/3.33);
   float xOffset = (width/5) * 4;
 
-  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {854, 480}, {640, 360}, {500, 200}};   // 
+  int[][] resolutions = new int[][]{{1920, 1080}, {1280, 720}, {854, 480}, {640, 360}, {500, 200}};
   int resolutionIndex = 1;
   // Determine where to write current resolution
   float resolutionXPos = width/20;
@@ -28,7 +28,7 @@ class SettingsMenu implements Menu {
 
   float muteXPos = width/20;;
   float muteYPos = musicYPos * 2;
-  String[][] noAudioText = {{"OFF", "ON"}, {"AV", "PÅ"}};
+  String[][] noAudioText = {{"OFF", "ON"}, {"AV", "PÅ"}, {"PUESTO", "APAGADO"}};
   float[] noAudioTextPos;
   
   MusicPlayer musicPlayer;
@@ -65,7 +65,7 @@ class SettingsMenu implements Menu {
     for (int i = 0; i < this.settingsMenuButtons.length; ++i) {
       float yPosBtn = this.yOffset + (height / 8) * i;
 
-       settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][BACK], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
+       settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
       }
     
     musicPlayer = new MusicPlayer(m);

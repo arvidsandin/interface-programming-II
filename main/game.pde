@@ -48,39 +48,6 @@ class Game{
     }
     return false;
   }
-  
-  
-  /*
-   * Determines what event should happen during a mouse click during the game
-   *
-   * @return None
-   */
-  void click(){
-    if(homeButton.isInside()){
-      navigation = NavType.INGAMEMENU;
-    }
-  }
-  
-  /*
-   * Resizes button and text elements of the game level to current window dimensions
-   *
-   * @return None
-   */
-  void resizeOverlayElements(){
-    map.resizeTutorialText();
-    homeButton.updateBtnDimensions();
-  }
-  
-  
-  /*
-   * Any currently active player control is stopped
-   *
-   * @return None
-   */
-  void resetControls(){
-    player.stopLeft();
-    player.stopRight();
-  }
 
   /*
    * Exits the game and passes control back to main menu.
@@ -113,6 +80,10 @@ class Game{
     
     // Update map to use the level
     map.changeLevel(this.level.getLevel());
+    
+    // Update text size
+    this.resizeOverlayElements();
+    
     game.resetGame();
   }
   
@@ -132,6 +103,41 @@ class Game{
     // Resets game to put player at start of tutorial
     game.resetGame();
   }
+  
+    
+    
+  /*
+   * Determines what event should happen during a mouse click during the game
+   *
+   * @return None
+   */
+  void click(){
+    if(homeButton.isInside()){
+      navigation = NavType.INGAMEMENU;
+    }
+  }
+  
+  /*
+   * Resizes button and text elements of the game level to current window dimensions
+   *
+   * @return None
+   */
+  void resizeOverlayElements(){
+    map.resizeGameText();
+    homeButton.updateBtnDimensions();
+  }
+  
+  
+  /*
+   * Any currently active player control is stopped
+   *
+   * @return None
+   */
+  void resetControls(){
+    player.stopLeft();
+    player.stopRight();
+  }
+  
  
   
   /*

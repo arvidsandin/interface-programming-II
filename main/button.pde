@@ -6,6 +6,7 @@ class Button {
 
   boolean withLine = false;
   boolean animateBtn = true;
+  
   float quadOffset = 60;
 
   private float animHeightUp;
@@ -14,6 +15,7 @@ class Button {
   String btnText;
   color btnTextColor = color(0, 0, 0);
   PFont textFont = createFont("data/fonts/good times rg.ttf", floor(height/25), true);
+  color highlightTextColor = color(0, 0, 0);
 
   float xPos;
   float yPos;
@@ -329,7 +331,7 @@ class Button {
      */
      void moveMe(){
        if(!this.animateBtn){
-        return;
+         return;
        }
 
       if(this.isInside()){
@@ -610,7 +612,14 @@ class Button {
      if(btnText != null){
 
        textFont(this.textFont);
-       fill(this.btnTextColor);
+       
+       // Will change between highlighted text and normal button text color
+       if(this.isInside()){
+         fill(this.highlightTextColor);
+       }
+       else{
+         fill(this.btnTextColor);
+       }
        text(this.btnText, xTxtCenter, yTxtCenter);
      }
     }
@@ -621,9 +630,12 @@ class Button {
      * @return None
      */
     void drawBackgroundImage(){
+      pushStyle();
       
       if(this.backgroundImage != null){
+        imageMode(CORNER);
         image(this.backgroundImage, this.xPos, this.yPos, this.btnWidth, this.btnHeight);
       }
+      popStyle();
     }
 }

@@ -11,7 +11,7 @@ class MainMenu implements Menu {
 
   // Button offsets from origo on screen
   float yOffset = floor(height/3.33);
-  float xOffset = (width/5) * 4;
+  float xOffset = width * 3/5.0;
 
   // Title text attributes
   String title = "Parkour Scroll";
@@ -22,18 +22,18 @@ class MainMenu implements Menu {
   // Language buttons attributes
   int languageFontSize = ceil(height/35);
   PFont languageFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
-  String[] flagImgs = new String[]{"data/menu_images/eng_flag.png", "data/menu_images/swe_flag.png"};
+  String[] flagImgs = new String[]{"data/menu_images/eng_flag.png", "data/menu_images/swe_flag.png", "data/menu_images/spa_flag.png"};
   float[] languageTextPos = new float[]{width * 11.0/15, height/15};
   
-  String[] musicCredit = new String[]{"Music from BenSound.com", "Musik av BenSound.com"};
+  String[] musicCredit = new String[]{"Music from BenSound.com", "Musik av BenSound.com", "Musica de BenSound.com"};
   int creditFontSize = languageFontSize;
   PFont creditFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
   float[] creditTextPos = new float[]{width * 12/15.0, height * 14/15.0};
 
   //TODO: MOVE OUT LANGUAGE HANDLING TO SEPARATE MODULE
-  String[][] btnTexts = new String[][]{{"START", "SETTINGS", "TUTORIAL", "QUIT"}, {"STARTA", "INSTÄLLNINGAR", "INTRODUKTION", "AVSLUTA"}};
-  String[] languageText = new String[]{"Language: ", "Språk: "};
-  boolean showLanguageText = true;
+  String[][] btnTexts = new String[][]{{"START", "SETTINGS", "TUTORIAL", "QUIT"}, {"STARTA", "INSTÄLLNINGAR", "INTRODUKTION", "AVSLUTA"}, {"COMIENZA", "OPCIONES", "TUTORIAL", "TERMINA"}};
+  String[] languageText = new String[]{"Language: ", "Språk: ", "Idioma: "};
+  boolean showLanguageText = false;
 
   // Enums to correspond with a button press
   int START= 0;
@@ -42,6 +42,7 @@ class MainMenu implements Menu {
   int QUIT= 3;
   int ENGBTN = 4;
   int SWEBTN = 5;
+  int SPABTN = 6;
 
   /***************************************************************************************************************************************************
    *  MODEL
@@ -86,16 +87,17 @@ class MainMenu implements Menu {
       mainMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
     }
 
+    // Creates flag buttons
     float yPosBtn = height/30;
     float xSpacing = (width / 10);
 
     float btnWidth = width /12;
     float btnHeight = height / 12;
+    // IDs of buttons correspond to languages' index defined in main 
     for (int i = 0; i < languages.length; ++i) {
+      xPosBtn = this.xOffset + xSpacing * i;
 
-      xPosBtn = xOffset + xSpacing * i;
-
-      mainMenuButtons[this.btnTexts[currentLanguage].length + i] = new Button(this.btnTexts[currentLanguage].length + i, false, false, null, xPosBtn, yPosBtn, btnWidth, btnHeight, this.btnBorderColor, this.btnBorderColor, 0, flagImgs[i]);
+      mainMenuButtons[this.btnTexts[currentLanguage].length + i] = new LanguageButton(i, this.btnTexts[currentLanguage].length + i, false, false, null, xPosBtn, yPosBtn, btnWidth, btnHeight, this.btnBorderColor, this.btnBorderColor, 0, flagImgs[i]);
     }
 
      // "Global" varaible. Resize created menu and buttons if necessary
@@ -158,6 +160,10 @@ class MainMenu implements Menu {
           currentLanguage = SWE;
           updateLanguage();
         }
+        else if (button.ID == this.SPABTN) {
+          currentLanguage = SPA;
+          updateLanguage();
+        }
         break;
       }
     }
@@ -186,10 +192,10 @@ class MainMenu implements Menu {
    */
   void useSmallLayout(){
     this.yOffset = height/12;
-    this.xOffset = width * 2.1/3;
+    this.xOffset = width * 1.8/3;
 
     //Resize main buttons
-    float btnWidth = width/2;
+    float btnWidth = width/2.25;
     float btnHeight = height/6;
     float newXStartPos =  width / 30;
     float ySpacing = (height / 4.5);
@@ -220,7 +226,7 @@ class MainMenu implements Menu {
    */
   void useBigLayout(){
     this.yOffset = floor(height / 3.33);
-    this.xOffset = (width / 5) * 4;
+    this.xOffset = width * (3.5/5.0);
 
     //Resize main buttons
     float btnWidth = width / 3;
@@ -312,6 +318,10 @@ class MainMenu implements Menu {
       this.titleFontSize = floor(height/10);
 
       this.creditFontSize = ceil(height/20);
+      
+      this.creditTextPos[1] =height * 13/15.0;
+      // Updated with a line break in the middle
+      this.musicCredit = new String[]{"Music from \nBenSound.com", "Musik av \nBenSound.com", "Musica de \nBenSound.com"};
 
       this.showLanguageText = false;
     }
@@ -321,6 +331,8 @@ class MainMenu implements Menu {
       this.titleFontSize = floor(height/15);
 
       this.creditFontSize = ceil(height/35);
+      this.creditTextPos[1] =height * 14/15.0;
+      this.musicCredit = new String[]{"Music from BenSound.com", "Musik av BenSound.com", "Musica de BenSound.com"};
 
       this.showLanguageText = true;
     }
@@ -331,15 +343,11 @@ class MainMenu implements Menu {
 
     this.languageFontSize = ceil(height/35);
     this.languageFont = createFont("data/fonts/good times rg.ttf", this.languageFontSize, true);
-    this.languageTextPos[0] = width * 11.0/15;
+    this.languageTextPos[0] = width * 9.4/15;
     this.languageTextPos[1] = height/15;
     
-    this.musicCredit = new String[]{"Music from BenSound.com", "Musik av BenSound.com"};
-    this.creditFont = createFont("data/fonts/good times rg.ttf", this.creditFontSize, true);
     this.creditTextPos[0] = width * 12/15.0;
-    this.creditTextPos[1] =height * 14/15.0;
-    
-    
+    this.creditFont = createFont("data/fonts/good times rg.ttf", this.creditFontSize, true);
   }
   
   /*

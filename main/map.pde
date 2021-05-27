@@ -105,11 +105,11 @@ class Map {
   }
   
   /*
-   * Resizes text elements of the tutorial level to current window dimensions
+   * Resizes text elements of the game levels to current window dimensions
    *
    * @return None
    */
-  void resizeTutorialText(){
+  void resizeGameText(){
     for(GameObject object : objects){
       if (object instanceof TextObject){
         ((TextObject) object).resize();
