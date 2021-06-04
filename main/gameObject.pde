@@ -9,9 +9,9 @@ class GameObject{
 
   color fillColor;
 
-  // By how much to move the object in animations
-  float xMove;
-  float yMove;
+  // By how much to move the object in each animation frame
+  float xMove = 0;
+  float yMove = 0;
 
   // If object is an ellipse, these are its radi
   float objWidth;
@@ -30,7 +30,7 @@ class GameObject{
    *  MODEL
    ***************************************************************************************************************************************************
    */
-
+GameObject(){};
  /*
   * Creates a GameObject with a given shape, color, and background texture
   *
@@ -39,13 +39,11 @@ class GameObject{
   * @param yPos  The object's y-position, given from its center
   * @param objWidth  The object's width. If the object is an ellipse, this sets the first radius
   * @param objHeight  The object's height. If the object is an ellipse, this sets the second radius
-  * @param xMove  The amount to offset the x-position for animations
-  * @param yMove  The amount to offset the y-position for animations
   * @param fillColor  The object's color
   * @param texture   Image path to the texture to set for the object, relative to the sketch
   * @return A new GameObject instance
   */
-  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, float xMove, float yMove, color fillColor, String texture){
+  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, color fillColor, String texture){
     this.xPos = xPos;
     this.yPos = yPos;
     this.objType = objType;
@@ -68,12 +66,10 @@ class GameObject{
   * @param yPos  The object's y-position, given from its center
   * @param objWidth  The object's width. If the object is an ellipse, this sets the first radius
   * @param objHeight  The object's height. If the object is an ellipse, this sets the second radius
-  * @param xMove  The amount to offset the x-position for animations
-  * @param yMove  The amount to offset the y-position for animations
   * @param fillColor  The object's color
   * @return A new GameObject instance
   */
-  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, float xMove, float yMove, color fillColor){
+  GameObject(String objType, float xPos, float yPos, float objWidth, float objHeight, color fillColor){
     this.xPos = xPos;
     this.yPos = yPos;
     this.objType = objType;
@@ -82,9 +78,6 @@ class GameObject{
 
     this.objWidth = objWidth;
     this.objHeight = objHeight;
-
-    this.xMove = xMove;
-    this.yMove = yMove;
   }
 
   /*
@@ -97,12 +90,10 @@ class GameObject{
    * @param y2Pos  The triangle's second point's y-position
    * @param x3Pos  The triangle's third point's x-position
    * @param y3Pos  The triangle's third point's y-position
-   * @param xMove  The amount to offset the x-position for animations
-   * @param yMove  The amount to offset the y-position for animations
    * @param fillColor  The object's color
    * @return A new GameObject instance
    */
-  GameObject(String objType, float xPos, float yPos, float x2Pos, float y2Pos, float x3Pos, float y3Pos, float xMove, float yMove, color fillColor){
+  GameObject(String objType, float xPos, float yPos, float x2Pos, float y2Pos, float x3Pos, float y3Pos, color fillColor){
     this.xPos = xPos;
     this.yPos = yPos;
     this.x2Pos = x2Pos;
@@ -122,7 +113,7 @@ class GameObject{
    * Help function for collisionDetection, taken from stackoverflow
    *
    *
-   * @return 
+   * @return
    */
   float sign(float p1x, float p1y, float p2x, float p2y, float p3x, float p3y){
     return (p1x - p3x) * (p2y - p3y) - (p2x - p3x) * (p1y - p3y);
@@ -161,6 +152,7 @@ class GameObject{
       return 0;
     }
     else if(this.objType.equalsIgnoreCase("rectangle")){
+      
       if (p.getXPos() - p.getWidth()/2 + p.getXSpeed() <= this.xPos + objWidth/2 &&
           p.getXPos() + p.getWidth()/2 + p.getXSpeed() >= this.xPos - objWidth/2 &&
           p.getYPos() - p.getHeight()/2 < this.yPos + objHeight/2 &&
@@ -205,19 +197,19 @@ class GameObject{
    */
   boolean isVisible(){
     float rescaledX = rescaleByWidth(xPos);
-    float rescaledY = rescaleByWidth(yPos);
+    float rescaledY = rescaleByHeight(yPos);
 
     if(this.objType.equalsIgnoreCase("ellipse") || this.objType.equalsIgnoreCase("rectangle")){
       return (
-      xPos + this.objWidth > 0 && rescaledX - rescaleByWidth(this.objWidth) < width &&
-      yPos + this.objHeight > 0 && rescaledY - rescaleByHeight(this.objHeight) < height);
+      rescaledX + rescaleByWidth(this.objWidth) > 0 && rescaledX - rescaleByWidth(this.objWidth) < width &&
+      rescaledY + this.objHeight > 0 && rescaledY - rescaleByHeight(this.objHeight) < height);
     }
     else if (this.objType.equalsIgnoreCase("triangle")){
 
       return (
-      (xPos > 0 && rescaledX < width && yPos > 0 && rescaledY < height) ||
-      (x2Pos > 0 && rescaleByWidth(x2Pos) < width && y2Pos > 0 && rescaleByWidth(y2Pos) < height) ||
-      (x3Pos > 0 && rescaleByWidth(x3Pos) < width && y3Pos > 0 && rescaleByWidth(y3Pos) < height));
+      (rescaleByWidth(xPos) > 0 && rescaledX < width && rescaledY > 0 && rescaledY < height) ||
+      (rescaleByWidth(x2Pos) > 0 && rescaleByWidth(x2Pos) < width && y2Pos > 0 && rescaleByHeight(y2Pos) < height) ||
+      (rescaleByWidth(x3Pos) > 0 && rescaleByWidth(x3Pos) < width && y3Pos > 0 && rescaleByHeight(y3Pos) < height));
     }
     else{
       return true;
@@ -259,8 +251,11 @@ class GameObject{
      ellipseMode(CENTER);
      fill(this.fillColor);
      imageMode(CENTER);
-
-     if(this.objType.equalsIgnoreCase("ellipse")){
+      
+     if(this.texture != null){
+        image(this.texture, this.xPos, this.yPos, this.objWidth, this.objHeight);
+      }
+     else if(this.objType.equalsIgnoreCase("ellipse")){
        ellipse(this.xPos, this.yPos, this.objWidth, this.objHeight);
      }
      else if(this.objType.equalsIgnoreCase("rectangle")){
@@ -270,9 +265,7 @@ class GameObject{
         triangle(this.xPos, this.yPos, this.x2Pos, this.y2Pos, this.x3Pos, this.y3Pos);
      }
 
-     if(this.texture != null){
-        image(this.texture, this.xPos, this.yPos, this.objWidth, this.objHeight);
-      }
+     
 
     popStyle();
    }

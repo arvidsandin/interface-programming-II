@@ -6,6 +6,7 @@ class Button {
 
   boolean withLine = false;
   boolean animateBtn = true;
+  
   float quadOffset = 60;
 
   private float animHeightUp;
@@ -14,6 +15,7 @@ class Button {
   String btnText;
   color btnTextColor = color(0, 0, 0);
   PFont textFont = createFont("data/fonts/good times rg.ttf", floor(height/25), true);
+  color highlightTextColor = color(0, 0, 0);
 
   float xPos;
   float yPos;
@@ -122,9 +124,8 @@ class Button {
         this.backgroundImage = loadImage(backgroundImage);
       }
     }
-
-
-     /*
+    
+         /*
      * Constructor with position, dimensions, colors, fonts and ID for Button class.
      *
      * @param ID    The button's ID. Not guaranteed to be unique
@@ -164,6 +165,53 @@ class Button {
     }
     
     /*
+     * Constructor with buttons dimensions, text, animation or line for Button object, plus a background image. Assumes only the border will be colored, and has no quadOffset
+     *
+     * @param ID    The button's ID. Not guaranteed to be unique
+     * @param withLine          Whether the button should have a line to the edge of the screen's left side
+     * @param animateBtn    States whether the button should have animated height
+     * @param btnText    The button's text
+     * @param xPos    The button's x position, relative to its upper left corner
+     * @param yPos    The button's y position, relative to its upper left corner
+     * @param btnWidth    The button's width
+     * @param btnHeight    The button's height
+     * @param btnBorderColor    The button border's color
+     * @param backgroundImage    Path to the background image of the button, relative to the sketch
+     *
+     * @return A new Button object
+     */
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float btnWidth, float btnHeight, color btnBorderColor,  String backgroundImage){
+      this.ID = ID;
+
+      this.withLine = withLine;
+      this.animateBtn = animateBtn;
+
+      this.btnText = btnText;
+
+      this.xPos = xPos;
+      this.yPos = yPos;
+
+      this.btnWidth = btnWidth;
+      this.btnHeight = btnHeight;
+
+      if(animateBtn){
+        this.animHeightUp = this.btnHeight/ 2;
+        this.animHeightDown = this.animHeightUp;
+      }
+      else{
+        this.animHeightUp = 0;
+        this.animHeightDown = 0;
+      }
+
+      this.btnBorderColor = btnBorderColor;
+
+      if(backgroundImage != null){
+        this.backgroundImage = loadImage(backgroundImage);
+      }
+    }
+
+    
+    /*
      * Constructor with position, dimensions, colors, and ID for Button class.
      *
      * @param ID    The button's ID. Not guaranteed to be unique
@@ -199,6 +247,47 @@ class Button {
 
       this.btnColor = btnColor;
       this.btnBorderColor = btnBorderColor;
+    }
+    
+        /*
+     * Constructor with position, dimensions, colors, quadOffset, and ID for Button class.
+     *
+     * @param ID    The button's ID. Not guaranteed to be unique
+     * @param withLine          Whether the button should have a line to the edge of the screen's left side
+     * @param animateBtn    States whether the button should have animated height
+     * @param btnText    The button's text
+     * @param btnTextColor    The button text's color
+     * @param textFont      The button text's font
+     * @param xPos    The button's x position, relative to its upper left corner
+     * @param yPos    The button's y position, relative to its upper left corner
+     * @param btnWidth    The button's width
+     * @param btnHeight    The button's height
+     * @param btnColor    The button's color
+     * @param btnBorderColor    The button border's color
+     * @param quadOffset     The offset to draw the button parallelogram with
+     *
+     * @return A new Button object
+     */
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor, float quadOffset){
+      this.ID = ID;
+
+      this.withLine = withLine;
+      this.animateBtn = animateBtn;
+
+      this.btnText = btnText;
+
+      this.xPos = xPos;
+      this.yPos = yPos;
+
+      this.btnWidth = btnWidth;
+      this.btnHeight = btnHeight;
+
+      setAnimation(animateBtn);
+
+      this.btnColor = btnColor;
+      this.btnBorderColor = btnBorderColor;
+      
+      this.quadOffset = quadOffset;
     }
 
     /*
@@ -242,7 +331,7 @@ class Button {
      */
      void moveMe(){
        if(!this.animateBtn){
-        return;
+         return;
        }
 
       if(this.isInside()){
@@ -267,8 +356,8 @@ class Button {
      * @return is point inside the button
     */
     boolean isInside(){
-      int x = mouseX;
-      int y = mouseY;
+      float x = mouseX;
+      float y = mouseY;
 
       //Check if button is a rectangle
       if(this.quadOffset == 0){
@@ -383,6 +472,24 @@ class Button {
     }
     
     /*
+     * Returns the button's x-position, given from its center
+     *
+     * @return The button's x-position from the center
+     */
+    float getXPos(){
+      return this.xPos;
+    }
+    
+    /*
+     * Returns the button's y-position, given from its center
+     *
+     * @return The button's y-position from the center
+     */
+    float getYPos(){
+      return this.yPos;
+    }
+    
+    /*
      * Returns the button's height
      *
      * @return The button's height
@@ -446,6 +553,12 @@ class Button {
      * @return None
      */
     void drawBtnShape(){
+      // Do not draw shape if button contains an image
+      if(this.backgroundImage != null){
+       return; 
+      }
+      
+      
      /*Corners in a parallelogram are created clockwise
         (x,y) 1------2
                \      \
@@ -499,7 +612,14 @@ class Button {
      if(btnText != null){
 
        textFont(this.textFont);
-       fill(this.btnTextColor);
+       
+       // Will change between highlighted text and normal button text color
+       if(this.isInside()){
+         fill(this.highlightTextColor);
+       }
+       else{
+         fill(this.btnTextColor);
+       }
        text(this.btnText, xTxtCenter, yTxtCenter);
      }
     }
@@ -510,9 +630,12 @@ class Button {
      * @return None
      */
     void drawBackgroundImage(){
-
+      pushStyle();
+      
       if(this.backgroundImage != null){
+        imageMode(CORNER);
         image(this.backgroundImage, this.xPos, this.yPos, this.btnWidth, this.btnHeight);
       }
+      popStyle();
     }
 }

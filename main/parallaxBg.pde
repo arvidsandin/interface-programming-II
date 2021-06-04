@@ -2,20 +2,24 @@
  * A class for drawing up the parallax backgound
  */
 class ParallaxBg{
+  float defaultWidth = 1280;
+  float defaultHeight = 720;
+  float defaultDoubleOne = defaultWidth*2 + 1;
+  
   PImage sky;
-  float bx=0, bx2 = 1200;
+  float bx=0, bx2 = defaultWidth;
 
   PImage img2;
-  float mx=0, mx2 = 1200;
+  float mx=0, mx2 = defaultWidth;
 
   PImage ground;
-  float fx=0, fx2 = 1200;
+  float fx=0, fx2 = defaultWidth;
 
   PImage clouds1;
-  float ffx=0, ffx2 = 1200;
+  float ffx=0, ffx2 = defaultWidth;
 
   PImage clouds2;
-  float fffx=0, fffx2 = 1200;
+  float fffx=0, fffx2 = defaultWidth;
 
   /***************************************************************************************************************************************************
    *  MODEL
@@ -28,19 +32,19 @@ class ParallaxBg{
    */
   ParallaxBg(){
    sky  =  loadImage( "data/parallax_images/sky.png");
-   sky.resize(1203,600);
+   sky.resize((int)defaultWidth+3, (int)defaultHeight);
 
    img2  =  loadImage( "data/parallax_images/rocks.png");
-   img2.resize(1203,600);
+   img2.resize((int)defaultWidth+3, (int)defaultHeight);
 
    ground  =  loadImage( "data/parallax_images/ground.png");
-   ground.resize(1203,600);
+   ground.resize((int)defaultWidth +3, (int)defaultHeight);
 
    clouds1  =  loadImage( "data/parallax_images/clouds_2.png");
-   clouds1.resize(1203,600);
+   clouds1.resize((int)defaultWidth+3, (int)defaultHeight);
 
    clouds2  =  loadImage( "data/parallax_images/clouds_1.png");
-   clouds2.resize(1203,600);
+   clouds2.resize((int)defaultWidth+3, (int)defaultHeight);
 
   }
 
@@ -49,9 +53,9 @@ class ParallaxBg{
    *
    * @return x modulo y
    */
-  private int mod(int x, int y)
+  private float mod(float x, float y)
   {
-      int result = x % y;
+      float result = x % y;
       if (result < 0)
       {
           result += y;
@@ -69,11 +73,15 @@ class ParallaxBg{
      float speed1 = 0.2;
      float speed2 = 0.4;
      float speed3 = 0.6;
-     bx=mod(round(bx+x*speed1+1200), 2401)-1200; bx2=mod(round(bx2+x*speed1+1200), 2401)-1200;
-     mx=mod(round(mx+x*speed2+1200), 2401)-1200; mx2=mod(round(mx2+x*speed2+1200), 2401)-1200;
-     fx=mod(round(fx+x*speed2+1200), 2401)-1200; fx2=mod(round(fx2+x*speed2+1200), 2401)-1200;
-     ffx=mod(round(ffx+x*speed2+1200), 2401)-1200; ffx2=mod(round(ffx2+x*speed2+1200), 2401)-1200;
-     fffx=mod(round(fffx+x*speed3+1200), 2401)-1200; fffx2=mod(round(fffx2+x*speed3+1200), 2401)-1200;
+     bx=mod(bx+x*speed1+defaultWidth, defaultDoubleOne)-defaultWidth; bx2=mod((bx2+x*speed1+defaultWidth), defaultDoubleOne)-defaultWidth;
+     
+     mx=mod(mx+x*speed2+defaultWidth, defaultDoubleOne)-defaultWidth; mx2=mod((mx2+x*speed2+defaultWidth), defaultDoubleOne)-defaultWidth;
+     
+     fx=mod(fx+x*speed2+defaultWidth, defaultDoubleOne)-defaultWidth; fx2=mod((fx2+x*speed2+defaultWidth), defaultDoubleOne)-defaultWidth;
+     
+     ffx=mod(ffx+x*speed2+defaultWidth, defaultDoubleOne)-defaultWidth; ffx2=mod((ffx2+x*speed2+defaultWidth), defaultDoubleOne)-defaultWidth;
+     
+     fffx=mod((fffx+x*speed3+defaultWidth), defaultDoubleOne)-defaultWidth; fffx2=mod((fffx2+x*speed3+defaultWidth), defaultDoubleOne)-defaultWidth;
    }
    
    /*

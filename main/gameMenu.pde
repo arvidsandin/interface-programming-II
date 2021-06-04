@@ -17,7 +17,7 @@ public class GameMenu implements Menu{
 
   float topOffset = (float) width / 10;
 
-  String[][] btnTexts = new String[][]{{"CONTINUE", "SETTINGS", "CHOOSE LEVEL", "MAIN MENU"}, {"FORTSÄTT", "INSTÄLLNINGAR", "VÄLJ NIVÅ", "HUVUDMENY"}};
+  String[][] btnTexts = new String[][]{{"CONTINUE", "SETTINGS", "CHOOSE LEVEL", "MAIN MENU"}, {"FORTSÄTT", "INSTÄLLNINGAR", "VÄLJ NIVÅ", "HUVUDMENY"}, {"SIGUE", "OPCIONES", "ELIGE NIVEL", "MENÚ PRINCIPAL"}};
   int menuLanguage = ENG;
 
   int CONTINUE = 0;

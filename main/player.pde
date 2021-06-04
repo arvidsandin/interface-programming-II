@@ -5,29 +5,32 @@ class Player {
   boolean isAlive = true;
   // Position given from center of figure
   float xPos = 600;
-  float yPos = 300;
-  
+  float yPos = -100;
+
   float playerHeight = 100;
-  float playerWidth = 50;
-  
-  float playerAcceleration = 0.5;
+  float playerWidth = 40;
+
+  float playerXAcceleration = 0.5;
   float xSpeed = 0;
   float ySpeed = 0;
-  float lethalSpeed = 25;
+  float lethalSpeed = playerHeight / 5.5;
   float maxHorizontalSpeed = 6;
 
-  // Variables which are set by the user when moving in game 
+  // Variables which are set by the user when moving in game
   boolean movesLeft = false;
   boolean movesRight = false;
+
+  // Used for determining new state of Player
+  boolean isClimbing = false;
+  boolean isWallJumping = false;
   // To determine when a climb should stop
   float climbDistance = 0;
-  
+
   // To determine if a climb should be possible
   float fallDistance = 0.0;
 
-  //Used for player sprite animations 
-  boolean isClimbing = false;
-  
+
+
   // The animation controller of the player sprites
   PlayerSprite playerSprite;
   // Path to player sprite sheet
@@ -35,7 +38,7 @@ class Player {
 
 
   // FUTURE IMPLEMENTATION: Ability to slide in player and game controls
-   
+
   /***************************************************************************************************************************************************
    *  MODEL
    ***************************************************************************************************************************************************
@@ -58,7 +61,7 @@ class Player {
   Player(float xPos, float yPos) {
     this.xPos = xPos;
     this.yPos = yPos;
-    
+
     playerSprite = new PlayerSprite(this, spriteSheetPath);
   }
 
@@ -71,22 +74,21 @@ class Player {
   void moveMe(Map m) {
     //Accelerations
     this.increasePlayerSpeed(m);
-    this.addFriction(m);
     
     // Detect collisions in the game
     this.handleCollision(m);
 
+    //Deaccelerations
+    this.addFriction(m);
+
     if (this.checkForFallDeath(m)) {
       this.isAlive = false;
     }
-    else{
-     this.handleClimbWhileFalling();
-    }
-    
+
     // Select correct sprite animation for current player activity
     this.playerSprite.animate(this);
   }
-  
+
 
   /*
    * Updates the player's speed based on gravity and whether the player is running
@@ -96,33 +98,32 @@ class Player {
    */
   void increasePlayerSpeed(Map m) {
     this.ySpeed += m.gravity;
+
     if (movesLeft) {
-      this.xSpeed -= this.playerAcceleration;
+      this.xSpeed -= this.playerXAcceleration;
     }
     if (movesRight) {
-      this.xSpeed += this.playerAcceleration;
+      this.xSpeed += this.playerXAcceleration;
     }
-    
-    
+
+
     if (this.xSpeed > this.maxHorizontalSpeed)
     {
-      this.xSpeed -= 2*this.playerAcceleration;
+      this.xSpeed -= 2*this.playerXAcceleration;
       //stop at max speed
       if (this.xSpeed < this.maxHorizontalSpeed)
       {
         this.xSpeed = this.maxHorizontalSpeed;
       }
-    }
-    else if (this.xSpeed < -this.maxHorizontalSpeed)
+    } else if (this.xSpeed < -this.maxHorizontalSpeed)
     {
-      this.xSpeed += 2*this.playerAcceleration;
+      this.xSpeed += 2*this.playerXAcceleration;
       //stop at max speed
       if (this.xSpeed > -this.maxHorizontalSpeed)
       {
         this.xSpeed = -this.maxHorizontalSpeed;
       }
     }
-
   }
 
 
@@ -134,11 +135,15 @@ class Player {
    */
   void addFriction(Map m) {
     if (!this.movesLeft && !this.movesRight) {
-      this.xSpeed -= m.friction*xSpeed;
+      if (this.inAir()) {
+        this.xSpeed -= 0.2*m.friction*xSpeed;
+      } else {
+        this.xSpeed -= m.friction*xSpeed;
+      }
     }
 
     //Stop if speed is too low;
-    if (this.xSpeed < playerAcceleration/2 && this.xSpeed > -playerAcceleration/2) {
+    if (this.xSpeed < playerXAcceleration/2 && this.xSpeed > -playerXAcceleration/2) {
       this.xSpeed = 0;
     }
   }
@@ -151,6 +156,7 @@ class Player {
    */
   void handleCollision(Map m) {
     for (GameObject object : m.objects) {
+
       //rectangle collision x-axis
       if (object.collisionDetection(this) == 1) {
         climb(object);
@@ -163,22 +169,47 @@ class Player {
         }
         this.ySpeed = 0;
       }
-   }
+    }
+    handleClimbWhileFalling();
   }
-  
+
+
   /*
-   * Handles events in case a safe fall may lead to a secondary action
+   * Allows the player to move in the opposite horisontal direction, as if they are leaping off a wall
    *
    * @return None
    */
-  void handleClimbWhileFalling(){
-    if (this.isFalling()){
+  void walljump() {
+    this.ySpeed += -5;
+    this.isClimbing = false;
+    this.isWallJumping= true;
+    
+    if (this.movesLeft) {
+      // Leap to the right
+      stopLeft();
+      this.xSpeed = 6;
+    } else if (this.movesRight) {
+      // Leap to the left
+      stopRight();
+      this.xSpeed = -6;
+    }
+  }
+
+  /*
+   * Handles events where a fall could lead to a secondary action
+   *
+   * @return None
+   */
+  void handleClimbWhileFalling() {
+    if (this.isFalling()) {
+      // These variables are reset, to be used if another climb is then attempted
       this.isClimbing = false;
+      //this.isWallJumping = false;
       this.climbDistance = 0;
       
+      // Determines for how long you've fallen
       this.fallDistance += abs(this.ySpeed);
-    }
-    else{
+    } else {
       this.fallDistance = 0;
     }
   }
@@ -186,37 +217,42 @@ class Player {
   /*
    * Updates the player's vertical speed based on whether they should be capable of sprinting up a vertical surface
    *
+   * @param object   The game object to check if it's being climbed
    * @return None
    */
   void climb(GameObject object) {
     float playerTop = this.yPos - this.playerHeight/2.0;
-    
+
     float objY = object.getPosition()[1];
     float objHeight = object.getDimensions()[1];
     float objectTop = objY - objHeight/2;
-    
+
+    boolean belowMaxClimb = abs(this.climbDistance) <= this.playerHeight;
+
     // Allow climbing while jumping or while fall speed is low
-    if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  6)) {
-      
+    if (this.isJumping() && this.fallDistance <= abs(this.ySpeed *  6) && belowMaxClimb) {
       // Set once at beginning of a climb
       if (!this.isClimbing) {
         this.isClimbing = true;
         this.ySpeed = -6;
+        this.climbDistance = 0;
       }
-      
+
       // To climb edge
-      if(objectTop > playerTop){
+      if (objectTop > playerTop) {
         this.ySpeed = -3;
-        if(objY - objHeight/2 > this.yPos + this.playerHeight/2 -4){
+        if (objY - objHeight/2 > this.yPos + this.playerHeight/2 -4) {
           // When close to edge
           this.ySpeed = -2;
         }
       }
       // To climb wall
-      else if(abs(this.climbDistance) <= this.playerHeight * (3/4.0)){
+      else if (belowMaxClimb) {
         this.ySpeed = -4;
         this.climbDistance += this.ySpeed;
       }
+    } else {
+      this.isClimbing = false;
     }
   }
 
@@ -244,7 +280,7 @@ class Player {
   }
 
   /*
-   * Checks whether the player should die before impact with an object 
+   * Checks whether the player should die before impact with an object
    *
    * @return Boolean for whether the speed of the Player makes the collision lethal
    */
@@ -290,31 +326,31 @@ class Player {
   boolean isFalling() {
     return this.ySpeed > 0;
   }
-  
+
   /*
    * Returns whether the player state is set to climbing
    *
    * @return Whether Player is climbing
    */
-  boolean isClimbing(){
+  boolean isClimbing() {
     return this.isClimbing;
   }
 
   /*
-   * The width of Player 
+   * The width of Player
    *
    * @return Width of Player
    */
-  float getWidth(){
+  float getWidth() {
     return this.playerWidth;
   }
 
   /*
-   * The height of Player 
+   * The height of Player
    *
    * @return Height of Player
    */
-  float getHeight(){
+  float getHeight() {
     return this.playerHeight;
   }
 
@@ -324,7 +360,7 @@ class Player {
    *
    * @return Position in x-axis of Player
    */
-  float getXPos(){
+  float getXPos() {
     return this.xPos;
   }
 
@@ -333,8 +369,8 @@ class Player {
    *
    * @return Position in y-axis of Player
    */
-  float getYPos(){
-   return this.yPos;
+  float getYPos() {
+    return this.yPos;
   }
 
   /*
@@ -342,7 +378,7 @@ class Player {
    *
    * @return Speed in x-axis of Player
    */
-  float getXSpeed(){
+  float getXSpeed() {
     return this.xSpeed;
   }
 
@@ -351,25 +387,24 @@ class Player {
    *
    * @return Speed in y-axis of Player
    */
-  float getYSpeed(){
+  float getYSpeed() {
     return this.ySpeed;
   }
-  
+
   /*
    * Updates the player's x-position with their horizontal speed
    *
    * @return None
    */
-  void updateXPosition(){
+  void updateXPosition() {
     this.xPos = this.xPos + this.xSpeed;
-    
   }
   /*
    * Updates the player's y-position with their vertical speed
    *
    * @return None
    */
-  void updateYPosition(){
+  void updateYPosition() {
     this.yPos = this.yPos + this.ySpeed;
   }
 
@@ -379,11 +414,22 @@ class Player {
    * @return None
    */
   void jump() {
-    if (this.ySpeed == 0) {
+    // Jump if not already in the air
+    if (this.ySpeed  == 0) {
       this.ySpeed = -6;
-    }
-    if(abs(this.xSpeed) > 0){
+      // Increase horisontal speed during jump. If 0. no change
       this.xSpeed *= 1.75;
+    }
+  }
+
+
+  void spaceBar() {
+    jump();
+
+    // Allow player to leap off wall
+    // Not fully functioning yet;
+    if (this.isClimbing) {
+      walljump();
     }
   }
 
@@ -395,6 +441,7 @@ class Player {
   void goLeft() {
     this.movesLeft = true;
   }
+
 
   /*
    * Makes the player go right in next frame
@@ -437,11 +484,11 @@ class Player {
     fill(255, 60, 60);
     pushStyle();
     imageMode(CENTER);
-    
-    // Use these to showcase hitbox
+
+    // Ucomment these to showcase hitbox
     //rectMode(CENTER);
     //rect(this.xPos, this.yPos, (int)this.playerWidth, (int)this.playerHeight);
-    
+
     this.playerSprite.showAnimation();
 
     popStyle();

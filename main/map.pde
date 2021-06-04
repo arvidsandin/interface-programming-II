@@ -95,6 +95,28 @@ class Map {
     // TODO: CONSIDER WHETHER MAP SHOULD GET TO UPDATE PLAYER POSITION RATHER THAN PLAYER
   }
 
+  /*
+   * Loads a new level into the map
+   *
+   * @return None
+   */
+  void changeLevel(GameObject[] o){
+    this.objects = o;
+  }
+  
+  /*
+   * Resizes text elements of the game levels to current window dimensions
+   *
+   * @return None
+   */
+  void resizeGameText(){
+    for(GameObject object : objects){
+      if (object instanceof TextObject){
+        ((TextObject) object).resize();
+      }
+    }
+  }
+
   /***************************************************************************************************************************************************
    *  VIEW
    ***************************************************************************************************************************************************

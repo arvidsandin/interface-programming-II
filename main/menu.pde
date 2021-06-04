@@ -1,8 +1,11 @@
 
 /*
- * An interface for menus and their necessary functions they must implement
+ * An interface for menus and the necessary functions they must implement
  */
 interface Menu{
+  
+  // ENUMS NOT ACTUALLY IN USE - PROCESSING DISALLOWING IT
+  
    //Enum for each main menu button
   enum mainMenuButtonType{
     START,
