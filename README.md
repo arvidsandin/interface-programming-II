@@ -11,7 +11,8 @@ A game created as part of the course Interface Programming II at Uppsala Univers
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This Program has to be run through Processing
+This Program has to be run through Processing 3.x. 
+
 To get a local copy up and running follow these steps.
 
 ### Prerequisites
