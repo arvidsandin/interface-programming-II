@@ -41,7 +41,7 @@ boolean useSmallLayout = false;
  */
 
 /*
- * Sets up window and other game object's setups
+ * Sets up window and other program object's setups
  * @return None
  */
 void setup(){
@@ -83,7 +83,7 @@ public void loadMusicFiles(){
 }
 
 /*
- * load previous settings from file
+ * load previous game settings from file
  * @return None
  */
 void loadSettings(){

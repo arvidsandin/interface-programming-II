@@ -1,5 +1,5 @@
 /*
- * A class for handling the sprites of a Player object's sprite sheet. Acts as the animation controller.
+ * A class for handling the sprites of a Player object's sprite sheet. Acts as its animation controller.
  */
 class PlayerSprite{
   // The dimensions of each sprite

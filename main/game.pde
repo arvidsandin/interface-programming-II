@@ -233,7 +233,7 @@ class Game{
       push();
       
       if(useSmallLayout){
-        scale((float)width/1000, (float)height/550);
+        scale((float)width/1000, (float)height/600);
       }
       else{
         scale((float)width/1280, (float)height/720);

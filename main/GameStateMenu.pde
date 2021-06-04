@@ -1,5 +1,5 @@
 /*
- * A class for the game state menu, i.e. losing or winning
+ * A class for the game state menu, i.e. losing or winning. TO BE IMPLEMENTED
  */
 public class GameStateMenu implements Menu{
 
