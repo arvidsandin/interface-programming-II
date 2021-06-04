@@ -33,6 +33,6 @@ https://medium.com/measuring-the-great-indoors/sounds-speech-in-processing-df1e9
 
 <!-- GROUP MEMBERS -->
 ## Group members
-Yakira Pulido Moreno \\
-Arvid Sandin \\
-Tedy Mduma \\
+Yakira Pulido Moreno  
+Arvid Sandin  
+Tedy Mduma  
