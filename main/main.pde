@@ -1,5 +1,5 @@
 import java.util.*;
-
+import processing.sound.*;
 //Enum for where in the program you are
 enum NavType{
   INGAME,
@@ -15,12 +15,16 @@ MainMenu mainMenu;
 SettingsMenu settingsMenu;
 GameMenu gameMenu;
 ParallaxBg parallaxBg;
+MusicPlayer musicPlayer;
 
 String[] languages = new String[]{"ENG", "SWE"};
 int ENG = 0;
 int SWE = 1;
 
 int currentLanguage = ENG;
+float currentWidth = 0;
+float currentHeight = 0;
+
 boolean inGame = false;
 boolean muteGame = false;
 boolean useSmallLayout = false;
@@ -33,16 +37,54 @@ void setup(){
  //P2D uses OpenGL code to run faster on computer graphics card
  size(1280, 720, P2D);
  surface.setResizable(true);
- 
+
  background(137, 209, 254);
  surface.setResizable(true);
- 
+
  game = new Game();
 
  mainMenu = new MainMenu();
  settingsMenu = new SettingsMenu();
  gameMenu = new GameMenu();
  parallaxBg = new ParallaxBg();
+ musicPlayer = new MusicPlayer(this);
+
+ this.loadSettings();
+
+ if (muteGame){
+   thread("loadMusicFiles");
+ }
+ else{
+   this.loadMusicFiles();
+ }
+}
+
+/*
+ * load music files and starts playing the music if unmuted (and is quite slow)
+ * @return None
+ */
+public void loadMusicFiles(){
+  musicPlayer.loadFiles();
+  musicPlayer.loop_random();
+}
+
+/*
+ * load previous settings from file
+ * @return None
+ */
+void loadSettings(){
+  String[] previousSettings = loadStrings("data/settings/settings.txt");
+  muteGame = Boolean.valueOf(previousSettings[0]);
+  settingsMenu.resolutionIndex = Integer.parseInt(previousSettings[1]);
+
+  surface.setSize(settingsMenu.resolutions[settingsMenu.resolutionIndex][0], settingsMenu.resolutions[settingsMenu.resolutionIndex][1]);
+  if (width <= 600) {
+    useSmallLayout = true;
+  }
+  else{
+    useSmallLayout = false;
+  }
+  resizeProgram();
 }
 
 /*
@@ -88,7 +130,7 @@ void returnToGame(){
 }
 
 /*
- * Resizes all interfaces to the current sketch width and height. 
+ * Resizes all interfaces to the current sketch width and height.
  *
  * @return None
  */
@@ -178,11 +220,19 @@ void keyPressed(){
       navigation = NavType.INGAMEMENU;
     }
   }
-  
+
   if(navigation == NavType.INGAMEMENU){
     if (key == ESC){
       key=0;
       navigation = NavType.INGAME;
+    }
+  }
+  
+  if(navigation == NavType.INSETTINGS){
+    if (key == ESC){
+      key=0;
+      navigation = NavType.INGAMEMENU;
+      returnToGame();
     }
   }
 }
