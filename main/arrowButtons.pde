@@ -10,10 +10,10 @@ class ArrowButtons extends Button{
   
   ArrowButtons(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float xSpace, float btnWidth, float btnHeight, color btnColor, color btnBorderColor, float quadOffset){
     
-    super(ID, withLine, animateBtn, "<", xPos, yPos, btnWidth, btnHeight, btnColor, btnBorderColor, quadOffset);
+    super(ID, withLine, animateBtn, "<", xPos, yPos, btnWidth, btnHeight, btnColor, btnBorderColor, quadOffset, true);
     
     this.textBeforeBtns = btnText;
-    this.rightButton =  new Button(ID +1, withLine, animateBtn, ">", xPos + xSpace, yPos, btnWidth, btnHeight, btnColor, btnBorderColor, quadOffset);
+    this.rightButton =  new Button(ID +1, withLine, animateBtn, ">", xPos + xSpace, yPos, btnWidth, btnHeight, btnColor, btnBorderColor, quadOffset, true);
     }
     //if(i != BACK){
     //    println(xPosBtn + ", " + yPosBtn);

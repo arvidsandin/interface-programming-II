@@ -67,17 +67,20 @@ class SettingsMenu implements Menu {
     this.settingsMenuButtons = new Button[BACK +1];
     
     float xPosBtn1 = width / 40;
-    float xPosBtn2 = width / 20;
+    float xPosBtn2 = width / 18;
     float arrowBtnWidth = width / 8.0;
     float arrowBtnHeight = height / 18.0;
+    
+    float quadOffset = 30;
+    boolean flipQuadOffset = true;
     
     for (int i = 0; i < this.settingsMenuButtons.length; i +=2) {
       float yPosBtn = this.yOffset + (height / 8) * i;
       
         // To avoid going out of array bounds
         if(i < BACK){
-          settingsMenuButtons[i] = new Button(i, false, false, "<", xPosBtn1, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor);
-          settingsMenuButtons[i +1] = new Button(i +1, false, false, ">", xPosBtn2, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor);
+          settingsMenuButtons[i] = new Button(i, false, false, "<", xPosBtn1, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor, quadOffset, false);
+          settingsMenuButtons[i +1] = new Button(i +1, false, false, ">", xPosBtn2, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor, quadOffset, flipQuadOffset);
         }
         else{
           
@@ -182,13 +185,16 @@ class SettingsMenu implements Menu {
             // Left arrow - go backward
             resolutionIndex = resolutionIndex - 1;
             
+            if(resolutionIndex < 0){
+              resolutionIndex = resolutions.length -1;
+            }
           }
           else{
             // Right arrow - go forward
             resolutionIndex = resolutionIndex + 1;
           }
           
-          resolutionIndex = abs(resolutionIndex) % (resolutions.length);
+          resolutionIndex = resolutionIndex % (resolutions.length);
           
           surface.setSize(resolutions[resolutionIndex][0], resolutions[resolutionIndex][1]);
           if (width <= 700) {
@@ -233,27 +239,22 @@ class SettingsMenu implements Menu {
     this.yOffset = height / 12;
     this.xOffset = width * 2.1/3;
 
-
-    float newXStartPos = width / 30;
+    // Button dimensions and position for back button
+    float newXPosBackBtn = width / 30;
     float ySpacing = (height / 4.5);
     
-    // Button dimensions and position for back button
-    float newXPosBackBtn = width / 100;
-    float ySpacing = (height / 8);
-
-
     // Button dimensions and position for arrow buttons
-    float newXPosArrowBtn = width / 3;
-    float xPosBtn2 = width / 1.6;
+    float newXPosArrowBtn = width / 3.5;
+    float newXPosArrowBtn2 = width / 1.2;
     
-    float arrowBtnWidth = width / 10.0;
-    float arrowBtnHeight = height / 16.0;
+    float arrowBtnWidth = width / 6.0;
+    float arrowBtnHeight = height / 7.0;
 
     int btnFontSize = floor(height/15);
-    float newQuadOffset = 25;
+    float newQuadOffset = 20;
     boolean useBtnAnimation = false;
 
-    this.resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
+    this.resizeButtons(arrowBtnWidth, arrowBtnHeight, newXPosArrowBtn, newXPosArrowBtn2, newXPosBackBtn, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
     this.resizeMenuTextElements();
   }
 
@@ -271,20 +272,19 @@ class SettingsMenu implements Menu {
     float newXPosBackBtn = width / 100;
     float ySpacing = (height / 8);
 
-
     // Button dimensions and position for arrow buttons
-    float newXPosArrowBtn = width / 3;
-    float xPosBtn2 = width / 1.6;
+    float newXPosArrowBtn = width / 4;
+    float newXPosArrowBtn2 = width / 1.44;
     
-    float arrowBtnWidth = width / 10.0;
-    float arrowBtnHeight = height / 16.0;
+    float arrowBtnWidth = width / 9.0;
+    float arrowBtnHeight = height / 14.0;
 
 
     int btnFontSize = floor(height/25);
-    float newQuadOffset = 35;
+    float newQuadOffset = 30;
     boolean useBtnAnimation = true;
 
-    this.resizeButtons(arrowBtnWidth, arrowBtnHeight, newXPosArrowBtn, newXPosBackBtn, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
+    this.resizeButtons(arrowBtnWidth, arrowBtnHeight, newXPosArrowBtn, newXPosArrowBtn2, newXPosBackBtn, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
     this.resizeMenuTextElements();
   }
 
@@ -293,8 +293,8 @@ class SettingsMenu implements Menu {
    *
    * @param arrowBtnWidth    The new width of the main button
    * @param arrowBtnHeight    The new height of the main button
-   * @param xPosBtnArrow   The x-coordinate to use for the arrow buttons
-   * @param xPosBtnBack   The x-coordinate to use for the back button
+   * @param xPosBtnArrow   The x-coordinate to use for left arrow buttons
+   * @param xPosBtnArrow   The x-coordinate to use for right arrow buttons
    * @param ySpacing    The space between buttons on the y-axis. Measured from the center of buttons.
    * @param btnFontSize   The new font size of the buttons
    * @param useBtnAnimation   Whether to use a button animation
@@ -302,7 +302,7 @@ class SettingsMenu implements Menu {
    *
    * @return None
    */
-  void resizeButtons(float arrowBtnWidth, float arrowBtnHeight, float xPosBtnArrow, float xPosBtnBack, float ySpacing, int btnFontSize, boolean useBtnAnimation, float newQuadOffset) {
+  void resizeButtons(float arrowBtnWidth, float arrowBtnHeight, float xPosBtnArrow, float xPosBtnArrow2, float xPosBtnBack, float ySpacing, int btnFontSize, boolean useBtnAnimation, float newQuadOffset) {
 
     for (int i = 0; i < this.settingsMenuButtons.length; i += 2) {
       Button btn = this.settingsMenuButtons[i];
@@ -316,7 +316,7 @@ class SettingsMenu implements Menu {
         btn2.setBtnDimensions(arrowBtnWidth, arrowBtnHeight);
         
         btn.setBtnPosition(xPosBtnArrow, yPosBtn);
-        btn2.setBtnPosition(xPosBtnArrow /2.0, yPosBtn);
+        btn2.setBtnPosition(xPosBtnArrow2, yPosBtn);
     
         btn.setQuadOffset(newQuadOffset);
         btn2.setQuadOffset(newQuadOffset);
@@ -330,8 +330,8 @@ class SettingsMenu implements Menu {
         if(useSmallLayout){
           newQuadOffset = 35;
           
-          btnWidth = width / 2;
-          btnHeight = height / 6;
+          btnWidth = width / 2.0;
+          btnHeight = height / 7.0;
         }
         else{
           newQuadOffset = 60;
@@ -356,24 +356,28 @@ class SettingsMenu implements Menu {
    * @return None
    */
   void resizeMenuTextElements() {
-    //TBD: Implement so that e.g. screen resolution text is resized.
+    // Amount to offset depends on screen size
+    float optionOffset;
+    
     if (useSmallLayout) {
-      this.settingsFontSize = ceil(height/15);
+      this.settingsFontSize = ceil(height/18);
+      optionOffset = width/6.0;
     } else {
       this.settingsFontSize = ceil(height/25);
+      optionOffset = width/6.5;
     }
     this.settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
 
-    // Update position of resolution option text
-    resolutionXPos = settingsMenuButtons[RESOLUTION].getXPos() + settingsMenuButtons[RESOLUTION].getBtnWidth() + width/10.0;
+    // Update position of chosen resolution option text
+    resolutionXPos = settingsMenuButtons[RESOLUTION].getXPos() + settingsMenuButtons[RESOLUTION].getBtnWidth() + optionOffset;
     resolutionYPos = settingsMenuButtons[RESOLUTION].getYPos() + settingsMenuButtons[RESOLUTION].getBtnHeight()/2.0 + 8;
 
-    // Update position of music option text
-    musicXPos = settingsMenuButtons[MUSIC].getXPos() + settingsMenuButtons[MUSIC].getBtnWidth() + width/10.0;
+    // Update position of chosen music option text
+    musicXPos = settingsMenuButtons[MUSIC].getXPos() + settingsMenuButtons[MUSIC].getBtnWidth() + optionOffset;
     musicYPos = settingsMenuButtons[MUSIC].getYPos() + settingsMenuButtons[MUSIC].getBtnHeight()/2.0 + 8;
 
-    // Set position of mute option text
-    muteXPos = settingsMenuButtons[MUTE].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + width/10.0;
+    // Set position of chosen mute option text
+    muteXPos = settingsMenuButtons[MUTE].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + optionOffset;
     muteYPos = settingsMenuButtons[MUTE].getYPos() + settingsMenuButtons[MUTE].getBtnHeight()/2.0 + 8;
   }
 

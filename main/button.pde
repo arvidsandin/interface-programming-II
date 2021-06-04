@@ -6,6 +6,7 @@ class Button {
 
   boolean withLine = false;
   boolean animateBtn = true;
+  boolean flipQuadOffset = false;
   
   float quadOffset = 60;
 
@@ -26,7 +27,6 @@ class Button {
   color btnColor;
   color btnBorderColor;
   PImage backgroundImage = null;
-
 
     /*
      * Constructor to set all attributes of Button class
@@ -265,10 +265,11 @@ class Button {
      * @param btnColor    The button's color
      * @param btnBorderColor    The button border's color
      * @param quadOffset     The offset to draw the button parallelogram with
+     * @param flipQuadOffset    Tells whether the parallelogram should be skewed to the right
      *
      * @return A new Button object
      */
-    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor, float quadOffset){
+    Button(int ID, boolean withLine, boolean animateBtn, String btnText, float xPos, float yPos, float btnWidth, float btnHeight, color btnColor, color btnBorderColor, float quadOffset, boolean flipQuadOffset){
       this.ID = ID;
 
       this.withLine = withLine;
@@ -288,6 +289,7 @@ class Button {
       this.btnBorderColor = btnBorderColor;
       
       this.quadOffset = quadOffset;
+      this.flipQuadOffset = flipQuadOffset;
     }
 
     /*
@@ -363,6 +365,19 @@ class Button {
       if(this.quadOffset == 0){
 
        return (x >= xPos && x <= xPos+this.btnWidth  && y >= yPos && y <= yPos+this.btnHeight);
+      }
+      else if((this.flipQuadOffset)){
+        return (
+          //inside inside the biggest rectangle the button fits in
+          x >= xPos && x <= xPos+this.btnWidth+this.quadOffset &&
+          y >= yPos && y <= yPos+btnHeight &&
+          
+          // TODO: MUST BE REVERSED IN DIRECTION
+          //inside left triangle
+          y <= this.btnHeight/this.quadOffset*x + this.yPos-(this.btnHeight/this.quadOffset*this.xPos) &&
+          //inside right triangle
+          y >= this.btnHeight/this.quadOffset*x + (this.yPos)-(this.btnHeight/this.quadOffset*(this.xPos+this.btnWidth-this.quadOffset))
+          );
       }
 
      return (
@@ -569,14 +584,25 @@ class Button {
      */
      float yCorner1 = this.yPos + this.animHeightUp;
 
-     float xCorner2 = this.xPos + this.btnWidth - this.quadOffset;
+     float xCorner2;
+     float xCorner3;
+     float xCorner4;
+    
+      if(this.flipQuadOffset){
+       xCorner2 = this.xPos + this.btnWidth - this.quadOffset;
+       xCorner3 = xCorner2 - this.quadOffset;
+       xCorner4 = this.xPos - this.quadOffset;
+      }
+      else{
+       xCorner2 = this.xPos + this.btnWidth - this.quadOffset;
+       xCorner3 = xCorner2 + this.quadOffset;
+       xCorner4 = this.xPos + this.quadOffset;
+      }
+      
      float yCorner2 = yCorner1;
-
-     float xCorner3 = xCorner2 + this.quadOffset;
      float yCorner3 = this.yPos + this.btnHeight - this.animHeightDown;
 
-     float yCorner4 =yCorner3;
-     float xCorner4 = this.xPos + this.quadOffset;
+     float yCorner4 = yCorner3;
 
      fill(this.btnColor);
      quad(this.xPos, yCorner1, xCorner2, yCorner2, xCorner3, yCorner3, xCorner4, yCorner4);
@@ -606,8 +632,16 @@ class Button {
      * @return None
      */
     void drawBtnText(){
-     float xTxtCenter = this.xPos + this.btnWidth/2;
+      float xTxtCenter;
+      
+      if(this.flipQuadOffset){
+        xTxtCenter = this.xPos + this.btnWidth/3.3;
+      }
+      else{
+        xTxtCenter = this.xPos + this.btnWidth/2;
+      }
      float yTxtCenter = this.yPos + (this.btnHeight/3) *1.95;
+      
 
      if(btnText != null){
 
