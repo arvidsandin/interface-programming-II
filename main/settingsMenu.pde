@@ -33,19 +33,21 @@ class SettingsMenu implements Menu {
   
   MusicPlayer musicPlayer;
 
+   // Previously used for "looping settings" buttons 
+  int RESOLUTIONTEXT = 0;
+  int MUSICTEXT = 1;
+  int MUTETEXT = 2;
+  int BACKTEXT = 3;
+  
+  // Used with arrow buttons
+  // 7 in total
   int RESOLUTION = 0;
-  int MUSIC = 1;
-  int MUTE = 2;
-  int BACK = 3;
+  int MUSIC = RESOLUTION + 2;
+  int MUTE = MUSIC + 2;
+  int BACK = MUTE + 2;
   
-  // May be used in the future with arrow buttons
-  //int RESOLUTION = 0;
-  //int MUSIC = RESOLUTION + 2;
-  //int MUTE = MUSIC + 2;
-  //int BACK = MUTE + 2;
-  
-  //int BACKWARD = -1;
-  //int FORWARD = 1;
+  int BACKWARD = 0;
+  int FORWARD = 1;
 
   /***************************************************************************************************************************************************
    *  MODEL
@@ -59,18 +61,32 @@ class SettingsMenu implements Menu {
    * @return A new SettingsMenu object
    */
   SettingsMenu(main m) {
-    this.settingsMenuButtons = new Button[this.btnTexts[currentLanguage].length];
-    float xPosBtn = width / 40;
+    // Initialize length of empty button array
+    this.settingsMenuButtons = new Button[BACK +1];
     
-    for (int i = 0; i < this.settingsMenuButtons.length; ++i) {
+    float xPosBtn1 = width / 40;
+    float xPosBtn2 = width / 20;
+    float arrowBtnWidth = width / 8.0;
+    float arrowBtnHeight = height / 18.0;
+    
+    for (int i = 0; i < this.settingsMenuButtons.length; i +=2) {
       float yPosBtn = this.yOffset + (height / 8) * i;
-
-       settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][i], xPosBtn, yPosBtn, this.btnColor, this.btnBorderColor);
+      
+        // To avoid going out of array bounds
+        if(i < BACK){
+          settingsMenuButtons[i] = new Button(i, false, true, "<", xPosBtn1, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor);
+          settingsMenuButtons[i +1] = new Button(i +1, false, true, ">", xPosBtn2, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor);
+        }
+        else{
+          
+          // Sets a normal button
+         settingsMenuButtons[i] = new Button(i, true, this.btnTexts[currentLanguage][BACKTEXT], xPosBtn1, yPosBtn, this.btnColor, this.btnBorderColor);
+       }
       }
-    
+      
     musicPlayer = new MusicPlayer(m);
 
-    // "Global" varaible. Resize created menu and buttons if necessary
+    // "Global" variable. Resize created menu and buttons if necessary
     if (useSmallLayout) {
       this.resize();
     }
@@ -228,9 +244,8 @@ class SettingsMenu implements Menu {
     float btnWidth = width / 3;
     float btnHeight = height / 12;
 
-
     int btnFontSize = floor(height/25);
-    float newQuadOffset = 60;
+    float newQuadOffset = 30;
     boolean useBtnAnimation = true;
 
     this.resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
@@ -251,16 +266,42 @@ class SettingsMenu implements Menu {
    * @return None
    */
   void resizeButtons(float btnWidth, float btnHeight, float xPosBtn, float ySpacing, int btnFontSize, boolean useBtnAnimation, float newQuadOffset) {
-    for (int i = 0; i < this.settingsMenuButtons.length; ++i) {
+    float xPosBtn1 = width / 5;
+    float xPosBtn2 = width / 1.5;
+    
+    float arrowBtnWidth = width / 8.0;
+    float arrowBtnHeight = height / 16.0;
+    
+    
+    for (int i = 0; i < this.settingsMenuButtons.length; i += 2) {
       Button btn = this.settingsMenuButtons[i];
+      float yPosBtn = this.yOffset + ySpacing/2.0 * i;
       
-      float yPosBtn = this.yOffset + ySpacing * i;
+      if(i < BACK){
+        // A second button to resize at the same y-coordinate
+        Button btn2 = this.settingsMenuButtons[i +1];
+        
+        btn.setBtnDimensions(arrowBtnWidth, arrowBtnHeight);
+        btn2.setBtnDimensions(arrowBtnWidth, arrowBtnHeight);
+        
+        btn.setBtnPosition(xPosBtn1, yPosBtn);
+        btn2.setBtnPosition(xPosBtn2, yPosBtn);
+    
+        btn.setQuadOffset(newQuadOffset);
+        btn2.setQuadOffset(newQuadOffset);
 
-      btn.setBtnDimensions(btnWidth, btnHeight);
-      btn.setBtnPosition(xPosBtn, yPosBtn);
-
-      btn.setQuadOffset(newQuadOffset);
-      btn.setAnimation(useBtnAnimation);
+        btn.setAnimation(useBtnAnimation);
+        btn2.setAnimation(useBtnAnimation);
+      }
+      else{
+        newQuadOffset = 60;
+        
+        btn.setBtnDimensions(btnWidth, btnHeight);
+        btn.setBtnPosition(xPosBtn, yPosBtn);
+    
+        btn.setQuadOffset(newQuadOffset);
+        btn.setAnimation(useBtnAnimation); 
+      }
 
       btn.setBtnTextFont(createFont("data/fonts/good times rg.ttf", btnFontSize, true));
     }
@@ -281,16 +322,16 @@ class SettingsMenu implements Menu {
     this.settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
 
     // Update position of resolution button text
-    resolutionXPos = settingsMenuButtons[RESOLUTION].getXPos() + settingsMenuButtons[RESOLUTION].getBtnWidth() + width/20;
-    resolutionYPos = settingsMenuButtons[RESOLUTION].getYPos() + settingsMenuButtons[RESOLUTION].getBtnHeight()/2.0 + 8;
+    resolutionXPos = settingsMenuButtons[RESOLUTIONTEXT].getXPos() + settingsMenuButtons[RESOLUTION].getBtnWidth() + width/20;
+    resolutionYPos = settingsMenuButtons[RESOLUTIONTEXT].getYPos() + settingsMenuButtons[RESOLUTION].getBtnHeight()/2.0 + 8;
 
     // Update position of music button text
-    musicXPos = settingsMenuButtons[MUSIC].getXPos() + settingsMenuButtons[MUSIC].getBtnWidth() + width/20;
-    musicYPos = settingsMenuButtons[MUSIC].getYPos() + settingsMenuButtons[MUSIC].getBtnHeight()/2.0 + 8;
+    musicXPos = settingsMenuButtons[MUSICTEXT].getXPos() + settingsMenuButtons[MUSIC].getBtnWidth() + width/20;
+    musicYPos = settingsMenuButtons[MUSICTEXT].getYPos() + settingsMenuButtons[MUSIC].getBtnHeight()/2.0 + 8;
 
     // Set position of mute button text
-    muteXPos = settingsMenuButtons[MUTE].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + width/20;
-    muteYPos = settingsMenuButtons[MUTE].getYPos() + settingsMenuButtons[MUTE].getBtnHeight()/2.0 + 8;
+    muteXPos = settingsMenuButtons[MUTETEXT].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + width/20;
+    muteYPos = settingsMenuButtons[MUTETEXT].getYPos() + settingsMenuButtons[MUTE].getBtnHeight()/2.0 + 8;
   }
 
   /*

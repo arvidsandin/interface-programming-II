@@ -16,7 +16,7 @@ SettingsMenu settingsMenu;
 GameMenu gameMenu;
 ParallaxBg parallaxBg;
 
-
+// Variables used by all modules
 String[] languages = new String[]{"ENG", "SWE", "SPA"}; //add last , "SPA"
 int ENG = 0;
 int SWE = 1;
@@ -25,13 +25,18 @@ int SPA = 2;
 int currentLanguage = ENG;
 float currentWidth = 0;
 float currentHeight = 0;
+
+// Will determine sound level
+Sound globalSound = new Sound(this);
+// Song selection in settingsMenu
 int selectedSong = 0;
 
-Sound globalSound = new Sound(this);
-
+// To determine if game is currently running
 boolean inGame = false;
+// Used by settingsMenu
 boolean muteGame = true;
 boolean useSmallLayout = false;
+
 
 
 
