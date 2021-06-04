@@ -74,8 +74,8 @@ class SettingsMenu implements Menu {
       
         // To avoid going out of array bounds
         if(i < BACK){
-          settingsMenuButtons[i] = new Button(i, false, true, "<", xPosBtn1, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor);
-          settingsMenuButtons[i +1] = new Button(i +1, false, true, ">", xPosBtn2, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor);
+          settingsMenuButtons[i] = new Button(i, false, false, "<", xPosBtn1, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor);
+          settingsMenuButtons[i +1] = new Button(i +1, false, false, ">", xPosBtn2, yPosBtn, arrowBtnWidth, arrowBtnHeight, this.btnColor, this.btnBorderColor);
         }
         else{
           
@@ -245,7 +245,7 @@ class SettingsMenu implements Menu {
     float btnHeight = height / 12;
 
     int btnFontSize = floor(height/25);
-    float newQuadOffset = 30;
+    float newQuadOffset = 35;
     boolean useBtnAnimation = true;
 
     this.resizeButtons(btnWidth, btnHeight, newXStartPos, ySpacing, btnFontSize, useBtnAnimation, newQuadOffset);
@@ -266,12 +266,11 @@ class SettingsMenu implements Menu {
    * @return None
    */
   void resizeButtons(float btnWidth, float btnHeight, float xPosBtn, float ySpacing, int btnFontSize, boolean useBtnAnimation, float newQuadOffset) {
-    float xPosBtn1 = width / 5;
-    float xPosBtn2 = width / 1.5;
+    float xPosBtn1 = width / 3;
+    float xPosBtn2 = width / 1.4;
     
-    float arrowBtnWidth = width / 8.0;
+    float arrowBtnWidth = width / 10.0;
     float arrowBtnHeight = height / 16.0;
-    
     
     for (int i = 0; i < this.settingsMenuButtons.length; i += 2) {
       Button btn = this.settingsMenuButtons[i];
@@ -289,9 +288,8 @@ class SettingsMenu implements Menu {
     
         btn.setQuadOffset(newQuadOffset);
         btn2.setQuadOffset(newQuadOffset);
-
-        btn.setAnimation(useBtnAnimation);
-        btn2.setAnimation(useBtnAnimation);
+        
+        btn2.setBtnTextFont(createFont("data/fonts/good times rg.ttf", btnFontSize, true));
       }
       else{
         newQuadOffset = 60;
@@ -300,6 +298,8 @@ class SettingsMenu implements Menu {
         btn.setBtnPosition(xPosBtn, yPosBtn);
     
         btn.setQuadOffset(newQuadOffset);
+        
+        // May use animation
         btn.setAnimation(useBtnAnimation); 
       }
 
@@ -321,15 +321,15 @@ class SettingsMenu implements Menu {
     }
     this.settingsTextFont = createFont("data/fonts/good times rg.ttf", this.settingsFontSize, true);
 
-    // Update position of resolution button text
+    // Update position of resolution option text
     resolutionXPos = settingsMenuButtons[RESOLUTIONTEXT].getXPos() + settingsMenuButtons[RESOLUTION].getBtnWidth() + width/20;
     resolutionYPos = settingsMenuButtons[RESOLUTIONTEXT].getYPos() + settingsMenuButtons[RESOLUTION].getBtnHeight()/2.0 + 8;
 
-    // Update position of music button text
+    // Update position of music option text
     musicXPos = settingsMenuButtons[MUSICTEXT].getXPos() + settingsMenuButtons[MUSIC].getBtnWidth() + width/20;
     musicYPos = settingsMenuButtons[MUSICTEXT].getYPos() + settingsMenuButtons[MUSIC].getBtnHeight()/2.0 + 8;
 
-    // Set position of mute button text
+    // Set position of mute option text
     muteXPos = settingsMenuButtons[MUTETEXT].getXPos() + settingsMenuButtons[MUTE].getBtnWidth() + width/20;
     muteYPos = settingsMenuButtons[MUTETEXT].getYPos() + settingsMenuButtons[MUTE].getBtnHeight()/2.0 + 8;
   }
