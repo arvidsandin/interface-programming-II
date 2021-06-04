@@ -18,6 +18,7 @@ To get a local copy up and running follow these steps.
 
 * processing.sound
 In Processing, go to `Sketch` -> `Import Library` -> `Add Library`. Find and install `Sound`
+https://medium.com/measuring-the-great-indoors/sounds-speech-in-processing-df1e908940c
 
 ### Running
 
