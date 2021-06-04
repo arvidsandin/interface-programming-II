@@ -28,7 +28,7 @@ float currentHeight = 0;
 
 // Will determine sound level
 Sound globalSound = new Sound(this);
-// Song selection in settingsMenu
+// Song control for music player
 int selectedSong = 0;
 
 // To determine if game is currently running
