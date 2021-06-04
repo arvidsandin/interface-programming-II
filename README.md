@@ -32,6 +32,7 @@ https://medium.com/measuring-the-great-indoors/sounds-speech-in-processing-df1e9
 * Music from [BenSound](https://www.bensound.com)
 
 <!-- GROUP MEMBERS -->
-Yakira Pulido Moreno
-Arvid Sandin
-Tedy Mduma
+## Group members
+Yakira Pulido Moreno  
+Arvid Sandin  
+Tedy Mduma  
