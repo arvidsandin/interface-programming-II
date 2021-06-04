@@ -51,7 +51,7 @@ class TextObject extends GameObject{
    */
    void resize(){
      if (useSmallLayout){
-       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/12), true);
+       textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/9), true);
      }
      else{
        textFont = createFont("data/fonts/Swansea-q3pd.ttf", floor(height/25), true);

@@ -74,7 +74,7 @@ class Player {
   void moveMe(Map m) {
     //Accelerations
     this.increasePlayerSpeed(m);
-
+    
     // Detect collisions in the game
     this.handleCollision(m);
 

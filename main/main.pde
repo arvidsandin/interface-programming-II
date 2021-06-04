@@ -179,7 +179,6 @@ void draw(){
   if (navigation == NavType.INMAINMENU){
     mainMenu.moveMenu();
     mainMenu.drawMenu();
-    inGame = false;
   }
   else if (navigation == NavType.INSETTINGS){
     settingsMenu.moveMenu();

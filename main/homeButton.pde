@@ -54,7 +54,7 @@ class HomeButton extends Button{
       this.btnWidth = width/12;
       this.btnHeight = height/6;
       
-      this.xPos = width/19;
+      this.xPos = width/18.5;
       this.yPos = height/12;
     }
     else{
