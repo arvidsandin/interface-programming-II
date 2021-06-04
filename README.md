@@ -11,7 +11,8 @@ A game created as part of the course Interface Programming II at Uppsala Univers
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This Program has to be run through Processing
+This Program has to be run through Processing 3.x. 
+
 To get a local copy up and running follow these steps.
 
 ### Prerequisites
@@ -23,8 +24,14 @@ https://medium.com/measuring-the-great-indoors/sounds-speech-in-processing-df1e9
 ### Running
 
 1. Clone repo and open `main.pde` in Processing
-2. Press `Run`
+2. Make sure you are in branch `main`
+3. Press `Run`
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 * Music from [BenSound](https://www.bensound.com)
+
+<!-- GROUP MEMBERS -->
+Yakira Pulido Moreno
+Arvid Sandin
+Tedy Mduma
