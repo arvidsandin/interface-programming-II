@@ -30,6 +30,7 @@ https://medium.com/measuring-the-great-indoors/sounds-speech-in-processing-df1e9
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 * Music from [BenSound](https://www.bensound.com)
+* Forest background from [CraftPix](https://craftpix.net/freebies/free-horizontal-2d-game-backgrounds/) 
 
 <!-- GROUP MEMBERS -->
 ## Group members
